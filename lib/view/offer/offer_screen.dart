@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:neostore/view/widgets/app_custom_circular_progress_indicator.dart';
-import 'package:neostore/view/widgets/app_rounded_offer_card.dart';
 import 'package:neostore/viewmodel/offer_bloc/offer_bloc.dart';
 
 class OfferScreen extends StatefulWidget {
