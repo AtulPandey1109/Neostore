@@ -5,6 +5,5 @@ double calculateRating(List<Review> reviews) {
   for (int i = 0; i < reviews.length; i++) {
     rating = rating + reviews[i].rating;
   }
-  print('$rating ${reviews.length}');
   return rating / reviews.length;
 }
