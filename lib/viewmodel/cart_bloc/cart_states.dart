@@ -14,6 +14,10 @@ class CartFailureState extends CartState{
   @override
   List<Object?> get props => [];
 }
+class CartEmptyState extends CartState{
+  @override
+  List<Object?> get props => [];
+}
 class CartAddedState extends CartState{
   @override
   List<Object?> get props => [];

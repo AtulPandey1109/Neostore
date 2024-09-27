@@ -34,7 +34,7 @@ class CartBloc extends Bloc<CartEvent,CartState>{
             .toList();
         emit(CartInitialState(cartProducts: cartProducts,isLoading: false));
       }else{
-        emit(CartInitialState(cartProducts: const [],isLoading: false));
+        emit(CartEmptyState());
       }
     } catch (e) {
       emit(CartFailureState());

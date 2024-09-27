@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:neostore/core/routes/routes.dart';
-import 'package:neostore/utils/app_local_storage.dart';
-import 'package:neostore/utils/constant_styles.dart';
 import 'package:neostore/utils/responsive_size_helper.dart';
 import 'package:neostore/view/cart/cart_screen.dart';
 import 'package:neostore/view/home/home_screen.dart';
 import 'package:neostore/view/offer/offer_screen.dart';
 import 'package:neostore/view/profile/profile_screen.dart';
 import 'package:neostore/view/widgets/app_bottom_navigation_bar.dart';
-import 'package:neostore/view/widgets/app_circular_icon.dart';
 import 'package:neostore/view/widgets/app_drawer.dart';
 import 'package:neostore/view/widgets/app_rounded_text_field.dart';
 import 'package:neostore/viewmodel/tab_navigation_bloc/tab_bloc.dart';

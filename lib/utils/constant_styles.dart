@@ -6,6 +6,8 @@ const Color kButtonColor = Color(0xFFFF7643);
 
 const Color textColor = Color(0x00c7c7c7);
 
+const Color appBarColor = Colors.white;
+
 const TextStyle kHeaderTextStyle = TextStyle(
     color: Color(0xff3d3d4e),
     fontSize: kHeadingFontSize,

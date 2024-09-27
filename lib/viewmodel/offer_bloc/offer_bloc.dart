@@ -25,7 +25,7 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
       Response response = await dio.get(url);
       if (response.data.length != 0) {
         List<OfferModel> offers = (response.data as List)
-            .map((category) => OfferModel.fromJson(category))
+            .map((offer) => OfferModel.fromJson(offer))
             .toList();
         emit(OfferInitialState(offers: offers));
       } else {

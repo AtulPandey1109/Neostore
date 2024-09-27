@@ -27,68 +27,81 @@ class _CartScreenState extends State<CartScreen> {
       body: BlocBuilder<CartBloc, CartState>(
           builder: (BuildContext context, CartState state) {
         if (state is CartInitialState) {
-         if (state.isLoading){
-           return const Center(child: AppCustomCircularProgressIndicator(color: Colors.orange,),);
-         }else{
-           if(state.cartProducts.isNotEmpty){
-             final total=calculateTotal(state.cartProducts);
-             return Column(
-               children: [
-                 Expanded(
-                   child: ListView.builder(
-                       itemCount: state.cartProducts.length,
-                       itemBuilder: (context, int index) {
-                         final cartProduct = state.cartProducts[index];
-                         return CartTile(cartProduct: cartProduct,);
-                       }),
-                 ),
-                 Column(
-                   children: [
-                     Row(
-                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                       children: [
-                         const Padding(
-                           padding: EdgeInsets.symmetric(vertical: 8.0,horizontal: 16),
-                           child: Text('Total',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w700),),
-                         ),
-                         Padding(
-                           padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 16),
-                           child: Text('Rs. $total',style:const TextStyle(color: Colors.orange,fontSize: 16,fontWeight: FontWeight.w700)),
-                         )
-                       ],
-                     ),
-                     Padding(
-                       padding: const EdgeInsets.all(8.0),
-                       child: AppRoundedElevatedButton(onPressed: (){}, label: const Text('Buy Now'),width: SizeConfig.isMobile()
-                           ? MediaQuery.sizeOf(context).width
-                           : MediaQuery.sizeOf(context).width * .3),),
+          if (state.isLoading) {
+            return const AppCustomCircularProgressIndicator(
+              color: Colors.orange,
+            );
+          } else {
+            final total = calculateTotal(state.cartProducts);
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                      itemCount: state.cartProducts.length,
+                      itemBuilder: (context, int index) {
+                        final cartProduct = state.cartProducts[index];
+                        return CartTile(
+                          cartProduct: cartProduct,
+                        );
+                      }),
+                ),
+                Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 8.0, horizontal: 16),
+                          child: Text(
+                            'Total',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8.0, horizontal: 16),
+                          child: Text('Rs. $total',
+                              style: const TextStyle(
+                                  color: Colors.orange,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700)),
+                        )
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: AppRoundedElevatedButton(
+                          onPressed: () {
 
-                   ],
-                 )
-               ],
-             );
-           } else{
-             return const Center( child: Text('No products'),);
-           }
-         }
-
-
-        }
-
-        else {
+                          },
+                          label: const Text('Buy Now'),
+                          width: SizeConfig.isMobile()
+                              ? MediaQuery.sizeOf(context).width
+                              : MediaQuery.sizeOf(context).width * .3),
+                    ),
+                  ],
+                )
+              ],
+            );
+          }
+        } else if (state is CartEmptyState) {
           return const Center(
-            child: AppCustomCircularProgressIndicator(),
+            child: Text('Your cart is empty'),
           );
+        } else {
+          return const AppCustomCircularProgressIndicator();
         }
       }),
     );
   }
 }
 
-double calculateTotal(List<CartProduct> product){
-  double total =0;
-  for(int i=0;i<product.length;i++){
-    total = total+(product[i].product!.price!*product[i].quantity!);
+double calculateTotal(List<CartProduct> product) {
+  double total = 0;
+  for (int i = 0; i < product.length; i++) {
+    total = total + (product[i].product!.price! * product[i].quantity!);
   }
   return total;
 }

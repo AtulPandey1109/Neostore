@@ -36,10 +36,15 @@ class _AppDrawerState extends State<AppDrawer> {
               'Profile',
             ),
           ),
-          const ListTile(
-            leading: Icon(Icons.delivery_dining_outlined),
-            title: Text(
-              'Orders',
+          GestureDetector(
+            onTap: (){
+              Navigator.pushNamed(context, AppRoutes.orderScreen);
+            },
+            child: const ListTile(
+              leading: Icon(Icons.delivery_dining_outlined),
+              title: Text(
+                'Orders',
+              ),
             ),
           ),
           ListTile(
