@@ -12,7 +12,7 @@ class CartDeleteEvent extends CartEvent{
   CartDeleteEvent({required this.productId});
 
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
 }
 
 class CartUpdateEvent extends CartEvent{

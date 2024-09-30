@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:neostore/core/routes/routes.dart';
 import 'package:neostore/model/cart_product_model/cart_product.dart';
 import 'package:neostore/utils/responsive_size_helper.dart';
 import 'package:neostore/view/widgets/app_custom_circular_progress_indicator.dart';
@@ -74,7 +75,7 @@ class _CartScreenState extends State<CartScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: AppRoundedElevatedButton(
                           onPressed: () {
-
+                              Navigator.pushNamed(context, AppRoutes.orderSummaryScreen);
                           },
                           label: const Text('Buy Now'),
                           width: SizeConfig.isMobile()

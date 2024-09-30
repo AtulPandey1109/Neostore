@@ -86,9 +86,11 @@ class CartBloc extends Bloc<CartEvent,CartState>{
   FutureOr<void> _onCartAddEvent(CartAddEvent event, Emitter<CartState> emit) async{
     var token = await AppLocalStorage.getToken();
     dio.options.headers["authorization"] = "Bearer $token";
+    emit(CartInitialState(cartProducts: const [],isLoading: true));
     try{
       Response response = await dio.post(url,data: {"product":event.productId,"quantity":1});
       if(response.statusCode==200){
+        emit(CartInitialState(cartProducts: const [],isLoading: false));
           emit(CartAddedState());
 
       }else{

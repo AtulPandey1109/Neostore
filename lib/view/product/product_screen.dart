@@ -84,7 +84,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                           '${product?.name}',
                                           style: const TextStyle(
                                               fontWeight: FontWeight.w600,
-                                              fontSize: 20),
+                                              fontSize: 18),
                                         )),
                                   ),
                                   Align(
@@ -119,21 +119,24 @@ class _ProductScreenState extends State<ProductScreen> {
                                           : product?.price;
                                       return Align(
                                           alignment: Alignment.bottomLeft,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
                                             children: [
                                               Text(
-                                                'Rs. ${discountedPrice?.toStringAsFixed(2)}',
+                                                '₹${discountedPrice?.toStringAsFixed(2)}',
                                                 style: const TextStyle(
                                                   fontWeight: FontWeight.w600,
                                                   fontSize: 20,
                                                 ),
                                               ),
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
                                               discountedPrice == product?.price
                                                   ? const SizedBox.shrink()
                                                   : Text(
-                                                      'M.R.P Rs. ${product?.price}',
+                                                      '₹.${product?.price}',
                                                       style: const TextStyle(
                                                           fontWeight:
                                                               FontWeight.w400,
@@ -153,11 +156,11 @@ class _ProductScreenState extends State<ProductScreen> {
                                               alignment: Alignment.bottomLeft,
                                               child: Padding(
                                                 padding:
-                                                    EdgeInsets.only(top: 8.0),
+                                                    EdgeInsets.only(top: 12.0),
                                                 child: Text(
                                                   'Available Offers',
                                                   style: TextStyle(
-                                                      fontSize: 20,
+                                                      fontSize: 18,
                                                       fontWeight:
                                                           FontWeight.w600),
                                                 ),
@@ -185,19 +188,30 @@ class _ProductScreenState extends State<ProductScreen> {
                                                         width: 200,
                                                         child: Container(
                                                           decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.circular(20),
-                                                            border: Border.all(color: selectedOffer.value==index?Colors.green:Colors.transparent,width: 2.0)
-
-                                                          ),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20),
+                                                              border: Border.all(
+                                                                  color: selectedOffer
+                                                                              .value ==
+                                                                          index
+                                                                      ? Colors
+                                                                          .green
+                                                                      : Colors
+                                                                          .transparent,
+                                                                  width: 2.0)),
                                                           child: Padding(
-                                                            padding: const EdgeInsets.all(2.0),
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(2.0),
                                                             child: ClipRRect(
                                                                 borderRadius:
                                                                     BorderRadius
                                                                         .circular(
                                                                             20),
-                                                                child:
-                                                                    Image.network(
+                                                                child: Image
+                                                                    .network(
                                                                   product
                                                                           ?.offers[
                                                                               index]
@@ -220,7 +234,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                   Align(
                                     alignment: Alignment.bottomLeft,
                                     child: Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
+                                      padding: const EdgeInsets.only(top: 16.0),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -228,11 +242,11 @@ class _ProductScreenState extends State<ProductScreen> {
                                           const Text(
                                             'Description',
                                             style: TextStyle(
-                                                fontSize: 20,
+                                                fontSize: 16,
                                                 fontWeight: FontWeight.w600),
                                           ),
                                           Text(product?.desc ??
-                                              "100% Copper Cooling Coil Compatible with all BEE star rating AC's Compatibility: All Brands Non inverter ACs Compatible Refrigerant: R22 | R32 | R410A Brand's warranty: 12 months"),
+                                              "100% Copper Cooling Coil Compatible with all BEE star rating AC's Compatibility: All Brands Non inverter ACs Compatible Refrigerant: R22 | R32 | R410A Brand's warranty: 12 months",),
                                         ],
                                       ),
                                     ),
@@ -279,20 +293,29 @@ class _ProductScreenState extends State<ProductScreen> {
                         padding: const EdgeInsets.only(bottom: 8.0),
                         child: BlocConsumer<CartBloc, CartState>(
                           builder: (BuildContext context, state) {
-                            return AppRoundedElevatedButton(
-                              onPressed: () {
-                                if (product?.id != null) {
-                                  BlocProvider.of<CartBloc>(context).add(
-                                      CartAddEvent(productId: product?.id));
-                                }
-                              },
-                              label: const Text('Add to cart'),
-                              width: SizeConfig.screenWidth,
-                            );
+                            if (state is CartInitialState &&
+                                state.isLoading == true) {
+                              return AppRoundedElevatedButton(
+                                onPressed: () {},
+                                label:
+                                    const AppCustomCircularProgressIndicator(),
+                                width: SizeConfig.screenWidth,
+                              );
+                            } else {
+                              return AppRoundedElevatedButton(
+                                onPressed: () {
+                                  if (product?.id != null) {
+                                    BlocProvider.of<CartBloc>(context).add(
+                                        CartAddEvent(productId: product?.id));
+                                  }
+                                },
+                                label: const Text('Add to cart'),
+                                width: SizeConfig.screenWidth,
+                              );
+                            }
                           },
                           listener: (BuildContext context, CartState state) {
                             if (state is CartAddedState) {
-                              print('here');
                               ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                       content: Text('Item added to the cart')));

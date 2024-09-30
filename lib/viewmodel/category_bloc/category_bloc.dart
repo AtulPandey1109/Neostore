@@ -13,7 +13,7 @@ part 'category_states.dart';
 class CategoryBloc extends Bloc<CategoryEvent,CategoryState>{
   final Dio dio = Dio();
   final String url = '${AppConstants.baseurl}/category';
-  CategoryBloc():super(CategoryInitialState(const [])){
+  CategoryBloc():super(CategoryInitialState( categories: const [],)){
     on<CategoryInitialEvent>(_onCategoryInitialEvent);
   }
 
@@ -21,14 +21,15 @@ class CategoryBloc extends Bloc<CategoryEvent,CategoryState>{
   FutureOr<void> _onCategoryInitialEvent(CategoryInitialEvent event, Emitter<CategoryState> emit) async{
     var token = await AppLocalStorage.getToken();
     dio.options.headers["authorization"] = "Bearer $token";
+    emit(CategoryInitialState( categories: const [],isLoading: true));
     try {
       Response response = await dio.get(url);
       if(response.data.length !=0){
         List<CategoryModel> categories =(response.data as List).map((category) => CategoryModel.fromJson(category))
             .toList();
-        emit(CategoryInitialState(categories));
+        emit(CategoryInitialState(categories: categories,));
       }else{
-        emit(CategoryInitialState(const []));
+        emit(CategoryInitialState(categories: const []));
       }
     } catch (e) {
       emit(CategoryFailureState());

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:neostore/core/routes/routes.dart';
 import 'package:neostore/model/category_model/category_model.dart';
 import 'package:neostore/view/widgets/category_card.dart';
 class AppCategoryList extends StatelessWidget {
@@ -13,13 +14,16 @@ class AppCategoryList extends StatelessWidget {
             scrollDirection: Axis.horizontal,
               itemCount: categories?.length??0,
               itemBuilder: (context,index){
-            return Column(
-              children: [
-                CategoryCard(category: categories?[index],),
-                Text(categories?[index].name??''),
-              ],
+            return GestureDetector(
+              onTap: (){
+                Navigator.pushNamed(context, AppRoutes.allCategoryScreen,);
+              },
+              child: Column(
+                children: [
+                  CategoryCard(category: categories?[index],),
+                ],
+              ),
             );
           });
-
   }
 }

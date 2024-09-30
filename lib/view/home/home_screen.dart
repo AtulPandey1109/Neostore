@@ -61,17 +61,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                 children: [
                                   const Text('Top categories'),
                                   TextButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.pushNamed(context, AppRoutes.allCategoryScreen);
+                                      },
                                       child: const Text('See all')),
                                 ],
                               ),
                               SizedBox(
-                                  height: 150,
+                                  height: 120,
                                   child: AppCategoryList(
                                       categories: state.data?.categories)),
                               Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(vertical: 20),
+                                    const EdgeInsets.only(bottom: 20),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,

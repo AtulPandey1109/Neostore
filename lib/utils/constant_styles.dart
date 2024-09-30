@@ -22,6 +22,16 @@ const TextStyle kHeader2TextStyle = TextStyle(
     fontSize: kHeading2FontSize,
     fontWeight: FontWeight.w400);
 
+const TextStyle kHeader3TextStyle = TextStyle(
+    color: Color(0xff3d3d4e),
+    fontSize: kHeading3FontSize,
+    fontWeight: FontWeight.w400);
+
+const TextStyle kHeader4TextStyle = TextStyle(
+    color: Color(0xff3d3d4e),
+    fontSize: kHeading4FontSize,
+    fontWeight: FontWeight.w400);
+
 ButtonStyle kRoundedElevatedButtonStyle = ElevatedButton.styleFrom(
     foregroundColor: Colors.white70,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -34,3 +44,5 @@ const double kPaddingSide = 12;
 const double kHeadingFontSize = 32;
 
 const double kHeading2FontSize = 24;
+const double kHeading3FontSize = 20;
+const double kHeading4FontSize = 16;

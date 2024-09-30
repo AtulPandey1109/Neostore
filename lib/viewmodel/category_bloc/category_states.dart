@@ -4,7 +4,8 @@ abstract class CategoryState extends Equatable{}
 
 class CategoryInitialState extends CategoryState{
   final List<CategoryModel> categories;
-  CategoryInitialState(this.categories);
+  final bool isLoading;
+  CategoryInitialState({required this.categories, this.isLoading = false});
   @override
   List<Object?> get props => [categories];
 }

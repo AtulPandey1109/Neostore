@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:neostore/main.dart';
+import 'package:neostore/view/category/all_category_screen.dart';
 import 'package:neostore/view/login/login_screen.dart';
 import 'package:neostore/view/main/main_screen.dart';
 import 'package:neostore/view/order/order_screen.dart';
+import 'package:neostore/view/order/order_summary_screen.dart';
 import 'package:neostore/view/product/product_screen.dart';
 import 'package:neostore/view/sign_up/sign_up_screen.dart';
 import 'package:neostore/view/splashscreen/splash_screen.dart';
@@ -19,6 +21,8 @@ class AppRoutes{
   static const String signupScreen='/signupScreen';
   static const String productScreen='/productScreen';
   static const String orderScreen='/orderScreen';
+  static const String allCategoryScreen='/allCategoryScreen';
+  static const String orderSummaryScreen='/orderSummaryScreen';
 }
 
 class AppRouter{
@@ -38,6 +42,12 @@ class AppRouter{
 
           case AppRoutes.orderScreen:
           return MaterialPageRoute(builder: (_) =>  const OrderScreen());
+
+        case AppRoutes.allCategoryScreen:
+          return MaterialPageRoute(builder: (_) =>  const AllCategoryScreen());
+
+        case AppRoutes.orderSummaryScreen:
+          return MaterialPageRoute(builder: (_) =>  const OrderSummaryScreen());
 
           case AppRoutes.productScreen:
             final productId=(settings.arguments as Map<String,String>)['id'];

@@ -36,15 +36,37 @@ class _AppDrawerState extends State<AppDrawer> {
               'Profile',
             ),
           ),
-          GestureDetector(
-            onTap: (){
+          ListTile(
+            onTap: () {
               Navigator.pushNamed(context, AppRoutes.orderScreen);
             },
-            child: const ListTile(
-              leading: Icon(Icons.delivery_dining_outlined),
-              title: Text(
-                'Orders',
-              ),
+            leading: const Icon(Icons.delivery_dining_outlined),
+            title: const Text(
+              'Orders',
+            ),
+          ),ListTile(
+            onTap: () {
+
+            },
+            leading: const Icon(Icons.phone_outlined),
+            title: const Text(
+              'Contact Us',
+            ),
+          ),ListTile(
+            onTap: () {
+
+            },
+            leading: const Icon(Icons.lock_outline),
+            title: const Text(
+              'Privacy Policy',
+            ),
+          ),ListTile(
+            onTap: () {
+              Navigator.pushNamed(context, AppRoutes.orderScreen);
+            },
+            leading: const Icon(Icons.question_answer_outlined),
+            title: const Text(
+              'FAQs',
             ),
           ),
           ListTile(
@@ -54,7 +76,10 @@ class _AppDrawerState extends State<AppDrawer> {
               Navigator.pushNamedAndRemoveUntil(context, AppRoutes.loginScreen,
                   (Route<dynamic> route) => false);
             },
-            leading: const Icon(Icons.logout_outlined,color: Colors.orange,),
+            leading: const Icon(
+              Icons.logout_outlined,
+              color: Colors.orange,
+            ),
             title: const Text(
               'Logout',
               style: kTextButtonStyle,

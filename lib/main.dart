@@ -10,6 +10,7 @@ import 'package:neostore/viewmodel/offer_bloc/offer_bloc.dart';
 import 'package:neostore/viewmodel/order_bloc/order_bloc.dart';
 import 'package:neostore/viewmodel/product_bloc/product_bloc.dart';
 import 'package:neostore/viewmodel/signup_bloc/sign_up_bloc.dart';
+import 'package:neostore/viewmodel/subcategory/subcategory_bloc.dart';
 import 'package:neostore/viewmodel/tab_navigation_bloc/tab_bloc.dart';
 
 import 'core/routes/routes.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => OfferBloc()),
         BlocProvider(create: (context) => DashboardBloc()),
         BlocProvider(create: (context) => OrderBloc()),
+        BlocProvider(create: (context) => SubcategoryBloc()),
       ],
       child: MaterialApp(
         theme: ThemeData(

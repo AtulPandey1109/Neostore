@@ -14,6 +14,7 @@ class OrderBloc extends Bloc<OrderEvent,OrderState>{
   final String url = '${AppConstants.baseurl}/orders';
   OrderBloc():super(OrderInitialState(orders: const [])){
     on<OrderInitialEvent>(_onOrderInitialEvent);
+    on<OrderPlacedEvent>(_onOrderPlacedEvent);
   }
 
 
@@ -32,6 +33,17 @@ class OrderBloc extends Bloc<OrderEvent,OrderState>{
       }
     } catch (e) {
       emit(OrderFailureState());
+    }
+  }
+
+  FutureOr<void> _onOrderPlacedEvent(OrderPlacedEvent event, Emitter<OrderState> emit) async{
+    var token = await AppLocalStorage.getToken();
+    dio.options.headers["authorization"] = "Bearer $token";
+    emit(OrderInitialState(orders: const []));
+    try{
+
+    }catch(e) {
+      emit(OrderEmptyState());
     }
   }
 }

@@ -18,5 +18,4 @@ class OrderEmptyState extends OrderState{
 class OrderFailureState extends OrderState{
   @override
   List<Object?> get props => [];
-
 }

@@ -17,4 +17,15 @@ class AppLocalStorage{
     _prefs = await SharedPreferences.getInstance();
    _prefs!.remove('token');
   }
+
+  static void saveAddress(List<String> address) async{
+    _prefs = await SharedPreferences.getInstance();
+    _prefs!.setStringList('address', address);
+  }
+
+  static Future<List<String>> getAddress() async{
+    _prefs = await SharedPreferences.getInstance();
+    return _prefs!.getStringList('address')??[];
+  }
+
 }
