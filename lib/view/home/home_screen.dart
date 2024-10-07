@@ -1,8 +1,8 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:neostore/core/routes/routes.dart';
-import 'package:neostore/utils/app_local_storage.dart';
 import 'package:neostore/utils/constant_styles.dart';
 import 'package:neostore/utils/gridview_cross_axis_count.dart';
 import 'package:neostore/utils/responsive_size_helper.dart';
@@ -11,6 +11,7 @@ import 'package:neostore/view/widgets/app_category_list.dart';
 import 'package:neostore/view/widgets/app_custom_circular_progress_indicator.dart';
 import 'package:neostore/view/widgets/app_product_card.dart';
 import 'package:neostore/viewmodel/dashboard_bloc/dashboard_bloc.dart';
+import 'package:neostore/viewmodel/wishlist_bloc/wishlist_bloc.dart';
 
 
 
@@ -80,7 +81,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   children: [
                                     const Text('Popular Products'),
                                     TextButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Navigator.pushNamed(context, AppRoutes.allProductsScreen);
+                                        },
                                         child: const Text('View more')),
                                   ],
                                 ),
@@ -88,24 +91,31 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                         ),
-                        SliverMasonryGrid(
-                          gridDelegate:
-                              SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: myCrossAxisCount(),
-                          ),
-                          mainAxisSpacing: 10,
-                          crossAxisSpacing: 20,
-                          delegate: SliverChildBuilderDelegate(
-                            childCount: state.data?.products?.length ?? 0,
-                            (context, index) {
-                              final product = state.data?.products?[index];
-                              return AppProductCard(
-                                productImageUrl: product?.image ?? '',
-                                productName: product?.name ?? '',
-                                price: product?.price ?? 0,
-                                productId: product?.id??'',
-                              );
-                            },
+                        BlocListener<WishListBloc,WishListStates>(
+                          listener: (BuildContext context, WishListStates state) {
+                            if(state is WishListAddedSuccessFullyState){
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content:  Text('Item added to wishlist')));
+                            }
+                          },
+                          child: SliverMasonryGrid(
+                            gridDelegate:
+                                SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: myCrossAxisCount(),
+                            ),
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 20,
+                            delegate: SliverChildBuilderDelegate(
+                              childCount: state.data?.products?.length ?? 0,
+                              (context, index) {
+                                final product = state.data?.products?[index];
+                                return AppProductCard(
+                                  productImageUrl: product?.image ?? '',
+                                  productName: product?.name ?? '',
+                                  price: product?.price ?? 0,
+                                  productId: product?.id??'',
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ],
@@ -120,9 +130,9 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             listener: (BuildContext context, DashboardState state) {
               if (state is DashboardFailureState) {
-                AppLocalStorage.removeToken();
-                Navigator.pushNamedAndRemoveUntil(context,
-                    AppRoutes.loginScreen, (Route<dynamic> route) => false);
+                // AppLocalStorage.removeToken();
+                // Navigator.pushNamedAndRemoveUntil(context,
+                //     AppRoutes.loginScreen, (Route<dynamic> route) => false);
               }
             },
           ),

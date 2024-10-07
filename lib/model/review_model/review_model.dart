@@ -4,7 +4,7 @@ class Review {
   String id;
   String product;
   User user;
-  int rating;
+  double rating;
   String comment;
   DateTime createdAt;
 
@@ -21,7 +21,7 @@ class Review {
     id: json["_id"],
     product: json["product"],
     user: User.fromJson(json["user"]),
-    rating: json["rating"],
+    rating: json["rating"]?.toDouble(),
     comment: json["comment"],
     createdAt: DateTime.parse(json["createdAt"]),
   );

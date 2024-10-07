@@ -12,20 +12,36 @@ ProductModel _$ProductModelFromJson(Map<String, dynamic> json) => ProductModel(
       image: json['image'] as String?,
       desc: json['desc'] as String?,
       price: (json['price'] as num?)?.toDouble(),
-      category: json['category'] as String?,
-      subCategory: json['subCategory'] as String?,
+      category: json['category'] == null
+          ? null
+          : json['category'].runtimeType == String
+              ? CategoryModel(json['category'], 'name', 'image')
+              : CategoryModel.fromJson(
+                  json['category'] as Map<String, dynamic>), //Needed to rewrite
+      subCategory: json['subCategory'] == null
+          ? null
+          : json['subCategory'].runtimeType == String
+              ? SubcategoryModel(
+                  id: json['subCategory'],
+                  category: CategoryModel(json['category'], 'name', 'image'),
+                  name: 'name',
+                  image: 'image')
+              : SubcategoryModel.fromJson(json['subCategory']
+                  as Map<String, dynamic>), //Needed to rewrite
       isActive: json['isActive'] as bool?,
       offers: (json['offers'] as List<dynamic>?)
-          ?.map((e) => OfferModel.fromJson(e as Map<String, dynamic>))
-          .toList()??[],
+              ?.map((e) => OfferModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       reviews: (json['reviews'] as List<dynamic>?)
-          ?.map((e) => Review.fromJson(e as Map<String, dynamic>))
-          .toList()??[],
+              ?.map((e) => Review.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      isWishList: json['isWishList'] as bool?,
     );
 
 Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
     <String, dynamic>{
-      'id': instance.id,
       'name': instance.name,
       'image': instance.image,
       'desc': instance.desc,
@@ -35,4 +51,5 @@ Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
       'isActive': instance.isActive,
       'offers': instance.offers,
       'reviews': instance.reviews,
+      'isWishList': instance.isWishList
     };

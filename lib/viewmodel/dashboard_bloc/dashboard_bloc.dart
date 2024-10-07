@@ -21,7 +21,9 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       DashboardInitialEvent event, Emitter<DashboardState> emit) async {
     var token = await AppLocalStorage.getToken();
     dio.options.headers["authorization"] = "Bearer $token";
-    emit(DashboardInitialState(data: null,isLoading: true));
+    DashBoardModel? data = (state is DashboardInitialState)?(state as DashboardInitialState).data
+        :null;
+    emit(DashboardInitialState(data: data,isLoading: true));
     try {
       Response response = await dio.get(url);
       DashBoardModel data = DashBoardModel.fromJson(response.data);

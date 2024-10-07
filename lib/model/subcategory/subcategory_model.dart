@@ -1,6 +1,8 @@
+import '../category_model/category_model.dart';
+
 class SubcategoryModel {
   String? id;
-  SubcategoryModel? category;
+  CategoryModel? category;
   String? name;
   String? image;
 
@@ -13,7 +15,7 @@ class SubcategoryModel {
 
   factory SubcategoryModel.fromJson(Map<String, dynamic> json) => SubcategoryModel(
     id: json["_id"],
-    category: json["category"] == null ? null : SubcategoryModel.fromJson(json["category"]),
+    category: json["category"] == null ? null : CategoryModel.fromJson(json["category"]),
     name: json["name"],
     image: json["image"],
   );

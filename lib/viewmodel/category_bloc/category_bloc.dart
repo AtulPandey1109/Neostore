@@ -21,7 +21,10 @@ class CategoryBloc extends Bloc<CategoryEvent,CategoryState>{
   FutureOr<void> _onCategoryInitialEvent(CategoryInitialEvent event, Emitter<CategoryState> emit) async{
     var token = await AppLocalStorage.getToken();
     dio.options.headers["authorization"] = "Bearer $token";
-    emit(CategoryInitialState( categories: const [],isLoading: true));
+    List<CategoryModel> currentCategories = (state is CategoryInitialState)
+        ? (state as CategoryInitialState).categories
+        : [];
+    emit(CategoryInitialState(categories: currentCategories,isLoading: true));
     try {
       Response response = await dio.get(url);
       if(response.data.length !=0){

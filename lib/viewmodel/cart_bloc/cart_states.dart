@@ -7,7 +7,7 @@ class CartInitialState extends CartState{
   final bool isLoading;
   CartInitialState({required this.cartProducts,required this.isLoading});
   @override
-  List<Object?> get props => [cartProducts];
+  List<Object?> get props => [cartProducts,isLoading];
 }
 
 class CartFailureState extends CartState{

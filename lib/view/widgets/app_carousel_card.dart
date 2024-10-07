@@ -19,7 +19,7 @@ class AppCarouselCard extends StatelessWidget {
         CarouselSlider(
           items: offers
               .map((offer) => AppRoundedOfferCard(
-                    offer: offer,
+                    image: offer.image,
                   ))
               .toList(),
           carouselController: _controller,

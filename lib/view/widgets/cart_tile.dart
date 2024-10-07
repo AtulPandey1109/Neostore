@@ -24,11 +24,12 @@ class CartTile extends StatelessWidget {
                   Flexible(
                       flex: 3,
                       child: Image.network(
-                        cartProduct.product?.image??'',
+                        cartProduct.product?.image ?? '',
                         fit: BoxFit.contain,
                         height: 50,
                         width: 100,
-                        errorBuilder: (context, error, stackTrace) => Image.asset('assets/images/loading_image.webp'),
+                        errorBuilder: (context, error, stackTrace) =>
+                            Image.asset('assets/images/loading_image.webp'),
                       )),
                   Flexible(
                     flex: 9,
@@ -40,7 +41,7 @@ class CartTile extends StatelessWidget {
                             alignment: Alignment.centerLeft,
                             child: Text(
                               maxLines: 1,
-                              cartProduct.product?.name??'',
+                              cartProduct.product?.name ?? '',
                               style: const TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.bold),
                             ),
@@ -49,11 +50,13 @@ class CartTile extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(left: 0.0,right: 6,top: 6,bottom: 6),
+                                padding: const EdgeInsets.only(
+                                    left: 0.0, right: 6, top: 6, bottom: 6),
                                 child: Text(
-                                  'Rs. ${cartProduct.product?.price??0}',
+                                  'Rs. ${cartProduct.product?.price ?? 0}',
                                   style: const TextStyle(
-                                      fontSize: 16, fontWeight: FontWeight.w600),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600),
                                 ),
                               ),
                               Container(
@@ -67,11 +70,21 @@ class CartTile extends StatelessWidget {
                                     Flex(direction: Axis.horizontal, children: [
                                   IconButton(
                                       onPressed: () {
-                                        BlocProvider.of<CartBloc>(context).add(
-                                            CartUpdateEvent(
-                                                productId:
-                                                    cartProduct.product!.id!,
-                                                quantity: -1));
+                                        if ((cartProduct.quantity ?? 0) - 1 <=
+                                            0) {
+                                          BlocProvider.of<CartBloc>(context)
+                                              .add(CartDeleteEvent(
+                                                  productId:
+                                                      cartProduct.product?.id ??
+                                                          ''));
+                                        } else {
+                                          BlocProvider.of<CartBloc>(context)
+                                              .add(CartUpdateEvent(
+                                                  productId:
+                                                      cartProduct.product?.id ??
+                                                          '',
+                                                  quantity: -1));
+                                        }
                                       },
                                       icon: const Icon(
                                         Icons.remove,
@@ -84,7 +97,8 @@ class CartTile extends StatelessWidget {
                                         BlocProvider.of<CartBloc>(context).add(
                                             CartUpdateEvent(
                                                 productId:
-                                                cartProduct.product!.id!,
+                                                    cartProduct.product?.id ??
+                                                        '',
                                                 quantity: 1));
                                       },
                                       icon: const Icon(
@@ -99,7 +113,8 @@ class CartTile extends StatelessWidget {
                                     showDialog(
                                         context: context,
                                         builder: (context) => AlertDialog(
-                                              title: const Text('Delete product'),
+                                              title:
+                                                  const Text('Delete product'),
                                               content: const Text(
                                                   'Are you sure you want to delete this product?'),
                                               actions: [

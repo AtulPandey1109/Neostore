@@ -16,11 +16,11 @@ class AppCategoryList extends StatelessWidget {
               itemBuilder: (context,index){
             return GestureDetector(
               onTap: (){
-                Navigator.pushNamed(context, AppRoutes.allCategoryScreen,);
+                Navigator.pushNamed(context, AppRoutes.allCategoryScreen,arguments: {'id':categories?[index].id,'name':categories?[index].name});
               },
               child: Column(
                 children: [
-                  CategoryCard(category: categories?[index],),
+                  CategoryCard(image: categories?[index].image,name: categories?[index].name,),
                 ],
               ),
             );

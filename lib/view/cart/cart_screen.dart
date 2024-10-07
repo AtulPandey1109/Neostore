@@ -4,6 +4,7 @@ import 'package:neostore/core/routes/routes.dart';
 import 'package:neostore/model/cart_product_model/cart_product.dart';
 import 'package:neostore/utils/responsive_size_helper.dart';
 import 'package:neostore/view/widgets/app_custom_circular_progress_indicator.dart';
+import 'package:neostore/view/widgets/app_custom_overlay_progress_indicator.dart';
 import 'package:neostore/view/widgets/app_rounded_button.dart';
 import 'package:neostore/view/widgets/cart_tile.dart';
 import 'package:neostore/viewmodel/cart_bloc/cart_bloc.dart';
@@ -28,13 +29,9 @@ class _CartScreenState extends State<CartScreen> {
       body: BlocBuilder<CartBloc, CartState>(
           builder: (BuildContext context, CartState state) {
         if (state is CartInitialState) {
-          if (state.isLoading) {
-            return const AppCustomCircularProgressIndicator(
-              color: Colors.orange,
-            );
-          } else {
-            final total = calculateTotal(state.cartProducts);
-            return Column(
+          final total = calculateTotal(state.cartProducts);
+          return Stack(children: [
+            Column(
               children: [
                 Expanded(
                   child: ListView.builder(
@@ -63,7 +60,7 @@ class _CartScreenState extends State<CartScreen> {
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               vertical: 8.0, horizontal: 16),
-                          child: Text('Rs. $total',
+                          child: Text('Rs. ${(total).toStringAsFixed(2)}',
                               style: const TextStyle(
                                   color: Colors.orange,
                                   fontSize: 16,
@@ -75,7 +72,8 @@ class _CartScreenState extends State<CartScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: AppRoundedElevatedButton(
                           onPressed: () {
-                              Navigator.pushNamed(context, AppRoutes.orderSummaryScreen);
+                            Navigator.pushNamed(
+                                context, AppRoutes.orderSummaryScreen);
                           },
                           label: const Text('Buy Now'),
                           width: SizeConfig.isMobile()
@@ -85,8 +83,11 @@ class _CartScreenState extends State<CartScreen> {
                   ],
                 )
               ],
-            );
-          }
+            ),
+            state.isLoading
+                ? const AppCustomOverlayProgressIndicator()
+                : const SizedBox.shrink()
+          ]);
         } else if (state is CartEmptyState) {
           return const Center(
             child: Text('Your cart is empty'),

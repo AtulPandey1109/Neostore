@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:neostore/core/routes/routes.dart';
 import 'package:neostore/utils/app_local_storage.dart';
 import 'package:neostore/utils/constant_styles.dart';
@@ -30,10 +31,15 @@ class _AppDrawerState extends State<AppDrawer> {
           const Divider(
             thickness: .6,
           ),
-          const ListTile(
-            leading: Icon(Icons.person_outline),
-            title: Text(
-              'Profile',
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, AppRoutes.profileScreen);
+            },
+            child: const ListTile(
+              leading: Icon(Icons.person_outline),
+              title: Text(
+                'My Profile',
+              ),
             ),
           ),
           ListTile(
@@ -42,27 +48,39 @@ class _AppDrawerState extends State<AppDrawer> {
             },
             leading: const Icon(Icons.delivery_dining_outlined),
             title: const Text(
-              'Orders',
+              'My Orders',
             ),
-          ),ListTile(
+          ),
+          ListTile(
             onTap: () {
-
+              Navigator.pushNamed(context, AppRoutes.wishlistScreen);
+            },
+            leading: const Icon(FontAwesomeIcons.heart),
+            title: const Text(
+              'My WishList',
+            ),
+          ),
+          ListTile(
+            onTap: () {
+              Navigator.pushNamed(context, AppRoutes.contactUsScreen);
             },
             leading: const Icon(Icons.phone_outlined),
             title: const Text(
               'Contact Us',
             ),
-          ),ListTile(
+          ),
+          ListTile(
             onTap: () {
-
+              Navigator.pushNamed(context, AppRoutes.privacyPolicyScreen);
             },
             leading: const Icon(Icons.lock_outline),
             title: const Text(
               'Privacy Policy',
             ),
-          ),ListTile(
+          ),
+          ListTile(
             onTap: () {
-              Navigator.pushNamed(context, AppRoutes.orderScreen);
+              Navigator.pushNamed(context, AppRoutes.faqsScreen);
             },
             leading: const Icon(Icons.question_answer_outlined),
             title: const Text(

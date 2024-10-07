@@ -7,7 +7,7 @@ part of 'cart_product.dart';
 // **************************************************************************
 
 CartProduct _$CartProductFromJson(Map<String, dynamic> json) => CartProduct(
-      id: json['id'] as String?,
+      id: json['_id'] as String?,
       product: json['product'] == null
           ? null
           : ProductModel.fromJson(json['product'] as Map<String, dynamic>),
@@ -16,7 +16,7 @@ CartProduct _$CartProductFromJson(Map<String, dynamic> json) => CartProduct(
 
 Map<String, dynamic> _$CartProductToJson(CartProduct instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      '_id': instance.id,
       'product': instance.product,
       'quantity': instance.quantity,
     };

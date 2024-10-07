@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:neostore/model/category_model/category_model.dart';
+import 'package:neostore/utils/constant_styles.dart';
 
 class CategoryCard extends StatelessWidget {
-  final CategoryModel? category;
-  const CategoryCard({super.key, required this.category});
+  final String? image;
+  final String? name;
+  const CategoryCard({super.key, this.image, this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -15,16 +16,21 @@ class CategoryCard extends StatelessWidget {
                 ClipRRect(
                       borderRadius: BorderRadius.circular(100),
                   child: Container(
+
+                    width: 70,
+                    height: 70,
                     constraints: BoxConstraints.tight(const Size(70, 70)),
 
                     child: Image.network(
-                      category?.image ?? '',
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => Image.asset('assets/images/loading_image.webp'),
+                      image ?? '',
+                      fit: BoxFit.fill,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset('assets/images/loading_image.webp');
+                      },
                     ),
                   ),
                 ),
-                Text(category?.name??'',softWrap: true),
+                Text(name??'',style: kHeader4TextStyle.copyWith(fontSize: 12),),
               ],
             ),
           )

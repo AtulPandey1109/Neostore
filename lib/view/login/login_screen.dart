@@ -109,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
                             label:const Center(child: Padding(
                               padding: EdgeInsets.all(4.0),
-                              child: const AppCustomCircularProgressIndicator()
+                              child:  AppCustomCircularProgressIndicator()
                             ),),
                           );
                         }

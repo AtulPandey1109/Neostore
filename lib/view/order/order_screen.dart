@@ -58,7 +58,7 @@ class _OrderScreenState extends State<OrderScreen> {
                           children: [
                             Text(
                               'Order id: ${order.id ?? ''}',
-                              style: TextStyle(fontSize: 16),
+                              style: const TextStyle(fontSize: 16),
                             ),
                             Text(
                               'Status: ${order.status?.toLowerCase()}',

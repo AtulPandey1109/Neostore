@@ -26,7 +26,10 @@ class CartBloc extends Bloc<CartEvent,CartState>{
   FutureOr<void> _onCartInitialEvent(CartInitialEvent event, Emitter<CartState> emit) async{
     var token = await AppLocalStorage.getToken();
     dio.options.headers["authorization"] = "Bearer $token";
-    emit(CartInitialState(cartProducts: const [],isLoading: true));
+    List<CartProduct> currentCartProducts = (state is CartInitialState)
+        ? (state as CartInitialState).cartProducts
+        : [];
+    emit(CartInitialState(cartProducts: currentCartProducts,isLoading: true));
     try {
       Response response = await dio.get(url);
       if(response.data.length !=0){
@@ -44,7 +47,10 @@ class CartBloc extends Bloc<CartEvent,CartState>{
   FutureOr<void> _onCartDeleteEvent(CartDeleteEvent event, Emitter<CartState> emit) async{
     var token = await AppLocalStorage.getToken();
     dio.options.headers["authorization"] = "Bearer $token";
-    emit(CartInitialState(cartProducts: const [],isLoading: true));
+    List<CartProduct> currentCartProducts = (state is CartInitialState)
+        ? (state as CartInitialState).cartProducts
+        : [];
+    emit(CartInitialState(cartProducts: currentCartProducts,isLoading: true));
     try{
       Response response = await dio.delete(url,data: {"product":event.productId});
       if(response.statusCode==200){
@@ -53,9 +59,11 @@ class CartBloc extends Bloc<CartEvent,CartState>{
           List<CartProduct> cartProducts =(response.data['products'] as List).map((product) => CartProduct.fromJson(product))
               .toList();
           emit(CartInitialState(cartProducts: cartProducts,isLoading: false));
+        }else {
+          emit(CartEmptyState());
         }
       }else{
-        emit(CartInitialState(cartProducts: const [],isLoading: false));
+        emit(CartEmptyState());
       }
     } catch(e){
       emit(CartFailureState());
@@ -65,8 +73,12 @@ class CartBloc extends Bloc<CartEvent,CartState>{
   FutureOr<void> _onCartUpdateEvent(CartUpdateEvent event, Emitter<CartState> emit) async{
     var token = await AppLocalStorage.getToken();
     dio.options.headers["authorization"] = "Bearer $token";
-    emit(CartInitialState(cartProducts: const [],isLoading: true));
+    List<CartProduct> currentCartProducts = (state is CartInitialState)
+        ? (state as CartInitialState).cartProducts
+        : [];
+    emit(CartInitialState(cartProducts: currentCartProducts,isLoading: true));
     try{
+
       Response response = await dio.post(url,data: {"product":event.productId,"quantity":event.quantity});
       if(response.statusCode==200){
         Response response = await dio.get(url);
@@ -86,7 +98,10 @@ class CartBloc extends Bloc<CartEvent,CartState>{
   FutureOr<void> _onCartAddEvent(CartAddEvent event, Emitter<CartState> emit) async{
     var token = await AppLocalStorage.getToken();
     dio.options.headers["authorization"] = "Bearer $token";
-    emit(CartInitialState(cartProducts: const [],isLoading: true));
+    List<CartProduct> currentCartProducts = (state is CartInitialState)
+        ? (state as CartInitialState).cartProducts
+        : [];
+    emit(CartInitialState(cartProducts: currentCartProducts,isLoading: true));
     try{
       Response response = await dio.post(url,data: {"product":event.productId,"quantity":1});
       if(response.statusCode==200){

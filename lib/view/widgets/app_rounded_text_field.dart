@@ -4,15 +4,21 @@ import 'package:neostore/utils/responsive_size_helper.dart';
 class AppRoundedTextField extends StatelessWidget {
 
   final TextEditingController controller;
+  final VoidCallback? onTap;
+  final Function(PointerDownEvent)? onTapOutside;
   final IconData? icon;
   final String? labelText;
   final bool obscureText;
+  final Function(String) ?onChange;
   const AppRoundedTextField({
     super.key,
     required this.controller,
     this.icon,
     this.labelText,
-    this.obscureText =false
+    this.obscureText =false,
+this.onTap,
+    this.onChange,
+    this.onTapOutside
   });
 
 
@@ -27,7 +33,9 @@ class AppRoundedTextField extends StatelessWidget {
         maxLines: 1,
         obscureText: obscureText,
         controller: controller,
-        onTapOutside: (event) {
+        onTap: onTap,
+        onChanged: onChange,
+        onTapOutside:onTapOutside?? (event) {
           FocusManager.instance.primaryFocus?.unfocus();
         },
         decoration: InputDecoration(

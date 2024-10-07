@@ -22,7 +22,8 @@ class SubcategoryBloc extends Bloc<SubcategoryEvent, SubcategoryState> {
       SubcategoryInitialEvent event, Emitter<SubcategoryState> emit) async {
     var token = await AppLocalStorage.getToken();
     dio.options.headers["authorization"] = "Bearer $token";
-    emit(SubcategoryInitialState(subcategories: const [],isLoading: true));
+    List<SubcategoryModel> subCategories =(state is SubcategoryInitialState)?(state as SubcategoryInitialState).subcategories:[];
+    emit(SubcategoryInitialState(subcategories: subCategories, isLoading: true));
     try {
       Response response = await dio.get(url);
       if(response.data.length !=0){
@@ -40,7 +41,8 @@ class SubcategoryBloc extends Bloc<SubcategoryEvent, SubcategoryState> {
   FutureOr<void> _onSubcategorySelectedEvent(SubcategorySelectedEvent event, Emitter<SubcategoryState> emit) async{
     var token = await AppLocalStorage.getToken();
     dio.options.headers["authorization"] = "Bearer $token";
-    emit(SubcategoryInitialState(subcategories: const [],isLoading: true));
+    List<SubcategoryModel> subCategories =(state is SubcategoryInitialState)?(state as SubcategoryInitialState).subcategories:[];
+    emit(SubcategoryInitialState(subcategories: subCategories, isLoading: true));
     try {
       Response response = await dio.get('$url?category=${event.id}');
       if(response.data.length !=0){

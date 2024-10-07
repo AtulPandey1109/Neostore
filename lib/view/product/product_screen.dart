@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:neostore/utils/calculate_discounted_price.dart';
 import 'package:neostore/utils/calculate_rating.dart';
 import 'package:neostore/utils/constant_styles.dart';
@@ -11,6 +10,7 @@ import 'package:neostore/view/widgets/app_rating_star.dart';
 import 'package:neostore/view/widgets/app_rounded_button.dart';
 import 'package:neostore/viewmodel/cart_bloc/cart_bloc.dart';
 import 'package:neostore/viewmodel/product_bloc/product_bloc.dart';
+import 'package:neostore/viewmodel/review_bloc/review_bloc.dart';
 
 class ProductScreen extends StatefulWidget {
   final String productId;
@@ -22,6 +22,8 @@ class ProductScreen extends StatefulWidget {
 
 class _ProductScreenState extends State<ProductScreen> {
   final ValueNotifier<int> selectedOffer = ValueNotifier(0);
+  final ValueNotifier<double> index = ValueNotifier(0);
+  final TextEditingController _review = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -37,6 +39,7 @@ class _ProductScreenState extends State<ProductScreen> {
         backgroundColor: appBarColor,
         leading: IconButton(
             onPressed: () {
+              BlocProvider.of<ProductBloc>(context).add(ProductGetAllEvent());
               Navigator.pop(context);
             },
             icon: const Icon(Icons.arrow_back)),
@@ -54,13 +57,11 @@ class _ProductScreenState extends State<ProductScreen> {
                 } else {
                   final product = state.product;
                   return Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        height: (Platform.isAndroid)
-                            ? SizeConfig.screenHeight * .8
-                            : SizeConfig.screenHeight * .75,
+                      Expanded(
+                        flex: 7,
                         child: CustomScrollView(
+                          controller: ScrollController(),
                           slivers: [
                             SliverToBoxAdapter(
                               child: Column(
@@ -210,8 +211,8 @@ class _ProductScreenState extends State<ProductScreen> {
                                                                     BorderRadius
                                                                         .circular(
                                                                             20),
-                                                                child: Image
-                                                                    .network(
+                                                                child:
+                                                                    Image.network(
                                                                   product
                                                                           ?.offers[
                                                                               index]
@@ -245,22 +246,145 @@ class _ProductScreenState extends State<ProductScreen> {
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w600),
                                           ),
-                                          Text(product?.desc ??
-                                              "100% Copper Cooling Coil Compatible with all BEE star rating AC's Compatibility: All Brands Non inverter ACs Compatible Refrigerant: R22 | R32 | R410A Brand's warranty: 12 months",),
+                                          Text(
+                                            product?.desc ??
+                                                "100% Copper Cooling Coil Compatible with all BEE star rating AC's Compatibility: All Brands Non inverter ACs Compatible Refrigerant: R22 | R32 | R410A Brand's warranty: 12 months",
+                                          ),
                                         ],
                                       ),
                                     ),
                                   ),
-                                  const Padding(
-                                    padding: EdgeInsets.only(top: 8.0),
-                                    child: Align(
-                                      alignment: Alignment.bottomLeft,
-                                      child: Text(
-                                        'Reviews',
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w600),
-                                      ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 8.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          'Reviews',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  title: Text(
+                                                      'Adding review for ${product?.name}'),
+                                                  content: SizedBox(
+                                                    height: 300,
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceAround,
+                                                      children: [
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Row(
+                                                              children: [
+                                                                const Text(
+                                                                  'Rating: ',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          20),
+                                                                ),
+                                                                RatingBar.builder(
+                                                                    initialRating:
+                                                                        index
+                                                                            .value,
+                                                                    minRating: 1,
+                                                                    direction: Axis
+                                                                        .horizontal,
+                                                                    allowHalfRating:
+                                                                        true,
+                                                                    itemCount: 5,
+                                                                    itemSize: 24,
+                                                                    itemBuilder:
+                                                                        (context,
+                                                                                index) =>
+                                                                            const Icon(
+                                                                              Icons.star,
+                                                                              color:
+                                                                                  Color(0xffffc105),
+                                                                            ),
+                                                                    onRatingUpdate:
+                                                                        (value) {
+                                                                      index.value =
+                                                                          value;
+                                                                    })
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Card(
+                                                            child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: TextField(
+                                                            controller: _review,
+                                                            onTapOutside:
+                                                                (event) {
+                                                              FocusManager
+                                                                  .instance
+                                                                  .primaryFocus
+                                                                  ?.unfocus();
+                                                            },
+                                                            maxLines: 8, //or null
+                                                            decoration:
+                                                                const InputDecoration
+                                                                    .collapsed(
+                                                                    hintText:
+                                                                        "Add your comment here"),
+                                                          ),
+                                                        ))
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  actions: [
+                                                    TextButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(context);
+                                                        },
+                                                        child:
+                                                            const Text('Cancel')),
+                                                    TextButton(
+                                                        onPressed: () {
+                                                          BlocProvider.of<
+                                                                      ReviewBloc>(
+                                                                  context)
+                                                              .add(AddReviewEvent(
+                                                                  product?.id,
+                                                                  index.value
+                                                                      .toDouble(),
+                                                                  _review.text));
+
+                                                          _review.clear();
+                                                          index.value=0;
+                                                          BlocProvider.of<ProductBloc>(context)
+                                                              .add(ProductInitialEvent(productId: widget.productId));
+                                                          Navigator.pop(context);
+                                                        },
+                                                        child: const Text('Ok'))
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          },
+                                          child: const Text(
+                                            'Add review',
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   )
                                 ],
@@ -274,12 +398,18 @@ class _ProductScreenState extends State<ProductScreen> {
                                         final review = product?.reviews[index];
                                         return ListTile(
                                           title: Text(
-                                              review?.user.firstName ?? ''),
+                                            review?.user.firstName ?? '',
+                                            style: const TextStyle(fontSize: 16),
+                                          ),
                                           trailing: AppRatingStar(
+                                            size: 14,
                                             rating:
                                                 review?.rating.toDouble() ?? 0,
                                           ),
-                                          subtitle: Text(review?.comment ?? ''),
+                                          subtitle: Text(
+                                            review?.comment ?? '',
+                                            style: const TextStyle(fontSize: 14),
+                                          ),
                                         );
                                       },
                                     ),
@@ -289,8 +419,8 @@ class _ProductScreenState extends State<ProductScreen> {
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
+                      SizedBox(
+                        height: 40,
                         child: BlocConsumer<CartBloc, CartState>(
                           builder: (BuildContext context, state) {
                             if (state is CartInitialState &&
@@ -322,7 +452,8 @@ class _ProductScreenState extends State<ProductScreen> {
                             }
                           },
                         ),
-                      )
+                      ),
+                      SizedBox(height: 10,)
                     ],
                   );
                 }
