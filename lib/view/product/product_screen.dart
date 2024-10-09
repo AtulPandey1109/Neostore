@@ -39,7 +39,7 @@ class _ProductScreenState extends State<ProductScreen> {
         backgroundColor: appBarColor,
         leading: IconButton(
             onPressed: () {
-              BlocProvider.of<ProductBloc>(context).add(ProductGetAllEvent());
+              // BlocProvider.of<ProductBloc>(context).add(ProductGetAllEvent());
               Navigator.pop(context);
             },
             icon: const Icon(Icons.arrow_back)),

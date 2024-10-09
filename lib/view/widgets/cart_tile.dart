@@ -128,10 +128,7 @@ class CartTile extends StatelessWidget {
                                                       BlocProvider.of<CartBloc>(
                                                               context)
                                                           .add(CartDeleteEvent(
-                                                              productId:
-                                                                  cartProduct
-                                                                      .product!
-                                                                      .id!));
+                                                              productId: cartProduct.product?.id??''));
                                                       Navigator.pop(context);
                                                     },
                                                     child: const Text('Yes')),

@@ -13,6 +13,9 @@ class DashboardInitialState extends DashboardState{
 }
 
 class DashboardFailureState extends DashboardState{
+  final String? message;
+
+  DashboardFailureState(this.message);
   @override
   List<Object?> get props =>[];
 

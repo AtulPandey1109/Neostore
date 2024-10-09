@@ -67,6 +67,7 @@ class WishListBloc extends Bloc<WishListEvents, WishListStates> {
       Response response =
           await dio.delete(url, data: {"product": event.productId});
       if (response.statusCode == 200) {
+        emit(WishListRemovedSuccessFullyState());
         Response response = await dio.get(url);
         if (response.data.length != 0) {
           List<ProductModel> products = (response.data as List)

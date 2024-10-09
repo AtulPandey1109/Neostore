@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:neostore/core/routes/routes.dart';
+import 'package:neostore/viewmodel/product_bloc/all_products_cubit.dart';
 import 'package:neostore/viewmodel/wishlist_bloc/wishlist_bloc.dart';
 
 class AppProductCard extends StatelessWidget {
@@ -27,7 +28,7 @@ class AppProductCard extends StatelessWidget {
             arguments: {"id": productId});
       },
       child: Card(
-        margin: const EdgeInsets.symmetric(horizontal: 0),
+        margin: const EdgeInsets.symmetric(horizontal: 0,vertical: 8),
         elevation: 2,
         color: Colors.white,
         child: Padding(
@@ -54,8 +55,10 @@ class AppProductCard extends StatelessWidget {
                   Text('₹$price'),
                   IconButton(
                       onPressed: () {
-                        BlocProvider.of<WishListBloc>(context)
+                       isWishList??false?BlocProvider.of<WishListBloc>(context)
+                           .add(WishListRemoveEvent(productId: productId)) : BlocProvider.of<WishListBloc>(context)
                             .add(WishListAddEvent(productId: productId));
+                       BlocProvider.of<AllProductCubit>(context).initial();
                       },
                       icon: isWishList ?? false
                           ? const Icon(

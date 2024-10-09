@@ -1,8 +1,10 @@
+import 'package:neostore/model/product_model/product_model.dart';
+
 class OrderModel {
   String? id;
   String? user;
   int? createdOn;
-  List<Product>? products;
+  List<ProductModel>? products;
   int? tax;
   int? discount;
   double? subTotal;
@@ -29,7 +31,7 @@ class OrderModel {
     id: json["_id"],
     user: json["user"],
     createdOn: json["createdOn"],
-    products: json["products"] == null ? [] : List<Product>.from(json["products"]!.map((x) => Product.fromJson(x))),
+    products: json["products"] == null ? [] : List<ProductModel>.from(json["products"]!.map((x) => ProductModel.fromJson(x))),
     tax: json["tax"],
     discount: json["discount"],
     subTotal: json["subTotal"]?.toDouble(),
@@ -94,26 +96,4 @@ class Address {
   };
 }
 
-class Product {
-  String? product;
-  int? quantity;
-  String? id;
 
-  Product({
-    this.product,
-    this.quantity,
-    this.id,
-  });
-
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
-    product: json["product"],
-    quantity: json["quantity"],
-    id: json["_id"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "product": product,
-    "quantity": quantity,
-    "_id": id,
-  };
-}

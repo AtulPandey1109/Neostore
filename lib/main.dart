@@ -8,7 +8,9 @@ import 'package:neostore/viewmodel/dashboard_bloc/dashboard_bloc.dart';
 import 'package:neostore/viewmodel/login_bloc/login_bloc.dart';
 import 'package:neostore/viewmodel/offer_bloc/offer_bloc.dart';
 import 'package:neostore/viewmodel/order_bloc/order_bloc.dart';
+import 'package:neostore/viewmodel/product_bloc/all_products_cubit.dart';
 import 'package:neostore/viewmodel/product_bloc/product_bloc.dart';
+import 'package:neostore/viewmodel/product_bloc/product_by_category_cubit.dart';
 import 'package:neostore/viewmodel/profile_bloc/profile_bloc.dart';
 import 'package:neostore/viewmodel/review_bloc/review_bloc.dart';
 import 'package:neostore/viewmodel/search_bloc/search_bloc.dart';
@@ -45,6 +47,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => ProfileBloc()),
         BlocProvider(create: (context) => WishListBloc()),
         BlocProvider(create: (context) => ReviewBloc()),
+        BlocProvider(create: (context) => ProductByCategoryCubit()),
+        BlocProvider(create: (context) => AllProductCubit()),
+
       ],
       child: MaterialApp(
         theme: ThemeData(

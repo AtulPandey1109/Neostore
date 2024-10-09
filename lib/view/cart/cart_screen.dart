@@ -73,7 +73,7 @@ class _CartScreenState extends State<CartScreen> {
                       child: AppRoundedElevatedButton(
                           onPressed: () {
                             Navigator.pushNamed(
-                                context, AppRoutes.orderSummaryScreen);
+                                context, AppRoutes.orderSummaryScreen,arguments: {'data':state.cartProducts});
                           },
                           label: const Text('Buy Now'),
                           width: SizeConfig.isMobile()

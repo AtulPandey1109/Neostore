@@ -160,7 +160,7 @@ class _AllCategoryScreenState extends State<AllCategoryScreen> {
                           return GestureDetector(
                             onTap: () {
                               Navigator.pushNamed(
-                                  context, AppRoutes.particularProductsScreen,
+                                  context, AppRoutes.productByCategory,
                                   arguments: {'subCategoryId': subcategory.id});
                             },
                             child: CategoryCard(
@@ -185,7 +185,7 @@ class _AllCategoryScreenState extends State<AllCategoryScreen> {
                               return GestureDetector(
                                 onTap: (){
                                   Navigator.pushNamed(
-                                      context, AppRoutes.particularProductsScreen,
+                                      context, AppRoutes.productByCategory,
                                       arguments: {'subCategoryId': subcategory.id});
                                 },
                                 child: CategoryCard(

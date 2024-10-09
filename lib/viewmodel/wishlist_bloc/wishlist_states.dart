@@ -21,6 +21,11 @@ class WishListAddedSuccessFullyState extends WishListStates{
   List<Object?> get props =>[];
 }
 
+class WishListRemovedSuccessFullyState extends WishListStates{
+  @override
+  List<Object?> get props =>[];
+}
+
 class WishListFailureState extends WishListStates{
   @override
   List<Object?> get props => [];

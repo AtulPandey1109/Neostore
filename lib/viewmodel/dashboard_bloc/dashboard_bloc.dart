@@ -28,8 +28,8 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       Response response = await dio.get(url);
       DashBoardModel data = DashBoardModel.fromJson(response.data);
       emit(DashboardInitialState(data: data,isLoading: false));
-    } catch (e) {
-      emit(DashboardFailureState());
+    }on DioException catch (e) {
+      emit(DashboardFailureState(e.response?.data['message']??''));
     }
   }
 }

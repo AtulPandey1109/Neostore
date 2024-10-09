@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -12,8 +11,6 @@ import 'package:neostore/view/widgets/app_custom_circular_progress_indicator.dar
 import 'package:neostore/view/widgets/app_product_card.dart';
 import 'package:neostore/viewmodel/dashboard_bloc/dashboard_bloc.dart';
 import 'package:neostore/viewmodel/wishlist_bloc/wishlist_bloc.dart';
-
-
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -63,7 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   const Text('Top categories'),
                                   TextButton(
                                       onPressed: () {
-                                        Navigator.pushNamed(context, AppRoutes.allCategoryScreen);
+                                        Navigator.pushNamed(context,
+                                            AppRoutes.allCategoryScreen);
                                       },
                                       child: const Text('See all')),
                                 ],
@@ -73,8 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: AppCategoryList(
                                       categories: state.data?.categories)),
                               Padding(
-                                padding:
-                                    const EdgeInsets.only(bottom: 20),
+                                padding: const EdgeInsets.only(bottom: 20),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -82,7 +79,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     const Text('Popular Products'),
                                     TextButton(
                                         onPressed: () {
-                                          Navigator.pushNamed(context, AppRoutes.allProductsScreen);
+                                          Navigator.pushNamed(context,
+                                              AppRoutes.allProductsScreen);
                                         },
                                         child: const Text('View more')),
                                   ],
@@ -91,10 +89,19 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                         ),
-                        BlocListener<WishListBloc,WishListStates>(
-                          listener: (BuildContext context, WishListStates state) {
-                            if(state is WishListAddedSuccessFullyState){
-                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content:  Text('Item added to wishlist')));
+                        BlocListener<WishListBloc, WishListStates>(
+                          listener:
+                              (BuildContext context, WishListStates state) {
+                            if (state is WishListAddedSuccessFullyState) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text('Item added to wishlist')));
+                            } else if (state
+                                is WishListRemovedSuccessFullyState) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content:
+                                          Text('Item removed from wishlist')));
                             }
                           },
                           child: SliverMasonryGrid(
@@ -112,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   productImageUrl: product?.image ?? '',
                                   productName: product?.name ?? '',
                                   price: product?.price ?? 0,
-                                  productId: product?.id??'',
+                                  productId: product?.id ?? '',
                                 );
                               },
                             ),
@@ -130,9 +137,8 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             listener: (BuildContext context, DashboardState state) {
               if (state is DashboardFailureState) {
-                // AppLocalStorage.removeToken();
-                // Navigator.pushNamedAndRemoveUntil(context,
-                //     AppRoutes.loginScreen, (Route<dynamic> route) => false);
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(SnackBar(content: Text(state.message ?? '')));
               }
             },
           ),

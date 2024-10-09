@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:neostore/core/routes/routes.dart';
 import 'package:neostore/utils/constant_styles.dart';
 import 'package:neostore/utils/status_color.dart';
@@ -51,22 +52,37 @@ class _OrderScreenState extends State<OrderScreen> {
                   itemBuilder: (context, index) {
                     final order = state.orders[index];
                     return Card(
+                      color: Colors.white,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Order id: ${order.id ?? ''}',
-                              style: const TextStyle(fontSize: 16),
+                            SizedBox(
+                              height: 100,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: order.products?.length??0,
+                                itemBuilder: (context, index) {
+                                  final product= order.products?[index];
+                               return Padding(
+                                 padding: const EdgeInsets.all(8.0),
+                                 child: Image.network(product?.image??'',height: 100,width: 100,errorBuilder: (context, error, stackTrace) {
+                                   return Image.asset('assets/images/loading_image.webp');
+                                 },),
+                               );
+                              },),
                             ),
+                            Text('No. of products: ${order.products?.length}',style: kHeader4TextStyle,),
                             Text(
                               'Status: ${order.status?.toLowerCase()}',
                               style: TextStyle(
                                   color: getStatusColor(order.status ?? '')),
                             ),
                             Text('Subtotal: ${order.subTotal}'),
-                            Text('Delivered to: ${order.address?.firstLine??''}')
+                            Text('Delivered to: ${order.address?.firstLine??''}'),
+                            Text('Ordered on: ${DateFormat('dd-MM-yyyy').format(DateTime.fromMillisecondsSinceEpoch(order.createdOn??0))}',style: kHeader4TextStyle.copyWith(fontWeight: FontWeight.w700),)
                           ],
                         ),
                       ),

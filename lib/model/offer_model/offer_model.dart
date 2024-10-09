@@ -10,7 +10,7 @@ class OfferModel {
   String? description;
   String? image;
   String? discountType;
-  int? discountValue;
+  double? discountValue;
   List<dynamic>? applicableProducts;
   List<String>? applicableCategories;
   List<String>? applicableSubCategories;
@@ -44,7 +44,7 @@ class OfferModel {
     description: json["description"],
     image: json["image"],
     discountType: json["discountType"],
-    discountValue: json["discountValue"],
+    discountValue:(json["discountValue"] as num?)?.toDouble(),
     applicableProducts: List<dynamic>.from(json["applicableProducts"].map((x) => x)),
     applicableCategories: List<String>.from(json["applicableCategories"].map((x) => x)),
     applicableSubCategories: List<String>.from(json["applicableSubCategories"].map((x) => x)),

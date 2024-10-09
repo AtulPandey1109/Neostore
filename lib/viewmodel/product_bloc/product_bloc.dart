@@ -15,8 +15,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final String url = '${AppConstants.baseurl}/products';
   ProductBloc() : super(ProductInitialState(product:null,isLoading: false)) {
     on<ProductInitialEvent>(onProductInitialEvent);
-    on<ProductGetAllEvent>(_onProductGetAllEvent);
-    on<ParticularCategoryProductEvent>(_onParticularCategoryProductEvent);
   }
 
   FutureOr<void> onProductInitialEvent(
@@ -33,33 +31,4 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     }
   }
 
-  FutureOr<void> _onProductGetAllEvent(ProductGetAllEvent event, Emitter<ProductState> emit) async{
-    var token = await AppLocalStorage.getToken();
-    dio.options.headers["authorization"] = "Bearer $token";
-    emit(AllProductState(products:null,isLoading: true));
-    try {
-      Response response = await dio.get(url);
-      List<ProductModel> products = (response.data as List).map((product)=>ProductModel.fromJson(product)).toList();
-      emit(AllProductState(products: products,isLoading: false));
-    } catch (e) {
-      emit(ProductFailureState());
-    }
-  }
-
-  FutureOr<void> _onParticularCategoryProductEvent(ParticularCategoryProductEvent event, Emitter<ProductState> emit) async{
-    var token = await AppLocalStorage.getToken();
-    dio.options.headers["authorization"] = "Bearer $token";
-    emit(ParticularCategoryProductState(true,const []));
-    try {
-      Response response = await dio.get('$url?subCategory=${event.subCategoryId}');
-      List<ProductModel> products = (response.data as List).map((product)=>ProductModel.fromJson(product)).toList();
-      if(products.isNotEmpty){
-        emit(ParticularCategoryProductState(false,products));
-      } else{
-        emit(ProductEmptyState());
-      }
-    } catch (e) {
-      emit(ProductFailureState());
-    }
-  }
 }

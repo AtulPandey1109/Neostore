@@ -30,10 +30,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         AppLocalStorage.saveToken(data);
         emit(LoginSuccessfulState(response: response));
       } else {
+
         emit(LoginFailureState(message: response.data['message']!));
       }
-    } catch (e) {
-      emit(LoginFailureState(message: 'Error Occurred'));
+    } on DioException catch (e) {
+      emit(LoginFailureState(message: e.response?.data['message']??''));
       emit(InitialState());
     }
   }

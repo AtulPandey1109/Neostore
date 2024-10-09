@@ -12,7 +12,7 @@ class AppRoundedOfferCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        width: 300,
+        width: SizeConfig.screenWidth*0.7,
         height: SizeConfig.screenHeight * 0.3,
         decoration: BoxDecoration(
             image: DecorationImage(
@@ -31,9 +31,9 @@ class AppRoundedOfferCard extends StatelessWidget {
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: Colors.redAccent),
+                      color: DateTime.now().compareTo(DateTime.fromMillisecondsSinceEpoch(endDate??0))==-1?Colors.green: Colors.redAccent),
                   child: Text(
-                      'Ends on: ${DateFormat('yyyy-MM-dd').format(DateTime.fromMillisecondsSinceEpoch(endDate ?? 0))}')),
+                      'Ends on: ${DateFormat.yMd().format(DateTime.fromMillisecondsSinceEpoch(endDate??0))}')),
             )),
       ),
     );

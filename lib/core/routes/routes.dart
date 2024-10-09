@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:neostore/main.dart';
+import 'package:neostore/model/cart_product_model/cart_product.dart';
+import 'package:neostore/model/product_model/product_model.dart';
 import 'package:neostore/view/category/all_category_screen.dart';
 import 'package:neostore/view/contact_us/contact_us_screen.dart';
 import 'package:neostore/view/faqs/faqs_screen.dart';
@@ -10,6 +12,7 @@ import 'package:neostore/view/order/order_summary_screen.dart';
 import 'package:neostore/view/privacy_policy/privacy_policy_screen.dart';
 import 'package:neostore/view/product/all_products_screen.dart';
 import 'package:neostore/view/product/product_screen.dart';
+import 'package:neostore/view/product/products_by_category_screen.dart';
 import 'package:neostore/view/profile/profile_screen.dart';
 import 'package:neostore/view/sign_up/sign_up_screen.dart';
 import 'package:neostore/view/splashscreen/splash_screen.dart';
@@ -30,6 +33,7 @@ class AppRoutes{
   static const String allCategoryScreen='/allCategoryScreen';
   static const String orderSummaryScreen='/orderSummaryScreen';
   static const String allProductsScreen='/allProductsScreen';
+  static const String productByCategory='/productByCategory';
   static const String profileScreen='/profileScreen';
   static const String faqsScreen='/faqsScreen';
   static const String wishlistScreen='/wishlistScreen';
@@ -75,14 +79,15 @@ class AppRouter{
           return MaterialPageRoute(builder: (_) =>   AllCategoryScreen(id:arguments==null?null:arguments['id'],name:arguments==null?null:arguments['name'],));
 
         case AppRoutes.orderSummaryScreen:
-          return MaterialPageRoute(builder: (_) =>  const OrderSummaryScreen());
+          List<CartProduct> products = (settings.arguments as Map<String,List<CartProduct>>)['data']??[];
+          return MaterialPageRoute(builder: (_) =>  OrderSummaryScreen(products: products,));
 
         case AppRoutes.allProductsScreen:
-          return MaterialPageRoute(builder: (_) =>  const AllProductsScreen(subCategoryId: null,));
-
-        case AppRoutes.particularProductsScreen:
+          return MaterialPageRoute(builder: (_) =>  const AllProductsScreen());
+          
+        case AppRoutes.productByCategory:
           final subCategoryId=(settings.arguments as Map<String,String?>)['subCategoryId'];
-          return MaterialPageRoute(builder: (_) =>  AllProductsScreen(subCategoryId: subCategoryId,));
+          return MaterialPageRoute(builder: (_) =>  ProductsByCategoryScreen(subCategoryId: subCategoryId,));
 
         case AppRoutes.profileScreen:
           return MaterialPageRoute(builder: (_) =>  const ProfileScreen());

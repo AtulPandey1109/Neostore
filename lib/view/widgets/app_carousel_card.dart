@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:neostore/model/offer_model/offer_model.dart';
+import 'package:neostore/utils/responsive_size_helper.dart';
 import 'package:neostore/view/widgets/app_rounded_offer_card.dart';
 
 class AppCarouselCard extends StatelessWidget {
@@ -29,7 +30,7 @@ class AppCarouselCard extends StatelessWidget {
             onPageChanged: (index, reason) {
               _current.value = index;
             },
-            height: 150,
+            height: SizeConfig.isMobile()?150:SizeConfig.screenHeight*0.7,
             enableInfiniteScroll: false,
             reverse: false,
             autoPlayInterval: const Duration(seconds: 3),
