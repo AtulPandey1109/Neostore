@@ -18,5 +18,10 @@ class DashboardFailureState extends DashboardState{
   DashboardFailureState(this.message);
   @override
   List<Object?> get props =>[];
+}
+
+class TokenExpiredState extends DashboardState{
+  @override
+  List<Object?> get props => [];
 
 }

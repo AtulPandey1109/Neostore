@@ -34,7 +34,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(LoginFailureState(message: response.data['message']!));
       }
     } on DioException catch (e) {
-      emit(LoginFailureState(message: e.response?.data['message']??''));
+
+      if(e.response?.statusCode==401){
+        emit(TokenExpiredState());
+      }
+      emit(LoginFailureState(message: 'Incorrect email or password'));
       emit(InitialState());
     }
   }

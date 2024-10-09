@@ -446,6 +446,7 @@ class _ProductScreenState extends State<ProductScreen> {
                           },
                           listener: (BuildContext context, CartState state) {
                             if (state is CartAddedState) {
+                              BlocProvider.of<CartBloc>(context).add(CartInitialEvent());
                               ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                       content: Text('Item added to the cart')));
@@ -453,7 +454,7 @@ class _ProductScreenState extends State<ProductScreen> {
                           },
                         ),
                       ),
-                      SizedBox(height: 10,)
+                      const SizedBox(height: 10,)
                     ],
                   );
                 }

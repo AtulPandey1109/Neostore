@@ -22,13 +22,16 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final TextEditingController _searchController = TextEditingController();
+
   final ValueNotifier<bool> searchVisible = ValueNotifier(false);
+
   final List<Widget> screen = [
     const HomeScreen(),
     const OfferScreen(),
     const CartScreen(),
     const NotificationScreen()
   ];
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

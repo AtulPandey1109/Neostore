@@ -33,14 +33,20 @@ class CartBloc extends Bloc<CartEvent,CartState>{
     try {
       Response response = await dio.get(url);
       if(response.data.length !=0){
+        String cartId=response.data['_id'];
         List<CartProduct> cartProducts =(response.data['products'] as List).map((product) => CartProduct.fromJson(product))
             .toList();
-        emit(CartInitialState(cartProducts: cartProducts,isLoading: false));
+        emit(CartInitialState(cartProducts: cartProducts,isLoading: false,cartId: cartId));
       }else{
         emit(CartEmptyState());
       }
-    } catch (e) {
-      emit(CartFailureState());
+    } on DioException catch (e) {
+      if(e.response?.statusCode==401){
+        emit(TokenExpiredState());
+      }
+      else {
+        emit(CartFailureState());
+      }
     }
   }
 
@@ -56,17 +62,23 @@ class CartBloc extends Bloc<CartEvent,CartState>{
       if(response.statusCode==200){
         Response response = await dio.get(url);
         if(response.data.length !=0){
+          String cartId=response.data['_id'];
           List<CartProduct> cartProducts =(response.data['products'] as List).map((product) => CartProduct.fromJson(product))
               .toList();
-          emit(CartInitialState(cartProducts: cartProducts,isLoading: false));
+          emit(CartInitialState(cartProducts: cartProducts,isLoading: false,cartId: cartId));
         }else {
           emit(CartEmptyState());
         }
       }else{
         emit(CartEmptyState());
       }
-    } catch(e){
-      emit(CartFailureState());
+    } on DioException catch (e) {
+      if(e.response?.statusCode==401){
+        emit(TokenExpiredState());
+      }
+      else {
+        emit(CartFailureState());
+      }
     }
   }
 
@@ -85,13 +97,19 @@ class CartBloc extends Bloc<CartEvent,CartState>{
         if(response.data.length !=0){
           List<CartProduct> cartProducts =(response.data['products'] as List).map((product) => CartProduct.fromJson(product))
               .toList();
-          emit(CartInitialState(cartProducts: cartProducts,isLoading: false));
+          String cartId=response.data['_id'];
+          emit(CartInitialState(cartProducts: cartProducts,isLoading: false,cartId: cartId));
         }
       }else{
         emit(CartInitialState(cartProducts: const [],isLoading: false));
       }
-    } catch(e){
-      emit(CartFailureState());
+    } on DioException catch (e) {
+      if(e.response?.statusCode==401){
+        emit(TokenExpiredState());
+      }
+      else {
+        emit(CartFailureState());
+      }
     }
   }
 
@@ -104,15 +122,20 @@ class CartBloc extends Bloc<CartEvent,CartState>{
     emit(CartInitialState(cartProducts: currentCartProducts,isLoading: true));
     try{
       Response response = await dio.post(url,data: {"product":event.productId,"quantity":1});
-      if(response.statusCode==200){
+      if(response.statusCode==200 || response.statusCode==201){
         emit(CartInitialState(cartProducts: const [],isLoading: false));
           emit(CartAddedState());
 
       }else{
         emit(CartFailureState());
       }
-    } catch(e){
-      emit(CartFailureState());
+    } on DioException catch (e) {
+      if(e.response?.statusCode==401){
+        emit(TokenExpiredState());
+      }
+      else {
+        emit(CartFailureState());
+      }
     }
   }
 }

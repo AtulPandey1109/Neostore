@@ -135,7 +135,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               horizontal: kPaddingSide),
                                           child: Column(
                                             children: [
-                                              const Align(
+                                               const Align(
                                                   alignment:
                                                       Alignment.centerLeft,
                                                   child: Text(

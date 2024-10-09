@@ -14,3 +14,8 @@ class OfferFailureState extends OfferState{
   @override
   List<Object?> get props =>[];
 }
+
+class TokenExpiredState extends OfferState{
+  @override
+  List<Object?> get props => [];
+}

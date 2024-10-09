@@ -29,7 +29,12 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       DashBoardModel data = DashBoardModel.fromJson(response.data);
       emit(DashboardInitialState(data: data,isLoading: false));
     }on DioException catch (e) {
-      emit(DashboardFailureState(e.response?.data['message']??''));
+      if(e.response?.statusCode==401){
+        emit(TokenExpiredState());
+      }
+      else {
+        emit(DashboardFailureState(e.response?.data['message']));
+      }
     }
   }
 }

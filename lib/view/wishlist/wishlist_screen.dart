@@ -54,7 +54,9 @@ class _WishlistScreenState extends State<WishlistScreen> {
             }else if(state is WishListEmptyState){
               return const Center(child: Text('Wishlist is empty'),);
             }
-
+            else if(state is WishListRemovedSuccessFullyState){
+              return const AppCustomCircularProgressIndicator(color: Colors.orange,);
+            }
            else{
              return const Center(child: Text('Unable to Load'),);
             }

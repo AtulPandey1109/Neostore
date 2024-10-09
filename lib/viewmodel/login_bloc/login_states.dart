@@ -27,3 +27,7 @@ class LoginFailureState extends LoginState{
   LoginFailureState({required this.message});
 }
 
+class TokenExpiredState extends LoginState{
+
+}
+

@@ -6,16 +6,16 @@ part 'user_model.g.dart';
 class UserRegisterModel {
   String? email;
   String? password;
-  String? first_name;
-  String? last_name;
+  String? firstName;
+  String? lastName;
   String? phone;
   String? gender;
 
   UserRegisterModel(
       {this.email,
         this.password,
-        this.first_name,
-        this.last_name,
+        this.firstName,
+        this.lastName,
         this.phone,
         this.gender});
 

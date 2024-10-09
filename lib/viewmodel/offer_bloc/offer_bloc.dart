@@ -31,8 +31,13 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
       } else {
         emit(OfferInitialState(offers: const []));
       }
-    } catch (e) {
-      emit(OfferFailureState());
+    }on DioException catch (e) {
+      if(e.response?.statusCode==401){
+        emit(TokenExpiredState());
+      }
+      else {
+        emit(OfferFailureState());
+      }
     }
   }
 }

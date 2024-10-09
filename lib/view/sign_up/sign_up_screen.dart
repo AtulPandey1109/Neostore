@@ -53,7 +53,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
 
-                    const Text('Register Account', style: kHeaderTextStyle),
+                     const Text('Register Account', style: kHeaderTextStyle),
 
                     const SizedBox(
                       height: 20,

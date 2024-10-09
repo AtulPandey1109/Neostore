@@ -72,6 +72,9 @@ class AppWishlistCard extends StatelessWidget {
                           onPressed: () {
                             BlocProvider.of<CartBloc>(context)
                                 .add(CartAddEvent(productId: product?.id));
+                            BlocProvider.of<WishListBloc>(context).add(
+                                WishListRemoveEvent(
+                                    productId: product?.id ?? ''));
                           },
                           child: const Text('Add to Cart')),
                     ],

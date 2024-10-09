@@ -19,9 +19,11 @@ class AppCarouselCard extends StatelessWidget {
       children: [
         CarouselSlider(
           items: offers
-              .map((offer) => AppRoundedOfferCard(
+              .map((offer) {
+                return AppRoundedOfferCard(
                     image: offer.image,
-                  ))
+                  );
+              })
               .toList(),
           carouselController: _controller,
           options: CarouselOptions(
@@ -30,7 +32,7 @@ class AppCarouselCard extends StatelessWidget {
             onPageChanged: (index, reason) {
               _current.value = index;
             },
-            height: SizeConfig.isMobile()?150:SizeConfig.screenHeight*0.7,
+            height: SizeConfig.isMobile()?150:SizeConfig.screenHeight*0.5,
             enableInfiniteScroll: false,
             reverse: false,
             autoPlayInterval: const Duration(seconds: 3),

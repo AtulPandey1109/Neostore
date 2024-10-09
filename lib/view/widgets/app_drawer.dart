@@ -22,7 +22,7 @@ class _AppDrawerState extends State<AppDrawer> {
     return Drawer(
       child: ListView(
         children: [
-          const ListTile(
+           const ListTile(
             title: Text(
               'NeoStore',
               style: kHeader2TextStyle,
@@ -44,7 +44,7 @@ class _AppDrawerState extends State<AppDrawer> {
           ),
           ListTile(
             onTap: () {
-              Navigator.pushNamed(context, AppRoutes.orderScreen);
+              Navigator.pushNamed(context, AppRoutes.myOrdersScreen);
             },
             leading: const Icon(Icons.delivery_dining_outlined),
             title: const Text(
@@ -88,7 +88,6 @@ class _AppDrawerState extends State<AppDrawer> {
             ),
           ),
           ListTile(
-            textColor: Colors.orange,
             onTap: () async {
               AppLocalStorage.removeToken();
               Navigator.pushNamedAndRemoveUntil(context, AppRoutes.loginScreen,
@@ -96,11 +95,9 @@ class _AppDrawerState extends State<AppDrawer> {
             },
             leading: const Icon(
               Icons.logout_outlined,
-              color: Colors.orange,
             ),
             title: const Text(
               'Logout',
-              style: kTextButtonStyle,
             ),
           ),
         ],

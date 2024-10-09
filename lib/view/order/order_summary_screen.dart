@@ -1,22 +1,30 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:neostore/core/routes/routes.dart';
 import 'package:neostore/model/cart_product_model/cart_product.dart';
 
 import 'package:neostore/utils/constant_styles.dart';
 import 'package:neostore/utils/responsive_size_helper.dart';
+import 'package:neostore/view/widgets/app_custom_circular_progress_indicator.dart';
 import 'package:neostore/view/widgets/app_rounded_button.dart';
 import 'package:neostore/view/widgets/cart_tile.dart';
+import 'package:neostore/viewmodel/order_bloc/order_bloc.dart';
 
 class OrderSummaryScreen extends StatefulWidget {
   final List<CartProduct> products;
-  const OrderSummaryScreen({super.key, required this.products});
+  final String cartId;
+  const OrderSummaryScreen(
+      {super.key, required this.products, required this.cartId});
 
   @override
   State<OrderSummaryScreen> createState() => _OrderSummaryScreenState();
 }
 
 class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
+  final ValueNotifier<int> addressIndex = ValueNotifier(0);
+
   @override
   void initState() {
     super.initState();
@@ -49,38 +57,57 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                   SliverToBoxAdapter(
                     child: SizedBox(
                       height: 250,
-                      child: Card(
-                        shape: const BeveledRectangleBorder(),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: kPaddingSide),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text('Deliver to:'),
-                                  TextButton(
-                                    style: ButtonStyle(
-                                        shape: WidgetStatePropertyAll(
-                                          RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: kPaddingSide),
+                            child: Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text('Deliver to:'),
+                                TextButton(
+                                  style: ButtonStyle(
+                                      shape: WidgetStatePropertyAll(
+                                        RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         ),
-                                        side: const WidgetStatePropertyAll(
-                                            BorderSide(
-                                                width: 1.0,
-                                                color: Colors.orange))),
-                                    onPressed: () {},
-                                    child: const Text('Add address'),
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
+                                      ),
+                                      side: const WidgetStatePropertyAll(
+                                          BorderSide(
+                                              width: 1.0,
+                                              color: Colors.orange))),
+                                  onPressed: () {},
+                                  child: const Text('Add address'),
+                                )
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: ValueListenableBuilder(
+                              builder:(context, value, child) {
+                                return ListView.builder(
+                                  itemCount: 1,
+                                  itemBuilder: (context, index) {
+                                    return RadioListTile(
+                                      selected: value==addressIndex.value,
+                                      title: const Text(
+                                          'A06, Business Arcade Tower, 6th Floor,Opp Parel Bus Depot, Sayani Road, Dadar'),
+                                      subtitle: const Text('Mumbai, Maharashtra, India, 400014'),
+                                      value: index,
+                                      groupValue: addressIndex.value,
+                                      onChanged: (value) {
+                                        addressIndex.value = index;
+                                      },
+                                    );
+                                  },
+                                );
+                              }, valueListenable: addressIndex ,
+                            ),
+                          )
+                        ],
                       ),
                     ),
                   ),
@@ -120,12 +147,37 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: AppRoundedElevatedButton(
-                      onPressed: () {},
-                      label: const Text('Confirm Order'),
-                      width: SizeConfig.isMobile()
-                          ? MediaQuery.sizeOf(context).width
-                          : MediaQuery.sizeOf(context).width * .3),
+                  child: BlocConsumer<OrderBloc, OrderState>(
+                    builder: (context, state) {
+                      if (state is OrderInitialState) {
+                        return AppRoundedElevatedButton(
+                            onPressed: () {
+                              BlocProvider.of<OrderBloc>(context)
+                                  .add(OrderPlacedEvent(widget.cartId));
+                            },
+                            label: !state.isLoading
+                                ? const Text('Confirm Order')
+                                : const AppCustomCircularProgressIndicator(),
+                            width: SizeConfig.isMobile()
+                                ? MediaQuery.sizeOf(context).width
+                                : MediaQuery.sizeOf(context).width * .3);
+                      } else {
+                        return const SizedBox.shrink();
+                      }
+                    },
+                    listener: (BuildContext context, Object? state) {
+                      if (state is OrderSuccessState) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Order placed successfully')));
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          AppRoutes.myOrdersScreen,
+                          (route) => true,
+                        );
+                      }
+                    },
+                  ),
                 ),
               ],
             ),

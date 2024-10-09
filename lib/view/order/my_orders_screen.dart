@@ -7,14 +7,14 @@ import 'package:neostore/utils/status_color.dart';
 import 'package:neostore/view/widgets/app_custom_circular_progress_indicator.dart';
 import 'package:neostore/viewmodel/order_bloc/order_bloc.dart';
 
-class OrderScreen extends StatefulWidget {
-  const OrderScreen({super.key});
+class MyOrdersScreen extends StatefulWidget {
+  const MyOrdersScreen({super.key});
 
   @override
-  State<OrderScreen> createState() => _OrderScreenState();
+  State<MyOrdersScreen> createState() => _MyOrdersScreenState();
 }
 
-class _OrderScreenState extends State<OrderScreen> {
+class _MyOrdersScreenState extends State<MyOrdersScreen> {
   @override
   void initState() {
     super.initState();

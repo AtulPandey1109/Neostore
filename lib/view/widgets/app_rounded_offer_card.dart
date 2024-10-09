@@ -1,3 +1,7 @@
+
+
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:neostore/utils/responsive_size_helper.dart';
@@ -9,15 +13,17 @@ class AppRoundedOfferCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String base64Image = image?.contains('data:image')??false?image?.split(',').last??'':'';
+    var bytes = base64Decode(base64Image);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        width: SizeConfig.screenWidth*0.7,
+        width: SizeConfig.screenWidth*0.9,
         height: SizeConfig.screenHeight * 0.3,
         decoration: BoxDecoration(
             image: DecorationImage(
               opacity: 0.7,
-              image: NetworkImage(image ?? ''),
+              image: image?.contains('data:image')??false?MemoryImage(bytes):NetworkImage(image??''),
               fit: BoxFit.cover,
               onError: (exception, stackTrace) =>
                   Image.asset('assets/images/loading_image.webp'),

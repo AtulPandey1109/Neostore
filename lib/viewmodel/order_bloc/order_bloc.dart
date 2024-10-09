@@ -12,7 +12,7 @@ part 'order_states.dart';
 class OrderBloc extends Bloc<OrderEvent,OrderState>{
   final Dio dio = Dio();
   final String url = '${AppConstants.baseurl}/orders';
-  OrderBloc():super(OrderInitialState(orders: const [])){
+  OrderBloc():super(OrderInitialState(orders: const [],isLoading: false)){
     on<OrderInitialEvent>(_onOrderInitialEvent);
     on<OrderPlacedEvent>(_onOrderPlacedEvent);
   }
@@ -41,7 +41,22 @@ class OrderBloc extends Bloc<OrderEvent,OrderState>{
     dio.options.headers["authorization"] = "Bearer $token";
     emit(OrderInitialState(orders: const []));
     try{
+      Response response = await dio.post(url,data: {
+        "cartId": event.cartId,
+        "address": {
+          "hoouse_no" : "A06",
+          "first_line": "Business Arcade Tower, 6th Floor",
+          "second_line" : "Opp Parel Bus Depot, Sayani Road, Dadar",
+          "city" : "Mumbai",
+          "state" : "Maharashtra",
+          "country" : "India",
+          "pin_code" : "400014"
+        }
 
+      });
+      if(response.statusCode==201){
+        emit(OrderSuccessState());
+      }
     }catch(e) {
       emit(OrderEmptyState());
     }

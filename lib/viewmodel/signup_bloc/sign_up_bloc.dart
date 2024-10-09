@@ -21,7 +21,7 @@ class SignUpBloc extends Bloc<SignupEvent,SignupState>{
   FutureOr<void> onSignupClickEvent(SignupClickEvent event, Emitter<SignupState> emit) async{
     emit(SignUpLoadingState());
     try{
-      var data =UserRegisterModel(email: event.email,password: event.password,first_name: event.firstName,last_name: event.lastName,phone: event.phone,gender: event.gender).toJson();
+      var data =UserRegisterModel(email: event.email,password: event.password,firstName: event.firstName,lastName: event.lastName,phone: event.phone,gender: event.gender).toJson();
       Response response = await dio.post(url,
           data: data);
       if(response.statusCode==201){

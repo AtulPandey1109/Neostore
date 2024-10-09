@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:neostore/utils/constant_styles.dart';
-import 'package:neostore/view/widgets/app_custom_circular_progress_indicator.dart';
 import 'package:neostore/view/widgets/app_custom_overlay_progress_indicator.dart';
 import 'package:neostore/view/widgets/app_products_list.dart';
 import 'package:neostore/viewmodel/product_bloc/all_products_cubit.dart';
