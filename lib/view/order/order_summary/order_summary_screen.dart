@@ -60,6 +60,7 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                         },
                         ),
                       ),
+                      const Divider(),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: Row(
@@ -77,19 +78,6 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                             )
                           ],
                         ),
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            'Total: ',
-                            style: kHeader4TextStyle.copyWith(
-                                fontWeight: FontWeight.w700),
-                          ),
-                          Text(
-                            '${state.order?.subTotal}',
-                            style: kHeader4TextStyle,
-                          )
-                        ],
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -129,28 +117,16 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                                     fontWeight: FontWeight.w700),
                               ),
                             ),
+
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const  Text(
-                                  'No. of Products: ',
+                                  'Sub Total: ',
                                   style: kHeader4TextStyle,
                                 ),
                                 Text(
-                                  '${state.order?.products?.length} ',
-                                  style: kHeader4TextStyle,
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const  Text(
-                                  'Total price: ',
-                                  style: kHeader4TextStyle,
-                                ),
-                                Text(
-                                  '${state.order?.total} ',
+                                  '${state.order?.subTotal} ',
                                   style: kHeader4TextStyle,
                                 ),
                               ],
@@ -186,11 +162,11 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const  Text(
-                                  'Sub Total: ',
+                                  'Total Price: ',
                                   style: kHeader4TextStyle,
                                 ),
                                 Text(
-                                  '${state.order?.subTotal} ',
+                                  '${state.order?.total} ',
                                   style: kHeader4TextStyle,
                                 ),
                               ],
