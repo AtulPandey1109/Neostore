@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:neostore/main.dart';
 import 'package:neostore/model/cart_product_model/cart_product.dart';
+import 'package:neostore/model/order_model/order_summary_model.dart';
 import 'package:neostore/view/address_screen.dart';
 import 'package:neostore/view/category/all_category_screen.dart';
 import 'package:neostore/view/contact_us/contact_us_screen.dart';
@@ -97,7 +98,8 @@ class AppRouter{
           return MaterialPageRoute(builder: (_) =>  const ProfileScreen());
 
         case AppRoutes.addressScreen:
-          return MaterialPageRoute(builder: (_) =>  const AddressScreen());
+          final Address? address = settings.arguments==null?null:(settings.arguments as Map<String,Address>)['address'];
+          return MaterialPageRoute(builder: (_) =>  AddressScreen(address: address,));
 
 
           case AppRoutes.productScreen:

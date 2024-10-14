@@ -63,8 +63,8 @@ class _AppCarouselCardState extends State<AppCarouselCard> {
                         _controller.animateToPage(_current.value);
                       },
                       child: Container(
-                        width: 12.0,
-                        height: 12.0,
+                        width: 8.0,
+                        height: 8.0,
                         margin: const EdgeInsets.symmetric(
                             vertical: 8.0, horizontal: 4.0),
                         decoration: BoxDecoration(

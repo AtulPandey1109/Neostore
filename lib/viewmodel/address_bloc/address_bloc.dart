@@ -16,6 +16,8 @@ class AddressBloc extends Bloc<AddressEvents,AddressState>{
   AddressBloc():super(AddressInitialState(address: const [],)){
     on<AddressInitialEvent>(_onAddressInitialEvent);
     on<AddressAddEvent>(_onAddressAddEvent);
+    on<AddressUpdateEvent>(_onAddressUpdateEvent);
+    on<AddressDeleteEvent>(_onAddressDeleteEvent);
   }
 
 
@@ -70,6 +72,71 @@ class AddressBloc extends Bloc<AddressEvents,AddressState>{
       else {
         emit(AddressFailureState());
       }
+    } catch(e){
+      emit(AddressFailureState());
+    }
+  }
+
+  FutureOr<void> _onAddressUpdateEvent(AddressUpdateEvent event, Emitter<AddressState> emit) async{
+    var token = await AppLocalStorage.getToken();
+    dio.options.headers["authorization"] = "Bearer $token";
+    List<Address>? data = (state is AddressInitialState)?(state as AddressInitialState).address
+        :null;
+    emit(AddressInitialState(address: data??[],isLoading: true));
+    try {
+
+      Response response = await dio.patch('$url/${event.addressId}',data: event.address.toJson());
+      if(response.statusCode==201|| response.statusCode==200){
+        emit(AddressAddedState());
+        Response response = await dio.get(url);
+        List<Address> data = (response.data as List).map((address) => Address.fromJson(address))
+            .toList();
+        if(data.isNotEmpty){
+          emit(AddressInitialState(address: data,isLoading: false));
+        } else {
+          emit(AddressEmptyState());
+        }
+      }
+    }on DioException catch (e) {
+      if(e.response?.statusCode==401){
+        emit(AddressTokenExpiredState());
+      }
+      else {
+        emit(AddressFailureState());
+      }
+    } catch(e){
+      emit(AddressFailureState());
+    }
+  }
+
+  FutureOr<void> _onAddressDeleteEvent(AddressDeleteEvent event, Emitter<AddressState> emit) async{
+    var token = await AppLocalStorage.getToken();
+    dio.options.headers["authorization"] = "Bearer $token";
+    List<Address>? data = (state is AddressInitialState)?(state as AddressInitialState).address
+        :null;
+    emit(AddressInitialState(address: data??[],isLoading: true));
+    try {
+      Response response = await dio.delete('$url/${event.addressId}');
+      if(response.statusCode==201|| response.statusCode==200){
+        emit(AddressAddedState());
+        Response response = await dio.get(url);
+        List<Address> data = (response.data as List).map((address) => Address.fromJson(address))
+            .toList();
+        if(data.isNotEmpty){
+          emit(AddressInitialState(address: data,isLoading: false));
+        } else {
+          emit(AddressEmptyState());
+        }
+      }
+    }on DioException catch (e) {
+    if(e.response?.statusCode==401){
+        emit(AddressTokenExpiredState());
+      }
+      else {
+        emit(AddressFailureState());
+      }
+    } catch(e){
+      emit(AddressFailureState());
     }
   }
 }

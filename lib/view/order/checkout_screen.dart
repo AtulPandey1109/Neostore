@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:neostore/core/routes/routes.dart';
 import 'package:neostore/model/cart_product_model/cart_product.dart';
-import 'package:neostore/model/order_model/order_model.dart';
 import 'package:neostore/model/order_model/order_summary_model.dart';
 import 'package:neostore/utils/app_local_storage.dart';
 
@@ -31,9 +30,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   final ValueNotifier<Address> selectedAddress = ValueNotifier(Address());
   @override
   void initState() {
+    super.initState();
     BlocProvider.of<OrderBloc>(context).add(OrderInitialEvent());
     BlocProvider.of<AddressBloc>(context).add(AddressInitialEvent());
-    super.initState();
   }
 
   @override
@@ -61,7 +60,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 slivers: [
                   SliverToBoxAdapter(
                     child: SizedBox(
-                      height: 250,
+                      height: 300,
                       child: Column(
                         children: [
                           Padding(
@@ -99,13 +98,36 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   builder: (context, state) {
                                     if (state is AddressInitialState) {
                                       return ListView.builder(
+                                        shrinkWrap: true,
                                         itemCount: state.address.length,
                                         itemBuilder: (context, index) {
                                           final address = state.address[index];
                                           return RadioListTile(
                                             selected:
                                                 value == selectedAddress.value,
-                                            title: Text('${address.houseName}'),
+                                            title: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text('${address.houseName}'),
+                                                IconButton(
+                                                    iconSize: 20,
+                                                    onPressed: () {
+                                                      Navigator.pushNamed(
+                                                          context,
+                                                          AppRoutes
+                                                              .addressScreen,
+                                                          arguments: {
+                                                            "address": address
+                                                          });
+                                                    },
+                                                    icon: const Icon(
+                                                      Icons.edit,
+                                                      color: Colors.orange,
+                                                    ))
+                                              ],
+                                            ),
                                             subtitle: Text(
                                                 '${address.houseNo}, ${address.firstLine}, ${address.secondLine}, ${address.city}, ${address.state}, ${address.country}, ${address.pinCode}'),
                                             value: address,
@@ -115,6 +137,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                             },
                                           );
                                         },
+                                      );
+                                    } else if (state is AddressEmptyState) {
+                                      return const Center(
+                                        child: Text(
+                                            'Please add address in order to proceed'),
                                       );
                                     } else {
                                       return const SizedBox.shrink();
@@ -129,18 +156,28 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       ),
                     ),
                   ),
-                  BlocBuilder<CartBloc,CartState>(
+                  BlocConsumer<CartBloc, CartState>(
                     builder: (context, state) {
-                      if(state is CartInitialState){
-                        return state.isLoading?const SliverToBoxAdapter(child:  AppCustomCircularProgressIndicator(color: Colors.orange,)) : SliverList.builder(
-                            itemCount: state.cartProducts.length,
-                            itemBuilder: (context, int index) {
-                              final product = state.cartProducts[index];
-                              return CartTile(cartProduct: product);
-                            });
+                      if (state is CartInitialState) {
+                        return state.isLoading
+                            ? const SliverToBoxAdapter(
+                                child: AppCustomCircularProgressIndicator(
+                                color: Colors.orange,
+                              ))
+                            : SliverList.builder(
+                                itemCount: state.cartProducts.length,
+                                itemBuilder: (context, int index) {
+                                  final product = state.cartProducts[index];
+                                  return CartTile(cartProduct: product);
+                                });
+                      } else {
+                        return const SliverToBoxAdapter(
+                            child: AppCustomCircularProgressIndicator());
                       }
-                      else{
-                        return const SliverToBoxAdapter(child:  AppCustomCircularProgressIndicator());
+                    },
+                    listener: (BuildContext context, CartState state) {
+                      if (state is CartEmptyState) {
+                        Navigator.pop(context);
                       }
                     },
                   ),
@@ -164,16 +201,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 8.0, horizontal: 16),
-                      child: BlocBuilder<CartBloc,CartState>(
+                      child: BlocBuilder<CartBloc, CartState>(
                         builder: (context, state) {
-                          if(state is CartInitialState){
-                            double total =calculateTotal(state.cartProducts);
-                            return state.isLoading?const SizedBox.shrink():Text('Rs. ${(total).toStringAsFixed(2)}',
-                                style: const TextStyle(
-                                    color: Colors.orange,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700));
-                          } else{
+                          if (state is CartInitialState) {
+                            double total = calculateTotal(state.cartProducts);
+                            return state.isLoading
+                                ? const SizedBox.shrink()
+                                : Text('Rs. ${(total).toStringAsFixed(2)}',
+                                    style: const TextStyle(
+                                        color: Colors.orange,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700));
+                          } else {
                             return const SizedBox.shrink();
                           }
                         },
@@ -188,8 +227,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       if (state is OrderInitialState) {
                         return AppRoundedElevatedButton(
                             onPressed: () {
-                              BlocProvider.of<OrderBloc>(context)
-                                  .add(OrderPlacedEvent(widget.cartId,selectedAddress.value.id??''));
+                              BlocProvider.of<OrderBloc>(context).add(
+                                  OrderPlacedEvent(widget.cartId,
+                                      selectedAddress.value.id ?? ''));
                             },
                             label: !state.isLoading
                                 ? const Text('Confirm Order')
@@ -200,8 +240,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       } else if (state is OrderEmptyState) {
                         return AppRoundedElevatedButton(
                             onPressed: () {
-                              BlocProvider.of<OrderBloc>(context)
-                                  .add(OrderPlacedEvent(widget.cartId,selectedAddress.value.id??''));
+                              BlocProvider.of<OrderBloc>(context).add(
+                                  OrderPlacedEvent(widget.cartId,
+                                      selectedAddress.value.id ?? ''));
                             },
                             label: !state.isLoading
                                 ? const Text('Confirm Order')
@@ -231,8 +272,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           (route) => true,
                         );
                       }
-                      if(state is OrderFailureState){
-                        state.errorType=='Invalid Address'? ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please select valid address'))): null;
+                      if (state is OrderFailureState) {
+                        state.errorType == 'Invalid Address'
+                            ? ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content:
+                                        Text('Please select valid address')))
+                            : null;
                       }
                     },
                   ),

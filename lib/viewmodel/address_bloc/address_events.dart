@@ -14,5 +14,18 @@ class AddressAddEvent extends AddressEvents{
   AddressAddEvent(this.address);
   @override
   List<Object?> get props => [address];
+}
 
+class AddressUpdateEvent extends AddressEvents{
+  final Address address;
+  final String addressId;
+  AddressUpdateEvent(this.address, this.addressId);
+  @override
+  List<Object?> get props => [address,addressId];
+}
+class AddressDeleteEvent extends AddressEvents{
+  final String addressId;
+  AddressDeleteEvent(this.addressId);
+  @override
+  List<Object?> get props => [addressId];
 }
