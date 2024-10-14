@@ -18,3 +18,8 @@ class ReviewFailureState extends ReviewState{
   @override
   List<Object?> get props => [];
 }
+
+class TokenExpiredState extends ReviewState{
+  @override
+  List<Object?> get props => [];
+}

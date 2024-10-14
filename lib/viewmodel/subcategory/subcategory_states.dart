@@ -31,3 +31,8 @@ class SubcategoryFailureState extends SubcategoryState{
   @override
   List<Object?> get props => [];
 }
+
+class SubCategoryTokenExpiredState extends SubcategoryState{
+  @override
+  List<Object?> get props => [];
+}

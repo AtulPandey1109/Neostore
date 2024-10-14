@@ -12,6 +12,7 @@ class ProductModel {
   String? image;
   String? desc;
   double? price;
+  int? quantity;
   CategoryModel? category;
   SubcategoryModel? subCategory;
   bool? isActive;
@@ -30,7 +31,8 @@ class ProductModel {
         this.isActive,
         this.offers=const [],
         this.reviews= const [],
-        this.isWishList
+        this.isWishList,
+        this.quantity
       });
 
   factory ProductModel.fromJson( Map<String,dynamic> json) =>_$ProductModelFromJson(json);

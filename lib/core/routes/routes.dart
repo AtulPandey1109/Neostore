@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:neostore/main.dart';
 import 'package:neostore/model/cart_product_model/cart_product.dart';
+import 'package:neostore/view/address_screen.dart';
 import 'package:neostore/view/category/all_category_screen.dart';
 import 'package:neostore/view/contact_us/contact_us_screen.dart';
 import 'package:neostore/view/faqs/faqs_screen.dart';
 import 'package:neostore/view/login/login_screen.dart';
 import 'package:neostore/view/main/main_screen.dart';
 import 'package:neostore/view/order/my_orders_screen.dart';
-import 'package:neostore/view/order/order_summary_screen.dart';
+import 'package:neostore/view/order/checkout_screen.dart';
+import 'package:neostore/view/order/order_summary/order_summary_screen.dart';
 import 'package:neostore/view/privacy_policy/privacy_policy_screen.dart';
 import 'package:neostore/view/product/all_products_screen.dart';
 import 'package:neostore/view/product/product_screen.dart';
@@ -30,7 +32,7 @@ class AppRoutes{
   static const String productScreen='/productScreen';
   static const String myOrdersScreen='/myOrdersScreen';
   static const String allCategoryScreen='/allCategoryScreen';
-  static const String orderSummaryScreen='/orderSummaryScreen';
+  static const String checkoutScreen='/checkoutScreen';
   static const String allProductsScreen='/allProductsScreen';
   static const String productByCategory='/productByCategory';
   static const String profileScreen='/profileScreen';
@@ -39,6 +41,8 @@ class AppRoutes{
   static const String privacyPolicyScreen='/privacyPolicyScreen';
   static const String contactUsScreen='/contactUsScreen';
   static const String particularProductsScreen ='/particularProductsScreen';
+  static const String addressScreen ='/addressScreen';
+  static const String orderSummary ='/orderSummary';
 
 }
 
@@ -77,10 +81,10 @@ class AppRouter{
           final arguments = settings.arguments as dynamic;
           return MaterialPageRoute(builder: (_) =>   AllCategoryScreen(id:arguments==null?null:arguments['id'],name:arguments==null?null:arguments['name'],));
 
-        case AppRoutes.orderSummaryScreen:
+        case AppRoutes.checkoutScreen:
           List<CartProduct> products = (settings.arguments as Map<String,dynamic>)['data']??[];
           String cartId =(settings.arguments as Map<String,dynamic>)['id']??'';
-          return MaterialPageRoute(builder: (_) =>  OrderSummaryScreen(products: products,cartId:cartId));
+          return MaterialPageRoute(builder: (_) =>  CheckoutScreen(products: products,cartId:cartId));
 
         case AppRoutes.allProductsScreen:
           return MaterialPageRoute(builder: (_) =>  const AllProductsScreen());
@@ -92,10 +96,17 @@ class AppRouter{
         case AppRoutes.profileScreen:
           return MaterialPageRoute(builder: (_) =>  const ProfileScreen());
 
+        case AppRoutes.addressScreen:
+          return MaterialPageRoute(builder: (_) =>  const AddressScreen());
+
 
           case AppRoutes.productScreen:
             final productId=(settings.arguments as Map<String,String>)['id'];
           return MaterialPageRoute(builder: (_) =>  ProductScreen(productId: productId??'',));
+
+          case AppRoutes.orderSummary:
+            final orderId=(settings.arguments as Map<String,String?>)['id'];
+          return MaterialPageRoute(builder: (_) =>  OrderSummaryScreen(orderId: orderId??'',));
 
         default:
           return MaterialPageRoute(builder: (_)=>const MyApp());

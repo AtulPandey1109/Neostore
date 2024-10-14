@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:neostore/utils/responsive_size_helper.dart';
+import 'package:neostore/view/order/order_summary/particular_order_cubit.dart';
 import 'package:neostore/view/splashscreen/splash_screen.dart';
+import 'package:neostore/viewmodel/address_bloc/address_bloc.dart';
 import 'package:neostore/viewmodel/cart_bloc/cart_bloc.dart';
 import 'package:neostore/viewmodel/category_bloc/category_bloc.dart';
 import 'package:neostore/viewmodel/dashboard_bloc/dashboard_bloc.dart';
@@ -49,6 +51,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => ReviewBloc()),
         BlocProvider(create: (context) => ProductByCategoryCubit()),
         BlocProvider(create: (context) => AllProductCubit()),
+        BlocProvider(create: (context) => AddressBloc()),
+        BlocProvider(create: (context) => ParticularOrderCubit()),
 
       ],
       child: MaterialApp(

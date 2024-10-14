@@ -25,7 +25,14 @@ class ReviewBloc extends Bloc<ReviewEvent,ReviewState>{
       if(response.statusCode==201){
         emit(ReviewAddedSuccessfullyState(isLoading: false));
       }
-    } catch(e){
+    } on DioException catch (e) {
+      if(e.response?.statusCode==401){
+        emit(TokenExpiredState());
+      }
+      else {
+        emit(ReviewFailureState());
+      }
+    }catch(e){
       emit(ReviewFailureState());
     }
   }

@@ -36,7 +36,7 @@ class CategoryBloc extends Bloc<CategoryEvent,CategoryState>{
       }
     } on DioException catch (e) {
       if(e.response?.statusCode==401){
-        emit(TokenExpiredState());
+        emit(CategoryTokenExpiredState());
       }
       else {
         emit(CategoryFailureState());

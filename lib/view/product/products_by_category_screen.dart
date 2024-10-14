@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:neostore/core/routes/routes.dart';
+import 'package:neostore/utils/app_local_storage.dart';
 import 'package:neostore/utils/constant_styles.dart';
 import 'package:neostore/view/widgets/app_custom_circular_progress_indicator.dart';
 import 'package:neostore/view/widgets/app_products_list.dart';
@@ -40,7 +42,10 @@ class _ProductsByCategoryScreenState extends State<ProductsByCategoryScreen> {
           return const Center(child: Text('Unable to load data'),);
         }
       }, listener: (context, state) {
-
+        if( state is TokenExpiredState){
+          AppLocalStorage.removeToken();
+          Navigator.pushNamedAndRemoveUntil(context, AppRoutes.loginScreen,(Route<dynamic> route) => false);
+        }
       },),
     );
   }

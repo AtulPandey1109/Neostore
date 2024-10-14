@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:neostore/core/routes/routes.dart';
+import 'package:neostore/utils/app_local_storage.dart';
 import 'package:neostore/utils/calculate_discounted_price.dart';
 import 'package:neostore/utils/calculate_rating.dart';
 import 'package:neostore/utils/constant_styles.dart';
@@ -8,7 +10,7 @@ import 'package:neostore/utils/responsive_size_helper.dart';
 import 'package:neostore/view/widgets/app_custom_circular_progress_indicator.dart';
 import 'package:neostore/view/widgets/app_rating_star.dart';
 import 'package:neostore/view/widgets/app_rounded_button.dart';
-import 'package:neostore/viewmodel/cart_bloc/cart_bloc.dart';
+import 'package:neostore/viewmodel/cart_bloc/cart_bloc.dart' as cart;
 import 'package:neostore/viewmodel/product_bloc/product_bloc.dart';
 import 'package:neostore/viewmodel/review_bloc/review_bloc.dart';
 
@@ -421,9 +423,9 @@ class _ProductScreenState extends State<ProductScreen> {
                       ),
                       SizedBox(
                         height: 40,
-                        child: BlocConsumer<CartBloc, CartState>(
+                        child: BlocConsumer<cart.CartBloc, cart.CartState>(
                           builder: (BuildContext context, state) {
-                            if (state is CartInitialState &&
+                            if (state is cart.CartInitialState &&
                                 state.isLoading == true) {
                               return AppRoundedElevatedButton(
                                 onPressed: () {},
@@ -435,8 +437,8 @@ class _ProductScreenState extends State<ProductScreen> {
                               return AppRoundedElevatedButton(
                                 onPressed: () {
                                   if (product?.id != null) {
-                                    BlocProvider.of<CartBloc>(context).add(
-                                        CartAddEvent(productId: product?.id));
+                                    BlocProvider.of<cart.CartBloc>(context).add(
+                                        cart.CartAddEvent(productId: product?.id));
                                   }
                                 },
                                 label: const Text('Add to cart'),
@@ -444,12 +446,16 @@ class _ProductScreenState extends State<ProductScreen> {
                               );
                             }
                           },
-                          listener: (BuildContext context, CartState state) {
-                            if (state is CartAddedState) {
-                              BlocProvider.of<CartBloc>(context).add(CartInitialEvent());
+                          listener: (BuildContext context, cart.CartState state) {
+                            if (state is cart.CartAddedState) {
+                              BlocProvider.of<cart.CartBloc>(context).add(cart.CartInitialEvent());
                               ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                       content: Text('Item added to the cart')));
+                            }
+                            if( state is cart.TokenExpiredState){
+                              AppLocalStorage.removeToken();
+                              Navigator.pushNamedAndRemoveUntil(context, AppRoutes.loginScreen,(Route<dynamic> route) => false);
                             }
                           },
                         ),

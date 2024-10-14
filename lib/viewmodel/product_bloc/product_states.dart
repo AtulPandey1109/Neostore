@@ -24,3 +24,8 @@ class ProductFailureState extends ProductState{
   @override
   List<Object?> get props => [];
 }
+
+class TokenExpiredState extends ProductState{
+  @override
+  List<Object?> get props => [];
+}

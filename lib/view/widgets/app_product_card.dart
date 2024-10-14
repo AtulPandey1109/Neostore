@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:neostore/core/routes/routes.dart';
+import 'package:neostore/viewmodel/dashboard_bloc/dashboard_bloc.dart';
 import 'package:neostore/viewmodel/product_bloc/all_products_cubit.dart';
 import 'package:neostore/viewmodel/wishlist_bloc/wishlist_bloc.dart';
 
@@ -59,6 +60,7 @@ class AppProductCard extends StatelessWidget {
                            .add(WishListRemoveEvent(productId: productId)) : BlocProvider.of<WishListBloc>(context)
                             .add(WishListAddEvent(productId: productId));
                        BlocProvider.of<AllProductCubit>(context).initial();
+                       BlocProvider.of<DashboardBloc>(context).add(DashboardInitialEvent());
                       },
                       icon: isWishList ?? false
                           ? const Icon(

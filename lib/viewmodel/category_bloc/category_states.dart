@@ -15,7 +15,7 @@ class CategoryFailureState extends CategoryState{
   List<Object?> get props => [];
 }
 
-class TokenExpiredState extends CategoryState{
+class CategoryTokenExpiredState extends CategoryState{
   @override
   List<Object?> get props => [];
 

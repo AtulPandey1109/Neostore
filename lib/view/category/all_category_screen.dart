@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:neostore/core/routes/routes.dart';
+import 'package:neostore/utils/app_local_storage.dart';
 import 'package:neostore/utils/constant_styles.dart';
 import 'package:neostore/utils/responsive_size_helper.dart';
 import 'package:neostore/view/widgets/app_custom_circular_progress_indicator.dart';
@@ -53,62 +54,72 @@ class _AllCategoryScreenState extends State<AllCategoryScreen> {
         children: [
           widget.id != null
               ? const SizedBox.shrink()
-              : BlocConsumer<CategoryBloc,CategoryState>(
-                builder: (BuildContext context, CategoryState state) {
-                  if(state is CategoryInitialState){
-                    return state.isLoading?const SizedBox.shrink():Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: const BoxDecoration(
-                          color: Colors.black12,
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(20),
-                              bottomRight: Radius.circular(20))),
-                      width: SizeConfig.screenWidth * 0.2,
-                      child: state.categories.isNotEmpty?ListView.separated(
-                          itemBuilder: (context, index) {
-                            final category = state.categories[index];
-                            return GestureDetector(
-                              onTap: () {
-                                selectedCategory.value =
-                                    category.name ?? '';
-                                BlocProvider.of<SubcategoryBloc>(context)
-                                    .add(SubcategorySelectedEvent(
-                                    id: category.id ?? ''));
-                              },
-                              child: Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.center,
-                                children: [
-                                  Image.network(
-                                    category.image ?? '',
-                                    height: 50,
-                                    width: 50,
-                                    errorBuilder: (context, error,
-                                        stackTrace) =>
-                                        Image.asset(
-                                            'assets/images/loading_image.webp'),
-                                  ),
-                                  Text(
-                                    category.name ?? '',
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
-                              ),
+              : BlocConsumer<CategoryBloc, CategoryState>(
+                  builder: (BuildContext context, CategoryState state) {
+                    if (state is CategoryInitialState) {
+                      return state.isLoading
+                          ? const SizedBox.shrink()
+                          : Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: const BoxDecoration(
+                                  color: Colors.black12,
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(20),
+                                      bottomRight: Radius.circular(20))),
+                              width: SizeConfig.screenWidth * 0.2,
+                              child: state.categories.isNotEmpty
+                                  ? ListView.separated(
+                                      itemBuilder: (context, index) {
+                                        final category =
+                                            state.categories[index];
+                                        return GestureDetector(
+                                          onTap: () {
+                                            selectedCategory.value =
+                                                category.name ?? '';
+                                            BlocProvider.of<SubcategoryBloc>(
+                                                    context)
+                                                .add(SubcategorySelectedEvent(
+                                                    id: category.id ?? ''));
+                                          },
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Image.network(
+                                                category.image ?? '',
+                                                height: 50,
+                                                width: 50,
+                                                errorBuilder: (context, error,
+                                                        stackTrace) =>
+                                                    Image.asset(
+                                                        'assets/images/loading_image.webp'),
+                                              ),
+                                              Text(
+                                                category.name ?? '',
+                                                textAlign: TextAlign.center,
+                                              )
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                      separatorBuilder: (context, index) {
+                                        return const Divider();
+                                      },
+                                      itemCount: state.categories.length)
+                                  : const SizedBox.shrink(),
                             );
-                          },
-                          separatorBuilder: (context, index) {
-                            return const Divider();
-                          },
-                          itemCount: state.categories.length):const SizedBox.shrink(),
-                    );
-                  }
-                  else {
-                    return const AppCustomCircularProgressIndicator(
-                        color: Colors.orange);
-                  }
-                }, listener: (BuildContext context, CategoryState state) {  },
-
-              ),
+                    } else {
+                      return const AppCustomCircularProgressIndicator(
+                          color: Colors.orange);
+                    }
+                  },
+                  listener: (BuildContext context, CategoryState state) {
+                    if( state is CategoryTokenExpiredState){
+                      AppLocalStorage.removeToken();
+                      Navigator.pushNamedAndRemoveUntil(context, AppRoutes.loginScreen,(Route<dynamic> route) => false);
+                    }
+                  },
+                ),
           Container(
             width: widget.id == null
                 ? SizeConfig.screenWidth * 0.8
@@ -183,10 +194,12 @@ class _AllCategoryScreenState extends State<AllCategoryScreen> {
                             itemBuilder: (context, index) {
                               final subcategory = state.subcategories[index];
                               return GestureDetector(
-                                onTap: (){
+                                onTap: () {
                                   Navigator.pushNamed(
                                       context, AppRoutes.productByCategory,
-                                      arguments: {'subCategoryId': subcategory.id});
+                                      arguments: {
+                                        'subCategoryId': subcategory.id
+                                      });
                                 },
                                 child: CategoryCard(
                                   image: subcategory.image,
@@ -205,7 +218,12 @@ class _AllCategoryScreenState extends State<AllCategoryScreen> {
                       );
                     }
                   },
-                  listener: (context, state) {},
+                  listener: (context, state) {
+                    if( state is SubCategoryTokenExpiredState){
+                      AppLocalStorage.removeToken();
+                      Navigator.pushNamedAndRemoveUntil(context, AppRoutes.loginScreen,(Route<dynamic> route) => false);
+                    }
+                  },
                 )
               ],
             ),

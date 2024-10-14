@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// ignore: unused_import
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:neostore/core/routes/routes.dart';
+import 'package:neostore/utils/app_local_storage.dart';
 import 'package:neostore/utils/constant_styles.dart';
 import 'package:neostore/view/widgets/app_custom_circular_progress_indicator.dart';
 import 'package:neostore/view/widgets/app_wishlist_card.dart';
@@ -61,7 +61,12 @@ class _WishlistScreenState extends State<WishlistScreen> {
              return const Center(child: Text('Unable to Load'),);
             }
           },
-          listener: (BuildContext context, Object? state) {  },
+          listener: (BuildContext context, Object? state) {
+            if( state is TokenExpiredState){
+              AppLocalStorage.removeToken();
+              Navigator.pushNamedAndRemoveUntil(context, AppRoutes.loginScreen,(Route<dynamic> route) => false);
+            }
+          },
         ),
       ),
     );

@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:neostore/core/routes/routes.dart';
+import 'package:neostore/utils/app_local_storage.dart';
 import 'package:neostore/view/widgets/app_custom_circular_progress_indicator.dart';
 import 'package:neostore/view/widgets/app_rounded_offer_card.dart';
 import 'package:neostore/viewmodel/offer_bloc/offer_bloc.dart';
@@ -34,7 +36,12 @@ class _OfferScreenState extends State<OfferScreen> {
           return const Center(child: AppCustomCircularProgressIndicator(color: Colors.orange,),);
         }
       },
-      listener: (BuildContext context, Object? state) {  },
+      listener: (BuildContext context, Object? state) {
+        if( state is TokenExpiredState){
+          AppLocalStorage.removeToken();
+          Navigator.pushNamedAndRemoveUntil(context, AppRoutes.loginScreen,(Route<dynamic> route) => false);
+        }
+      },
       ),
     );
   }

@@ -44,6 +44,9 @@ class CartBloc extends Bloc<CartEvent,CartState>{
       if(e.response?.statusCode==401){
         emit(TokenExpiredState());
       }
+      if(e.response?.statusCode==404){
+        emit(CartEmptyState());
+      }
       else {
         emit(CartFailureState());
       }
@@ -76,6 +79,9 @@ class CartBloc extends Bloc<CartEvent,CartState>{
       if(e.response?.statusCode==401){
         emit(TokenExpiredState());
       }
+      if(e.response?.statusCode==404){
+        emit(CartEmptyState());
+      }
       else {
         emit(CartFailureState());
       }
@@ -107,6 +113,9 @@ class CartBloc extends Bloc<CartEvent,CartState>{
       if(e.response?.statusCode==401){
         emit(TokenExpiredState());
       }
+      if(e.response?.statusCode==404){
+        emit(CartEmptyState());
+      }
       else {
         emit(CartFailureState());
       }
@@ -132,6 +141,9 @@ class CartBloc extends Bloc<CartEvent,CartState>{
     } on DioException catch (e) {
       if(e.response?.statusCode==401){
         emit(TokenExpiredState());
+      }
+      if(e.response?.statusCode==404){
+        emit(CartEmptyState());
       }
       else {
         emit(CartFailureState());

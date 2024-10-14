@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:neostore/utils/constant_styles.dart';
+import 'package:neostore/view/widgets/app_rounded_button.dart';
 class ContactUsScreen extends StatefulWidget {
   const ContactUsScreen({super.key});
 
@@ -47,7 +48,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
         child: Form(
           key: _formKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Text(
                 'Get in Touch',
@@ -102,12 +103,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                 },
               ),
               const SizedBox(height: 24),
-              Center(
-                child: ElevatedButton(
-                  onPressed: _submitForm,
-                  child: const Text('Submit'),
-                ),
-              ),
+              AppRoundedElevatedButton(onPressed: _submitForm, label: const Text('Submit'))
             ],
           ),
         ),

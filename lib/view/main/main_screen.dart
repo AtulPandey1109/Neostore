@@ -31,7 +31,11 @@ class _MainScreenState extends State<MainScreen> {
     const CartScreen(),
     const NotificationScreen()
   ];
-
+@override
+  void initState() {
+    super.initState();
+    BlocProvider.of<TabBloc>(context).add(TabChangedEvent(0));
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -60,6 +64,22 @@ class _MainScreenState extends State<MainScreen> {
             },
           ),
           actions: [
+            SizeConfig.isMobile()?const SizedBox.shrink():Row(
+              children: [
+               TextButton(onPressed: (){
+                 BlocProvider.of<TabBloc>(context).add(TabChangedEvent(0));
+               }, child: const Text('Home')),
+               TextButton(onPressed: (){
+                 BlocProvider.of<TabBloc>(context).add(TabChangedEvent(1));
+               }, child: const Text('Offers')),
+               TextButton(onPressed: (){
+                 BlocProvider.of<TabBloc>(context).add(TabChangedEvent(2));
+               }, child: const Text('Cart')),
+               TextButton(onPressed: (){
+                 BlocProvider.of<TabBloc>(context).add(TabChangedEvent(3));
+               }, child: const Text('Notifications')),
+              ],
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: InkWell(
@@ -140,7 +160,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ],
         ),
-        bottomNavigationBar: const AppBottomNavigationBar(),
+        bottomNavigationBar: SizeConfig.isMobile()?const AppBottomNavigationBar():null,
       ),
     );
   }

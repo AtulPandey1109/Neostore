@@ -35,7 +35,14 @@ class WishListBloc extends Bloc<WishListEvents, WishListStates> {
       } else {
         emit(WishListEmptyState());
       }
-    } catch (e) {
+    } on DioException catch (e) {
+      if(e.response?.statusCode==401){
+        emit(TokenExpiredState());
+      }
+      else {
+        emit(WishListFailureState());
+      }
+    }catch (e) {
       emit(WishListFailureState());
     }
   }
@@ -52,7 +59,14 @@ class WishListBloc extends Bloc<WishListEvents, WishListStates> {
       if (response.statusCode == 201) {
         emit(WishListAddedSuccessFullyState());
       }
-    } catch (e) {
+    } on DioException catch (e) {
+      if(e.response?.statusCode==401){
+        emit(TokenExpiredState());
+      }
+      else {
+        emit(WishListFailureState());
+      }
+    }catch (e) {
       emit(WishListFailureState());
     }
   }
@@ -80,7 +94,14 @@ class WishListBloc extends Bloc<WishListEvents, WishListStates> {
       } else {
         emit(WishListEmptyState());
       }
-    } catch (e) {
+    } on DioException catch (e) {
+      if(e.response?.statusCode==401){
+        emit(TokenExpiredState());
+      }
+      else {
+        emit(WishListFailureState());
+      }
+    }catch (e) {
       emit(WishListFailureState());
     }
   }

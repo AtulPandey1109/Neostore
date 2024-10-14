@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:neostore/core/routes/routes.dart';
 import 'package:neostore/model/cart_product_model/cart_product.dart';
+import 'package:neostore/utils/app_local_storage.dart';
 import 'package:neostore/utils/responsive_size_helper.dart';
 import 'package:neostore/view/widgets/app_custom_circular_progress_indicator.dart';
 import 'package:neostore/view/widgets/app_custom_overlay_progress_indicator.dart';
@@ -26,7 +27,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<CartBloc, CartState>(
+      body: BlocConsumer<CartBloc, CartState>(
           builder: (BuildContext context, CartState state) {
         if (state is CartInitialState) {
           final total = calculateTotal(state.cartProducts);
@@ -73,7 +74,7 @@ class _CartScreenState extends State<CartScreen> {
                       child: AppRoundedElevatedButton(
                           onPressed: () {
                             Navigator.pushNamed(
-                                context, AppRoutes.orderSummaryScreen,arguments: {'data':state.cartProducts,'id':state.cartId});
+                                context, AppRoutes.checkoutScreen,arguments: {'data':state.cartProducts,'id':state.cartId});
                           },
                           label: const Text('Buy Now'),
                           width: SizeConfig.isMobile()
@@ -95,7 +96,12 @@ class _CartScreenState extends State<CartScreen> {
         } else {
           return const AppCustomCircularProgressIndicator();
         }
-      }),
+      }, listener: (BuildContext context, CartState state) {
+        if( state is TokenExpiredState){
+          AppLocalStorage.removeToken();
+          Navigator.pushNamedAndRemoveUntil(context, AppRoutes.loginScreen,(Route<dynamic> route) => false);
+        }
+      },),
     );
   }
 }

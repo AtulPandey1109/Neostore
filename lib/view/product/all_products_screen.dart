@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:neostore/core/routes/routes.dart';
+import 'package:neostore/utils/app_local_storage.dart';
 import 'package:neostore/utils/constant_styles.dart';
 import 'package:neostore/view/widgets/app_custom_overlay_progress_indicator.dart';
 import 'package:neostore/view/widgets/app_products_list.dart';
@@ -51,7 +53,12 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
             );
           }
         },
-        listener: (context, state) {},
+        listener: (context, state) {
+          if( state is TokenExpiredState){
+            AppLocalStorage.removeToken();
+            Navigator.pushNamedAndRemoveUntil(context, AppRoutes.loginScreen,(Route<dynamic> route) => false);
+          }
+        },
       ),
     );
   }

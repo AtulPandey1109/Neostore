@@ -4,21 +4,29 @@ import 'package:neostore/model/offer_model/offer_model.dart';
 import 'package:neostore/utils/responsive_size_helper.dart';
 import 'package:neostore/view/widgets/app_rounded_offer_card.dart';
 
-class AppCarouselCard extends StatelessWidget {
+class AppCarouselCard extends StatefulWidget {
   final List<OfferModel> offers;
-  final CarouselSliderController _controller = CarouselSliderController();
-  final ValueNotifier<int> _current = ValueNotifier(0);
-  AppCarouselCard({
+
+  const AppCarouselCard({
     super.key,
     required this.offers,
   });
+
+  @override
+  State<AppCarouselCard> createState() => _AppCarouselCardState();
+}
+
+class _AppCarouselCardState extends State<AppCarouselCard> {
+  final CarouselSliderController _controller = CarouselSliderController();
+
+  final ValueNotifier<int> _current = ValueNotifier(0);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         CarouselSlider(
-          items: offers
+          items: widget.offers
               .map((offer) {
                 return AppRoundedOfferCard(
                     image: offer.image,
@@ -47,11 +55,11 @@ class AppCarouselCard extends StatelessWidget {
           builder: (context, value, child) {
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: offers
+              children: widget.offers
                   .map(
                     (e) => GestureDetector(
                       onTap: () {
-                        _current.value=offers.indexOf(e);
+                        _current.value=widget.offers.indexOf(e);
                         _controller.animateToPage(_current.value);
                       },
                       child: Container(
@@ -66,7 +74,7 @@ class AppCarouselCard extends StatelessWidget {
                                     ? Colors.white
                                     : Colors.black)
                                 .withOpacity(
-                                    offers[_current.value] == e ? 0.9 : 0.4)),
+                                    widget.offers[_current.value] == e ? 0.9 : 0.4)),
                       ),
                     ),
                   )

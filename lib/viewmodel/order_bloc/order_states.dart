@@ -11,14 +11,24 @@ class OrderInitialState extends OrderState{
 }
 
 class OrderEmptyState extends OrderState{
+  final bool isLoading;
+
+  OrderEmptyState({this.isLoading = false});
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [isLoading];
 }
 class OrderSuccessState extends OrderState{
   @override
   List<Object?> get props => [];
 }
 class OrderFailureState extends OrderState{
+  final String? errorType;
+  OrderFailureState({this.errorType});
+  @override
+  List<Object?> get props => [];
+}
+
+class OrderTokenExpiredState extends OrderState{
   @override
   List<Object?> get props => [];
 }

@@ -38,6 +38,7 @@ ProductModel _$ProductModelFromJson(Map<String, dynamic> json) => ProductModel(
               .toList() ??
           const [],
       isWishList: json['isWishList'] as bool?,
+      quantity: json['quantity']??0
     );
 
 Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
@@ -51,5 +52,6 @@ Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
       'isActive': instance.isActive,
       'offers': instance.offers,
       'reviews': instance.reviews,
-      'isWishList': instance.isWishList
+      'isWishList': instance.isWishList,
+          'quantity':instance.quantity,
     };

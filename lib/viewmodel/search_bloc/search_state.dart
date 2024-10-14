@@ -16,3 +16,8 @@ class SearchEmptyState extends SearchState{
   List<Object?> get props => [];
 
 }
+
+class TokenExpiredState extends SearchState{
+  @override
+  List<Object?> get props => [];
+}

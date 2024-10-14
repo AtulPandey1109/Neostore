@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:neostore/core/routes/routes.dart';
+import 'package:neostore/utils/app_local_storage.dart';
 import 'package:neostore/utils/constant_styles.dart';
 import 'package:neostore/utils/gridview_cross_axis_count.dart';
 import 'package:neostore/utils/responsive_size_helper.dart';
@@ -10,7 +11,7 @@ import 'package:neostore/view/widgets/app_category_list.dart';
 import 'package:neostore/view/widgets/app_custom_circular_progress_indicator.dart';
 import 'package:neostore/view/widgets/app_product_card.dart';
 import 'package:neostore/viewmodel/dashboard_bloc/dashboard_bloc.dart';
-import 'package:neostore/viewmodel/wishlist_bloc/wishlist_bloc.dart';
+import 'package:neostore/viewmodel/wishlist_bloc/wishlist_bloc.dart' as wishlist;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -89,15 +90,19 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                         ),
-                        BlocListener<WishListBloc, WishListStates>(
+                        BlocListener<wishlist.WishListBloc, wishlist.WishListStates>(
                           listener:
-                              (BuildContext context, WishListStates state) {
-                            if (state is WishListAddedSuccessFullyState) {
+                              (BuildContext context, wishlist.WishListStates state) {
+                                if( state is TokenExpiredState){
+                                  AppLocalStorage.removeToken();
+                                  Navigator.pushNamedAndRemoveUntil(context, AppRoutes.loginScreen,(Route<dynamic> route) => false);
+                                }
+                            if (state is wishlist.WishListAddedSuccessFullyState) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                       content: Text('Item added to wishlist')));
                             } else if (state
-                                is WishListRemovedSuccessFullyState) {
+                                is wishlist.WishListRemovedSuccessFullyState) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                       content:
@@ -120,6 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   productName: product?.name ?? '',
                                   price: product?.price ?? 0,
                                   productId: product?.id ?? '',
+                                  isWishList: product?.isWishList,
                                 );
                               },
                             ),

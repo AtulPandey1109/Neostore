@@ -34,7 +34,14 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       else{
         emit(SearchEmptyState());
       }
-    } catch (e) {
+    } on DioException catch (e) {
+      if(e.response?.statusCode==401){
+        emit(TokenExpiredState());
+      }
+      else {
+        emit(SearchEmptyState());
+      }
+    }catch (e) {
       emit(SearchEmptyState());
     }
   }

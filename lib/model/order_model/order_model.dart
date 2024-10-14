@@ -4,20 +4,19 @@ class OrderModel {
   String? id;
   String? user;
   int? createdOn;
-  List<ProductModel>? products;
   int? tax;
   int? discount;
-  double? subTotal;
-  double? total;
+  int? subTotal;
+  int? total;
   String? status;
-  Address? address;
+  String? address;
   int? v;
+  List<ProductModel>? products;
 
   OrderModel({
     this.id,
     this.user,
     this.createdOn,
-    this.products,
     this.tax,
     this.discount,
     this.subTotal,
@@ -25,75 +24,39 @@ class OrderModel {
     this.status,
     this.address,
     this.v,
+    this.products,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
     id: json["_id"],
     user: json["user"],
     createdOn: json["createdOn"],
-    products: json["products"] == null ? [] : List<ProductModel>.from(json["products"]!.map((x) => ProductModel.fromJson(x))),
     tax: json["tax"],
     discount: json["discount"],
-    subTotal: json["subTotal"]?.toDouble(),
-    total: json["total"]?.toDouble(),
+    subTotal: json["subTotal"],
+    total: json["total"],
     status: json["status"],
-    address: json["address"] == null ? null : Address.fromJson(json["address"]),
+    address: json["address"],
     v: json["__v"],
+    products: json["products"] == null ? [] : List<ProductModel>.from(json["products"]!.map((x) => ProductModel.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "_id": id,
     "user": user,
     "createdOn": createdOn,
-    "products": products == null ? [] : List<dynamic>.from(products!.map((x) => x.toJson())),
     "tax": tax,
     "discount": discount,
     "subTotal": subTotal,
     "total": total,
     "status": status,
-    "address": address?.toJson(),
+    "address": address,
     "__v": v,
+    "products": products == null ? [] : List<dynamic>.from(products!.map((x) => x.toJson())),
   };
 }
 
-class Address {
-  String? firstLine;
-  String? secondLine;
-  String? city;
-  String? state;
-  String? country;
-  String? pinCode;
-  String? id;
 
-  Address({
-    this.firstLine,
-    this.secondLine,
-    this.city,
-    this.state,
-    this.country,
-    this.pinCode,
-    this.id,
-  });
 
-  factory Address.fromJson(Map<String, dynamic> json) => Address(
-    firstLine: json["first_line"],
-    secondLine: json["second_line"],
-    city: json["city"],
-    state: json["state"],
-    country: json["country"],
-    pinCode: json["pin_code"],
-    id: json["_id"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "first_line": firstLine,
-    "second_line": secondLine,
-    "city": city,
-    "state": state,
-    "country": country,
-    "pin_code": pinCode,
-    "_id": id,
-  };
-}
 
 

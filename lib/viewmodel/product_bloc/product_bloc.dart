@@ -26,7 +26,14 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       Response response = await dio.get('$url/${event.productId}');
       ProductModel product = ProductModel.fromJson(response.data);
       emit(ProductInitialState(product: product,isLoading: false));
-    } catch (e) {
+    } on DioException catch (e) {
+      if(e.response?.statusCode==401){
+        emit(TokenExpiredState());
+      }
+      else {
+        emit(ProductFailureState());
+      }
+    }catch (e) {
       emit(ProductFailureState());
     }
   }

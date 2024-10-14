@@ -25,13 +25,23 @@ class OrderBloc extends Bloc<OrderEvent,OrderState>{
     try {
       Response response = await dio.get(url);
       if(response.data.length !=0){
-        List<OrderModel> orders =(response.data as List).map((order) => OrderModel.fromJson(order))
+        List<OrderModel> orders =(response.data as List).map((order) {
+          return OrderModel.fromJson(order);
+        })
             .toList();
         emit(OrderInitialState(orders: orders,isLoading: false));
       }else{
         emit(OrderEmptyState());
       }
-    } catch (e) {
+    } on DioException catch (e) {
+      if(e.response?.statusCode==401){
+        emit(OrderTokenExpiredState());
+      }
+      else {
+        emit(OrderFailureState());
+      }
+    }catch (e) {
+
       emit(OrderFailureState());
     }
   }
@@ -41,24 +51,27 @@ class OrderBloc extends Bloc<OrderEvent,OrderState>{
     dio.options.headers["authorization"] = "Bearer $token";
     emit(OrderInitialState(orders: const []));
     try{
+      if(event.addressId==''){
+        emit(OrderFailureState(errorType: 'Invalid Address'));
+        emit(OrderInitialState(orders: const [],isLoading: false));
+        return;
+      }
       Response response = await dio.post(url,data: {
         "cartId": event.cartId,
-        "address": {
-          "hoouse_no" : "A06",
-          "first_line": "Business Arcade Tower, 6th Floor",
-          "second_line" : "Opp Parel Bus Depot, Sayani Road, Dadar",
-          "city" : "Mumbai",
-          "state" : "Maharashtra",
-          "country" : "India",
-          "pin_code" : "400014"
-        }
-
+        "address": event.addressId
       });
       if(response.statusCode==201){
         emit(OrderSuccessState());
       }
+    }on DioException catch (e) {
+      if(e.response?.statusCode==401){
+        emit(OrderTokenExpiredState());
+      }
+      else {
+        emit(OrderFailureState());
+      }
     }catch(e) {
-      emit(OrderEmptyState());
+      emit(OrderFailureState());
     }
   }
 }

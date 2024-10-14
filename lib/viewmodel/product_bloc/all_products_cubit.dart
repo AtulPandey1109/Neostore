@@ -27,7 +27,14 @@ class AllProductCubit extends Cubit<AllProductState> {
       } else {
         emit(AllProductsEmptyState());
       }
-    } catch (e) {
+    } on DioException catch (e) {
+      if(e.response?.statusCode==401){
+        emit(TokenExpiredState());
+      }
+      else {
+        emit(AllProductsFailureState());
+      }
+    }catch (e) {
       emit(AllProductsFailureState());
     }
   }
@@ -50,6 +57,11 @@ class AllProductsEmptyState extends AllProductState {
 }
 
 class AllProductsFailureState extends AllProductState {
+  @override
+  List<Object?> get props => [];
+}
+
+class TokenExpiredState extends AllProductState{
   @override
   List<Object?> get props => [];
 }

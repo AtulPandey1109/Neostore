@@ -15,3 +15,8 @@ class ProfileFailureState extends ProfileState{
   @override
   List<Object?> get props => [];
 }
+
+class TokenExpiredState extends ProfileState{
+  @override
+  List<Object?> get props => [];
+}

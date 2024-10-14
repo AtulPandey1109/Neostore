@@ -30,3 +30,7 @@ class WishListFailureState extends WishListStates{
   @override
   List<Object?> get props => [];
 }
+class TokenExpiredState extends WishListStates{
+  @override
+  List<Object?> get props => [];
+}

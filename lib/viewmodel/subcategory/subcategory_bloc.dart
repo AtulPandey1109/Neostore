@@ -33,7 +33,14 @@ class SubcategoryBloc extends Bloc<SubcategoryEvent, SubcategoryState> {
       }else{
         emit(SubcategoryEmptyState());
       }
-    } catch (e) {
+    } on DioException catch (e) {
+      if(e.response?.statusCode==401){
+        emit(SubCategoryTokenExpiredState());
+      }
+      else {
+        emit(SubcategoryFailureState());
+      }
+    }catch (e) {
       emit(SubcategoryFailureState());
     }
   }
@@ -52,7 +59,14 @@ class SubcategoryBloc extends Bloc<SubcategoryEvent, SubcategoryState> {
       }else{
         emit(SubcategoryEmptyState());
       }
-    } catch (e) {
+    } on DioException catch (e) {
+      if(e.response?.statusCode==401){
+        emit(SubCategoryTokenExpiredState());
+      }
+      else {
+        emit(SubcategoryFailureState());
+      }
+    }catch (e) {
       emit(SubcategoryFailureState());
     }
   }

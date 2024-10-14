@@ -28,7 +28,7 @@ class AppWishlistCard extends StatelessWidget {
               width: 70,
               child: Image.network(
                 product?.image ?? '',
-                fit: BoxFit.cover,
+                fit: BoxFit.contain,
                 errorBuilder: (context, error, stackTrace) => Image.asset(
                   'assets/images/loading_image.webp',
                 ),

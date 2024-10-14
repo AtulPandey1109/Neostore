@@ -32,7 +32,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       } else {
         emit(ProfileInitialState());
       }
-    } catch (e) {
+    } on DioException catch (e) {
+      if(e.response?.statusCode==401){
+        emit(TokenExpiredState());
+      }
+      else {
+        emit(ProfileFailureState());
+      }
+    }catch (e) {
       emit(ProfileFailureState());
     }
   }
@@ -56,7 +63,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         User user = User.fromJson(response.data['user']);
         emit(ProfileInitialState(userDetail: user, isLoading: false));
       }
-    } catch (e) {
+    } on DioException catch (e) {
+      if(e.response?.statusCode==401){
+        emit(TokenExpiredState());
+      }
+      else {
+        emit(ProfileFailureState());
+      }
+    }catch (e) {
       emit(ProfileFailureState());
     }
   }

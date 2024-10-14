@@ -11,7 +11,8 @@ class OrderInitialEvent extends OrderEvent{
 
 class OrderPlacedEvent extends OrderEvent{
   final String cartId;
-  OrderPlacedEvent(this.cartId);
+  final String addressId;
+  OrderPlacedEvent(this.cartId,this.addressId);
   @override
   List<Object?> get props => [cartId];
 }
