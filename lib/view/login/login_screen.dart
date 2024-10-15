@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:neostore/core/routes/routes.dart';
-import 'package:neostore/utils/app_constants.dart';
 import 'package:neostore/utils/constant_styles.dart';
 import 'package:neostore/utils/responsive_size_helper.dart';
 import 'package:neostore/view/widgets/app_custom_circular_progress_indicator.dart';
@@ -139,18 +138,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: SizeConfig.getResponsiveHeight(context, 0.1)),
                     Column(
                       children: [
-                        SizedBox(
-                          height: 50,
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemCount: AppConstants.footerIcons.length,
-                              itemBuilder: (context, int index) {
-                                return SocialMediaFooter(
-                                    icon:
-                                        Icon(AppConstants.footerIcons[index],));
-                              }),
-                        ),
+                        BlocListener<LoginBloc,LoginState>(listener: (BuildContext context, state) {
+                          if(state is InitialState){
+                           if( state.googleSignInSuccessState != null){
+                            }
+                          }
+                        },
+                        child: const SocialMediaFooter()),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

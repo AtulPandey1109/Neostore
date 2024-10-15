@@ -1,12 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 
 class AppConstants {
-  static const List<IconData> footerIcons = [
-    FontAwesomeIcons.google,
-    FontAwesomeIcons.facebook,
-    FontAwesomeIcons.twitter
-  ];
+
   static final Map<String, String> faqs = {
   "How can I track my order?":
   "You can track your order by logging into your account, going to 'My Orders,' and selecting the order you wish to track.",

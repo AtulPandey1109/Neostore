@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:neostore/core/routes/routes.dart';
-import 'package:neostore/utils/app_constants.dart';
 import 'package:neostore/utils/constant_styles.dart';
 import 'package:neostore/utils/responsive_size_helper.dart';
 import 'package:neostore/view/widgets/app_custom_circular_progress_indicator.dart';
@@ -211,7 +210,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         if (state is SignUpSuccessState) {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(SnackBar(content: Text(state.response)));
-                          Navigator.pushNamedAndRemoveUntil(context, AppRoutes.homeScreen,(Route<dynamic> route) => false);
+                          Navigator.pushNamedAndRemoveUntil(context, AppRoutes.loginScreen,(Route<dynamic> route) => false);
                         } else if (state is SignUpFailureState) {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(SnackBar(content: Text(state.message)));
@@ -222,19 +221,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     const SizedBox(
                       height: 15,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: SizedBox(
-                        height: 50,
-                        child: ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: AppConstants.footerIcons.length,
-                            itemBuilder: (context, int index) {
-                              return SocialMediaFooter(
-                                  icon: Icon(AppConstants.footerIcons[index]));
-                            }),
-                      ),
+                    const Padding(
+                      padding:  EdgeInsets.symmetric(vertical: 8.0),
+                      child: SocialMediaFooter()
                     ),
                     const Text(
                       'By signing up you confirm that you agree with our Term and Condition',

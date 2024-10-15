@@ -18,14 +18,9 @@ class AppLocalStorage{
    _prefs!.remove('token');
   }
 
-  static void saveAddress(List<String> address) async{
-    _prefs = await SharedPreferences.getInstance();
-    _prefs!.setStringList('address', address);
-  }
-
-  static Future<List<String>> getAddress() async{
-    _prefs = await SharedPreferences.getInstance();
-    return _prefs!.getStringList('address')??[];
-  }
+ static void saveGoogleAccessToken(String token) async{
+   _prefs = await SharedPreferences.getInstance();
+   _prefs!.setString('googleToken', token);
+ }
 
 }

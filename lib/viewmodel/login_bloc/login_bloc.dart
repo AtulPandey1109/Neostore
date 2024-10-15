@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:neostore/utils/app_constants.dart';
 import 'package:neostore/utils/app_local_storage.dart';
 
@@ -11,10 +13,12 @@ part 'login_states.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final dio = Dio();
+  final FirebaseAuth instance = FirebaseAuth.instance;
   final String url = '${AppConstants.baseurl}/users/login';
   LoginBloc() : super(InitialState()) {
     on<InitialEvent>(onInitialEvent);
     on<LoginClickEvent>(onLoginClickEvent);
+    on<GoogleSignInEvent>(_onGoogleSignInEvent);
   }
 
   FutureOr<void> onLoginClickEvent(
@@ -46,5 +50,29 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   FutureOr<void> onInitialEvent(
       InitialEvent event, Emitter<LoginState> emit) async {
     emit(InitialState());
+  }
+
+  FutureOr<void> _onGoogleSignInEvent(GoogleSignInEvent event, Emitter<LoginState> emit) async {
+    if(state is InitialState){
+      final currentState = state as InitialState;
+      try{
+        final GoogleSignIn googleSignIn = GoogleSignIn();
+        final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+        if (googleSignInAccount != null) {
+          final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+          print(googleSignInAccount.toString());
+          final AuthCredential authCredential = GoogleAuthProvider.credential(
+              idToken: googleSignInAuthentication.idToken,
+              accessToken: googleSignInAuthentication.accessToken);
+
+          emit(currentState.copyWith(googleSignInSuccessState: GoogleSignInSuccessState(authCredential)));
+        }
+      } catch(e){
+        print(e);
+        emit(LoginFailureState(message: e.toString()));
+      }
+    }
+
   }
 }

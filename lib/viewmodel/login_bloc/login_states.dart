@@ -6,8 +6,13 @@ abstract class LoginState extends Equatable{
 }
 
 class InitialState extends LoginState {
+  final GoogleSignInSuccessState? googleSignInSuccessState;
+  InitialState({this.googleSignInSuccessState});
+  InitialState copyWith({GoogleSignInSuccessState? googleSignInSuccessState}){
+    return InitialState(googleSignInSuccessState:googleSignInSuccessState??this.googleSignInSuccessState);
+  }
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [googleSignInSuccessState];
 }
 class LoginSuccessfulState extends LoginState {
   final Response response;
@@ -30,5 +35,15 @@ class LoginFailureState extends LoginState{
 class TokenExpiredState extends LoginState{
   @override
   List<Object?> get props => [];
+}
+
+class GoogleSignInSuccessState extends LoginState{
+ final AuthCredential user;
+  GoogleSignInSuccessState(this.user);
+ GoogleSignInSuccessState copyWith(AuthCredential? user){
+   return GoogleSignInSuccessState(user??this.user);
+ }
+ @override
+ List<Object?> get props => [user];
 }
 

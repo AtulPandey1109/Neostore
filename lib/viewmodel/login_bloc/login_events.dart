@@ -16,3 +16,8 @@ class LoginClickEvent extends LoginEvent{
   final String password;
    LoginClickEvent({required this.email, required this.password});
 }
+
+class GoogleSignInEvent extends LoginEvent{
+  @override
+  List<Object?> get props => [];
+}

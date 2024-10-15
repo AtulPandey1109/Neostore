@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:neostore/utils/responsive_size_helper.dart';
@@ -22,8 +23,13 @@ import 'package:neostore/viewmodel/tab_navigation_bloc/tab_bloc.dart';
 import 'package:neostore/viewmodel/wishlist_bloc/wishlist_bloc.dart';
 
 import 'core/routes/routes.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
