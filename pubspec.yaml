@@ -48,6 +48,7 @@ dependencies:
   firebase_core:
   firebase_auth:
   google_sign_in:
+  flutter_facebook_auth:
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -46,15 +46,30 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>CFBundleURLTypes</key>
-    <array>
-        <dict>
-            <key>CFBundleTypeRole</key>
-            <string>Editor</string>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <string>com.googleusercontent.apps.52488291990-39tsgib16ffco69n10p2l6ht7d00mm8t</string>
-            </array>
-        </dict>
-    </array>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.52488291990-39tsgib16ffco69n10p2l6ht7d00mm8t</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb728659539458681</string>
+			</array>
+		</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>728659539458681</string>
+	<key>FacebookClientToken</key>
+	<string>971a333381841dfe531167a85fc8aba7</string>
+	<key>FacebookDisplayName</key>
+	<string>NeoStore</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+	</array>
 </dict>
 </plist>

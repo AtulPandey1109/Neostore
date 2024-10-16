@@ -26,7 +26,9 @@ class SocialMediaFooter extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: CircleAvatar(
           backgroundColor: Colors.white70,
-          child: IconButton(onPressed: (){}, icon: const Icon(FontAwesomeIcons.facebook)),
+          child: IconButton(onPressed: (){
+            BlocProvider.of<LoginBloc>(context).add(FacebookSignInEvent());
+          }, icon: const Icon(FontAwesomeIcons.facebook)),
         )),
             Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),

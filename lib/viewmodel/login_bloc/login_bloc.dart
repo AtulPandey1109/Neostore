@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:neostore/utils/app_constants.dart';
 import 'package:neostore/utils/app_local_storage.dart';
@@ -19,6 +20,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<InitialEvent>(onInitialEvent);
     on<LoginClickEvent>(onLoginClickEvent);
     on<GoogleSignInEvent>(_onGoogleSignInEvent);
+    on<FacebookSignInEvent>(_onFacebookSignInEvent);
   }
 
   FutureOr<void> onLoginClickEvent(
@@ -65,14 +67,45 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           final AuthCredential authCredential = GoogleAuthProvider.credential(
               idToken: googleSignInAuthentication.idToken,
               accessToken: googleSignInAuthentication.accessToken);
+          final userCredential = await instance.signInWithCredential(authCredential);
+          print(userCredential);
 
           emit(currentState.copyWith(googleSignInSuccessState: GoogleSignInSuccessState(authCredential)));
         }
+
       } catch(e){
         print(e);
         emit(LoginFailureState(message: e.toString()));
       }
     }
 
+  }
+
+  FutureOr<void> _onFacebookSignInEvent(FacebookSignInEvent event, Emitter<LoginState> emit) async{
+    if(state is InitialState){
+      final currentState = state as InitialState;
+      try {
+        final LoginResult result = await FacebookAuth.instance.login();
+        switch (result.status) {
+          case LoginStatus.success:
+            final AuthCredential facebookCredential =
+            FacebookAuthProvider.credential(result.accessToken!.token);
+            final userCredential =
+            await instance.signInWithCredential(facebookCredential);
+            print(userCredential);
+            emit(currentState.copyWith(facebookSignInSuccessState: FacebookSignInSuccessState(facebookCredential)));
+          case LoginStatus.cancelled:
+
+          case LoginStatus.failed:
+
+          default:
+            return null;
+        }
+      } on FirebaseAuthException catch (e) {
+        throw e;
+      } catch(e){
+        print('exception ${e.toString()}');
+      }
+    }
   }
 }

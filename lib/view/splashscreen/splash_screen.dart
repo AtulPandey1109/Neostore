@@ -12,7 +12,10 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   final Dio dio = Dio();
+  double width=50;
+  double height=50;
   void validateToken() async {
+    await Future.delayed(const Duration(seconds: 1));
     var token = await AppLocalStorage.getToken();
     dio.options.headers["authorization"] = "Bearer $token";
     try {
@@ -41,21 +44,31 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     validateToken();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      animateImage();
+    });
   }
+void animateImage() {
+    setState(() {
+      height=100;
+      width= 400;
+    });
 
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // App Logo
-            Image.asset(
+        body: Center(
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 1000),
+            height: height,
+            width: width,
+            curve: Curves.bounceOut,
+            child: Image.asset(
               'assets/images/logo.png',
-              height: 100,
+             fit: BoxFit.contain,
             ),
-
-          ],
+          ),
         ));
   }
 }

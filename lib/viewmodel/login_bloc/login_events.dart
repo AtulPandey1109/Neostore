@@ -21,3 +21,8 @@ class GoogleSignInEvent extends LoginEvent{
   @override
   List<Object?> get props => [];
 }
+
+class FacebookSignInEvent extends LoginEvent{
+  @override
+  List<Object?> get props => [];
+}
