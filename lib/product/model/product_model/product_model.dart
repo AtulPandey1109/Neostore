@@ -1,8 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:neostore/model/category_model/category_model.dart';
-import 'package:neostore/model/offer_model/offer_model.dart';
-import 'package:neostore/model/review_model/review_model.dart';
-import 'package:neostore/model/subcategory/subcategory_model.dart';
+import 'package:neostore/offer/model/offer_model/offer_model.dart';
+import 'package:neostore/product_category/model/category_model/category_model.dart';
+import 'package:neostore/product_category/model/subcategory/subcategory_model.dart';
+import 'package:neostore/review/model/review_model/review_model.dart';
+
 part 'product_model.g.dart';
 
 @JsonSerializable()

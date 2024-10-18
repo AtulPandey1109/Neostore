@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:neostore/core/routes/routes.dart';
+import 'package:neostore/product/viewmodel/product_bloc/all_products_cubit.dart';
 import 'package:neostore/utils/app_local_storage.dart';
 import 'package:neostore/utils/constant_styles.dart';
-import 'package:neostore/view/widgets/app_custom_overlay_progress_indicator.dart';
-import 'package:neostore/view/widgets/app_products_list.dart';
-import 'package:neostore/viewmodel/product_bloc/all_products_cubit.dart';
+import 'package:neostore/widgets/app_custom_overlay_progress_indicator.dart';
+import 'package:neostore/widgets/app_products_list.dart';
+
 
 class AllProductsScreen extends StatefulWidget {
   const AllProductsScreen({super.key});

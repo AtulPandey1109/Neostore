@@ -1,4 +1,5 @@
-import 'package:neostore/model/user_model/user_model.dart';
+
+import 'package:neostore/authentication/model/user_model/user_model.dart';
 
 class Review {
   String id;

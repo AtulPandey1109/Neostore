@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:neostore/model/cart_product_model/cart_product.dart';
+import 'package:neostore/cart/model/cart_product_model/cart_product.dart';
+
 
 import 'package:neostore/utils/app_constants.dart';
 import 'package:neostore/utils/app_local_storage.dart';

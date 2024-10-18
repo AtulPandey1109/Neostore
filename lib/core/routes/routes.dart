@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:neostore/address/view/address_screen.dart';
+import 'package:neostore/authentication/login/view/login_screen.dart';
+import 'package:neostore/authentication/signup/view/sign_up_screen.dart';
+import 'package:neostore/cart/model/cart_product_model/cart_product.dart';
+import 'package:neostore/contact_us/contact_us_screen.dart';
+import 'package:neostore/faqs/faqs_screen.dart';
 import 'package:neostore/main.dart';
-import 'package:neostore/model/cart_product_model/cart_product.dart';
-import 'package:neostore/model/order_model/order_summary_model.dart';
-import 'package:neostore/view/address_screen.dart';
-import 'package:neostore/view/category/all_category_screen.dart';
-import 'package:neostore/view/contact_us/contact_us_screen.dart';
-import 'package:neostore/view/faqs/faqs_screen.dart';
-import 'package:neostore/view/login/login_screen.dart';
-import 'package:neostore/view/main/main_screen.dart';
-import 'package:neostore/view/order/my_orders_screen.dart';
-import 'package:neostore/view/order/checkout_screen.dart';
-import 'package:neostore/view/order/order_summary/order_summary_screen.dart';
-import 'package:neostore/view/privacy_policy/privacy_policy_screen.dart';
-import 'package:neostore/view/product/all_products_screen.dart';
-import 'package:neostore/view/product/product_screen.dart';
-import 'package:neostore/view/product/products_by_category_screen.dart';
-import 'package:neostore/view/profile/profile_screen.dart';
-import 'package:neostore/view/sign_up/sign_up_screen.dart';
-import 'package:neostore/view/splashscreen/splash_screen.dart';
-import 'package:neostore/view/wishlist/wishlist_screen.dart';
+import 'package:neostore/main_screen/main_screen.dart';
+import 'package:neostore/order/model/order_model/order_summary_model.dart';
+import 'package:neostore/order/view/checkout_screen.dart';
+import 'package:neostore/order/view/my_orders_screen.dart';
+import 'package:neostore/order/view/order_summary/order_summary_screen.dart';
+import 'package:neostore/privacy_policy/privacy_policy_screen.dart';
+import 'package:neostore/product/view/all_products_screen.dart';
+import 'package:neostore/product/view/product_screen.dart';
+import 'package:neostore/product/view/products_by_category_screen.dart';
+import 'package:neostore/product_category/view/all_category_screen.dart';
+import 'package:neostore/splashscreen/splash_screen.dart';
+import 'package:neostore/user_profile/view/profile/profile_screen.dart';
+import 'package:neostore/wishlist/view/wishlist_screen.dart';
+
+
 
 
 

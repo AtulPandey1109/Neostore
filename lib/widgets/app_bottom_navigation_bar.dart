@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:neostore/viewmodel/cart_bloc/cart_bloc.dart';
-import 'package:neostore/viewmodel/tab_navigation_bloc/tab_bloc.dart';
+import 'package:neostore/cart/viewmodel/cart_bloc/cart_bloc.dart';
+import 'package:neostore/core/tab_navigation_bloc/tab_bloc.dart';
+
 
 class AppBottomNavigationBar extends StatefulWidget {
   const AppBottomNavigationBar({super.key});

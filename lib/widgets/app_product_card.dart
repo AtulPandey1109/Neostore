@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:neostore/core/routes/routes.dart';
-import 'package:neostore/viewmodel/dashboard_bloc/dashboard_bloc.dart';
-import 'package:neostore/viewmodel/product_bloc/all_products_cubit.dart';
-import 'package:neostore/viewmodel/wishlist_bloc/wishlist_bloc.dart';
+import 'package:neostore/dashboard/viewmodel/dashboard_bloc/dashboard_bloc.dart';
+import 'package:neostore/product/viewmodel/product_bloc/all_products_cubit.dart';
+import 'package:neostore/wishlist/viewmodel/wishlist_bloc/wishlist_bloc.dart';
+
 
 class AppProductCard extends StatelessWidget {
   final String productId;

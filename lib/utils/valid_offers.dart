@@ -1,4 +1,6 @@
-import 'package:neostore/model/offer_model/offer_model.dart';
+
+
+import 'package:neostore/offer/model/offer_model/offer_model.dart';
 
 List<OfferModel>? getValidOffers(String productCategory,List<OfferModel> offers ){
   List<OfferModel> applicableOffers =[];

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:neostore/utils/constant_styles.dart';
-import 'package:neostore/view/widgets/app_rounded_button.dart';
+import 'package:neostore/widgets/app_rounded_button.dart';
+
 class ContactUsScreen extends StatefulWidget {
   const ContactUsScreen({super.key});
 

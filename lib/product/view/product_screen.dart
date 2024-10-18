@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:neostore/cart/viewmodel/cart_bloc/cart_bloc.dart' as cart;
 import 'package:neostore/core/routes/routes.dart';
+import 'package:neostore/product/viewmodel/product_bloc/product_bloc.dart';
+import 'package:neostore/review/viewmodel/review_bloc/review_bloc.dart';
 import 'package:neostore/utils/app_local_storage.dart';
 import 'package:neostore/utils/calculate_discounted_price.dart';
 import 'package:neostore/utils/calculate_rating.dart';
 import 'package:neostore/utils/constant_styles.dart';
 import 'package:neostore/utils/responsive_size_helper.dart';
-import 'package:neostore/view/widgets/app_custom_circular_progress_indicator.dart';
-import 'package:neostore/view/widgets/app_rating_star.dart';
-import 'package:neostore/view/widgets/app_rounded_button.dart';
-import 'package:neostore/viewmodel/cart_bloc/cart_bloc.dart' as cart;
-import 'package:neostore/viewmodel/product_bloc/product_bloc.dart';
-import 'package:neostore/viewmodel/review_bloc/review_bloc.dart';
+import 'package:neostore/widgets/app_custom_circular_progress_indicator.dart';
+import 'package:neostore/widgets/app_rating_star.dart';
+import 'package:neostore/widgets/app_rounded_button.dart';
+
 
 class ProductScreen extends StatefulWidget {
   final String productId;
@@ -284,8 +285,6 @@ class _ProductScreenState extends State<ProductScreen> {
                                                   context: context,
                                                   builder: (context) {
                                                     return AlertDialog(
-                                                      title: Text(
-                                                          'Adding review for ${product?.name}'),
                                                       content: SizedBox(
                                                         height: 300,
                                                         child: Column(

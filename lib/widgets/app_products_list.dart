@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:neostore/model/product_model/product_model.dart';
+import 'package:neostore/product/model/product_model/product_model.dart';
+
 import 'package:neostore/utils/constant_styles.dart';
 import 'package:neostore/utils/gridview_cross_axis_count.dart';
 

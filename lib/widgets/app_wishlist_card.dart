@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:neostore/model/product_model/product_model.dart';
+import 'package:neostore/cart/viewmodel/cart_bloc/cart_bloc.dart';
+import 'package:neostore/product/model/product_model/product_model.dart';
 import 'package:neostore/utils/constant_styles.dart';
-// ignore: unused_import
-import 'package:neostore/view/widgets/app_rating_star.dart';
-import 'package:neostore/viewmodel/cart_bloc/cart_bloc.dart';
-import 'package:neostore/viewmodel/wishlist_bloc/wishlist_bloc.dart';
+import 'package:neostore/wishlist/viewmodel/wishlist_bloc/wishlist_bloc.dart';
+
 
 class AppWishlistCard extends StatelessWidget {
   final ProductModel? product;

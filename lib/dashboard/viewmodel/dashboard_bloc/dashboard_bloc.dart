@@ -3,10 +3,12 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:neostore/model/dashboard_model/dashboard_model.dart';
+import 'package:neostore/dashboard/model/dashboard_model/dashboard_model.dart';
+import 'package:neostore/utils/app_constants.dart';
+
 import 'package:neostore/utils/app_local_storage.dart';
 
-import '../../utils/app_constants.dart';
+
 part 'dashboard_events.dart';
 part 'dashboard_states.dart';
 

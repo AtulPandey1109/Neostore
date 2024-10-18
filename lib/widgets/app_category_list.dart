@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:neostore/core/routes/routes.dart';
-import 'package:neostore/model/category_model/category_model.dart';
-import 'package:neostore/view/widgets/category_card.dart';
+import 'package:neostore/product_category/model/category_model/category_model.dart';
+import 'package:neostore/widgets/category_card.dart';
+
 class AppCategoryList extends StatelessWidget {
   final List<CategoryModel>? categories;
   const AppCategoryList({super.key, required this.categories});

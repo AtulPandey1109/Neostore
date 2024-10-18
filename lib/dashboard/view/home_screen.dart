@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:neostore/core/routes/routes.dart';
+import 'package:neostore/dashboard/viewmodel/dashboard_bloc/dashboard_bloc.dart';
 import 'package:neostore/utils/app_local_storage.dart';
 import 'package:neostore/utils/constant_styles.dart';
 import 'package:neostore/utils/gridview_cross_axis_count.dart';
 import 'package:neostore/utils/responsive_size_helper.dart';
-import 'package:neostore/view/widgets/app_carousel_card.dart';
-import 'package:neostore/view/widgets/app_category_list.dart';
-import 'package:neostore/view/widgets/app_custom_circular_progress_indicator.dart';
-import 'package:neostore/view/widgets/app_product_card.dart';
-import 'package:neostore/viewmodel/dashboard_bloc/dashboard_bloc.dart';
-import 'package:neostore/viewmodel/wishlist_bloc/wishlist_bloc.dart' as wishlist;
+import 'package:neostore/widgets/app_carousel_card.dart';
+import 'package:neostore/widgets/app_category_list.dart';
+import 'package:neostore/widgets/app_custom_circular_progress_indicator.dart';
+import 'package:neostore/widgets/app_product_card.dart';
+import 'package:neostore/wishlist/viewmodel/wishlist_bloc/wishlist_bloc.dart' as wishlist;
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

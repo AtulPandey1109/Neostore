@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:neostore/cart/model/cart_product_model/cart_product.dart';
+import 'package:neostore/cart/viewmodel/cart_bloc/cart_bloc.dart';
 import 'package:neostore/core/routes/routes.dart';
-import 'package:neostore/model/cart_product_model/cart_product.dart';
+
 import 'package:neostore/utils/app_local_storage.dart';
 import 'package:neostore/utils/responsive_size_helper.dart';
-import 'package:neostore/view/widgets/app_custom_circular_progress_indicator.dart';
-import 'package:neostore/view/widgets/app_custom_overlay_progress_indicator.dart';
-import 'package:neostore/view/widgets/app_rounded_button.dart';
-import 'package:neostore/view/widgets/cart_tile.dart';
-import 'package:neostore/viewmodel/cart_bloc/cart_bloc.dart';
+import 'package:neostore/widgets/app_custom_circular_progress_indicator.dart';
+import 'package:neostore/widgets/app_custom_overlay_progress_indicator.dart';
+import 'package:neostore/widgets/app_rounded_button.dart';
+import 'package:neostore/widgets/cart_tile.dart';
+
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});

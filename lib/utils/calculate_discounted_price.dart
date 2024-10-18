@@ -1,4 +1,4 @@
-import 'package:neostore/model/offer_model/offer_model.dart';
+import 'package:neostore/offer/model/offer_model/offer_model.dart';
 
 double calculateDiscountedPrice(double productPrice, OfferModel? offer){
   double discountedPrice=0;

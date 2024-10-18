@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:neostore/core/routes/routes.dart';
+import 'package:neostore/order/viewmodel/order_bloc/order_bloc.dart';
 import 'package:neostore/utils/app_local_storage.dart';
 import 'package:neostore/utils/constant_styles.dart';
 import 'package:neostore/utils/status_color.dart';
-import 'package:neostore/view/widgets/app_custom_circular_progress_indicator.dart';
-import 'package:neostore/viewmodel/order_bloc/order_bloc.dart';
+import 'package:neostore/widgets/app_custom_circular_progress_indicator.dart';
+
 
 class MyOrdersScreen extends StatefulWidget {
   const MyOrdersScreen({super.key});

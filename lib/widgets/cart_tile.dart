@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:neostore/model/cart_product_model/cart_product.dart';
+import 'package:neostore/cart/model/cart_product_model/cart_product.dart';
+import 'package:neostore/cart/viewmodel/cart_bloc/cart_bloc.dart';
 import 'package:neostore/utils/responsive_size_helper.dart';
-import 'package:neostore/viewmodel/cart_bloc/cart_bloc.dart';
+
 
 class CartTile extends StatelessWidget {
   final CartProduct cartProduct;
@@ -133,7 +134,8 @@ class CartTile extends StatelessWidget {
                                                     },
                                                     child: const Text('Yes')),
                                               ],
-                                            ));
+                                            ),
+                                    );
                                   },
                                   icon: const Icon(
                                     Icons.delete_outline,

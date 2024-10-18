@@ -2,19 +2,21 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:neostore/address/viewmodel/address_bloc/address_bloc.dart';
+import 'package:neostore/cart/model/cart_product_model/cart_product.dart';
+import 'package:neostore/cart/viewmodel/cart_bloc/cart_bloc.dart';
 import 'package:neostore/core/routes/routes.dart';
-import 'package:neostore/model/cart_product_model/cart_product.dart';
-import 'package:neostore/model/order_model/order_summary_model.dart';
+import 'package:neostore/order/model/order_model/order_summary_model.dart';
+import 'package:neostore/order/viewmodel/order_bloc/order_bloc.dart';
+
 import 'package:neostore/utils/app_local_storage.dart';
 
 import 'package:neostore/utils/constant_styles.dart';
 import 'package:neostore/utils/responsive_size_helper.dart';
-import 'package:neostore/view/widgets/app_custom_circular_progress_indicator.dart';
-import 'package:neostore/view/widgets/app_rounded_button.dart';
-import 'package:neostore/view/widgets/cart_tile.dart';
-import 'package:neostore/viewmodel/address_bloc/address_bloc.dart';
-import 'package:neostore/viewmodel/cart_bloc/cart_bloc.dart';
-import 'package:neostore/viewmodel/order_bloc/order_bloc.dart';
+import 'package:neostore/widgets/app_custom_circular_progress_indicator.dart';
+import 'package:neostore/widgets/app_rounded_button.dart';
+import 'package:neostore/widgets/cart_tile.dart';
+
 
 class CheckoutScreen extends StatefulWidget {
   final List<CartProduct> products;
@@ -63,101 +65,97 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     child: CustomScrollView(
                       slivers: [
                         SliverToBoxAdapter(
-                          child: SizedBox(
-                            height: 300,
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: kPaddingSide),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Text('Deliver to:'),
-                                      TextButton(
-                                        style: ButtonStyle(
-                                            shape: WidgetStatePropertyAll(
-                                              RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: kPaddingSide),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text('Deliver to:'),
+                                    TextButton(
+                                      style: ButtonStyle(
+                                          shape: WidgetStatePropertyAll(
+                                            RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
                                             ),
-                                            side: const WidgetStatePropertyAll(
-                                                BorderSide(
-                                                    width: 1.0,
-                                                    color: Colors.orange))),
-                                        onPressed: () {
-                                          Navigator.pushNamed(
-                                              context, AppRoutes.addressScreen);
-                                        },
-                                        child: const Text('Add address'),
-                                      )
-                                    ],
-                                  ),
+                                          ),
+                                          side: const WidgetStatePropertyAll(
+                                              BorderSide(
+                                                  width: 1.0,
+                                                  color: Colors.orange))),
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context, AppRoutes.addressScreen);
+                                      },
+                                      child: const Text('Add address'),
+                                    )
+                                  ],
                                 ),
-                                Expanded(
-                                  child: ValueListenableBuilder(
-                                    builder: (context, value, child) {
-                                      return BlocBuilder<AddressBloc, AddressState>(
-                                        builder: (context, state) {
-                                          if (state is AddressInitialState) {
-                                            return ListView.builder(
-                                              shrinkWrap: true,
-                                              itemCount: state.address.length,
-                                              itemBuilder: (context, index) {
-                                                final address = state.address[index];
-                                                return RadioListTile(
-                                                  selected:
-                                                      value == selectedAddress.value,
-                                                  title: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text('${address.houseName}'),
-                                                      IconButton(
-                                                          iconSize: 20,
-                                                          onPressed: () {
-                                                            Navigator.pushNamed(
-                                                                context,
-                                                                AppRoutes
-                                                                    .addressScreen,
-                                                                arguments: {
-                                                                  "address": address
-                                                                });
-                                                          },
-                                                          icon: const Icon(
-                                                            Icons.edit,
-                                                            color: Colors.orange,
-                                                          ))
-                                                    ],
-                                                  ),
-                                                  subtitle: Text(
-                                                      '${address.houseNo}, ${address.firstLine}, ${address.secondLine}, ${address.city}, ${address.state}, ${address.country}, ${address.pinCode}'),
-                                                  value: address,
-                                                  groupValue: selectedAddress.value,
-                                                  onChanged: (value) {
-                                                    selectedAddress.value = address;
-                                                  },
-                                                );
+                              ),
+                              ValueListenableBuilder(
+                                builder: (context, value, child) {
+                                  return BlocBuilder<AddressBloc, AddressState>(
+                                    builder: (context, state) {
+                                      if (state is AddressInitialState) {
+                                        return ListView.builder(
+                                          physics: const ClampingScrollPhysics(),
+                                          shrinkWrap: true,
+                                          itemCount: state.address.length,
+                                          itemBuilder: (context, index) {
+                                            final address = state.address[index];
+                                            return RadioListTile(
+                                              selected:
+                                                  value == selectedAddress.value,
+                                              title: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text('${address.houseName}'),
+                                                  IconButton(
+                                                      iconSize: 20,
+                                                      onPressed: () {
+                                                        Navigator.pushNamed(
+                                                            context,
+                                                            AppRoutes
+                                                                .addressScreen,
+                                                            arguments: {
+                                                              "address": address
+                                                            });
+                                                      },
+                                                      icon: const Icon(
+                                                        Icons.edit,
+                                                        color: Colors.orange,
+                                                      ))
+                                                ],
+                                              ),
+                                              subtitle: Text(
+                                                  '${address.houseNo}, ${address.firstLine}, ${address.secondLine}, ${address.city}, ${address.state}, ${address.country}, ${address.pinCode}'),
+                                              value: address,
+                                              groupValue: selectedAddress.value,
+                                              onChanged: (value) {
+                                                selectedAddress.value = address;
                                               },
                                             );
-                                          } else if (state is AddressEmptyState) {
-                                            return const Center(
-                                              child: Text(
-                                                  'Please add address in order to proceed'),
-                                            );
-                                          } else {
-                                            return const SizedBox.shrink();
-                                          }
-                                        },
-                                      );
+                                          },
+                                        );
+                                      } else if (state is AddressEmptyState) {
+                                        return const Center(
+                                          child: Text(
+                                              'Please add address in order to proceed'),
+                                        );
+                                      } else {
+                                        return const SizedBox.shrink();
+                                      }
                                     },
-                                    valueListenable: selectedAddress,
-                                  ),
-                                )
-                              ],
-                            ),
+                                  );
+                                },
+                                valueListenable: selectedAddress,
+                              )
+                            ],
                           ),
                         ),
                         BlocConsumer<CartBloc, CartState>(

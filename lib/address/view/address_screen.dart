@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:neostore/model/order_model/order_summary_model.dart';
+import 'package:neostore/address/viewmodel/address_bloc/address_bloc.dart';
+import 'package:neostore/order/model/order_model/order_summary_model.dart';
 import 'package:neostore/utils/constant_styles.dart';
-import 'package:neostore/view/widgets/app_custom_circular_progress_indicator.dart';
-import 'package:neostore/view/widgets/app_rounded_button.dart';
-import 'package:neostore/view/widgets/app_rounded_text_field.dart';
-import 'package:neostore/viewmodel/address_bloc/address_bloc.dart';
+import 'package:neostore/widgets/app_custom_circular_progress_indicator.dart';
+import 'package:neostore/widgets/app_rounded_button.dart';
+import 'package:neostore/widgets/app_rounded_text_field.dart';
+
 
 class AddressScreen extends StatefulWidget {
   final Address? address;
@@ -54,9 +55,29 @@ class _AddressScreenState extends State<AddressScreen> {
           widget.address != null
               ? IconButton(
                   onPressed: () {
-                    BlocProvider.of<AddressBloc>(context)
-                        .add(AddressDeleteEvent(widget.address?.id ?? ''));
-                    Navigator.pop(context);
+                    showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title:
+                          const Text('Delete address'),
+                          content: const Text(
+                              'Are you sure you want to delete this address?'),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('No')),
+                            TextButton(
+                                onPressed: () {
+                                  BlocProvider.of<AddressBloc>(context)
+                                      .add(AddressDeleteEvent(widget.address?.id ?? ''));
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('Yes')),
+                          ],
+                        ));
+
                   },
                   icon: const Icon(
                     Icons.delete,
@@ -150,7 +171,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                 ? const AppCustomCircularProgressIndicator()
                                 : const Text('Save');
                           } else {
-                            return const SizedBox.shrink();
+                            return const Text('Save');
                           }
                         },
                       ),

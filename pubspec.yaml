@@ -49,6 +49,9 @@ dependencies:
   firebase_auth:
   google_sign_in:
   flutter_facebook_auth:
+  pdf:
+  path_provider:
+  open_file:
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,5 +1,6 @@
 
-import 'package:neostore/model/product_model/product_model.dart';
+
+import 'package:neostore/product/model/product_model/product_model.dart';
 
 class OrderSummaryModel {
   String? id;

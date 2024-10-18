@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:neostore/authentication/signup/viewmodel/signup_bloc/sign_up_bloc.dart';
 import 'package:neostore/core/routes/routes.dart';
 import 'package:neostore/utils/constant_styles.dart';
 import 'package:neostore/utils/responsive_size_helper.dart';
-import 'package:neostore/view/widgets/app_custom_circular_progress_indicator.dart';
-import 'package:neostore/view/widgets/app_rounded_button.dart';
+import 'package:neostore/widgets/app_custom_circular_progress_indicator.dart';
+import 'package:neostore/widgets/app_rounded_button.dart';
+import 'package:neostore/widgets/app_rounded_text_field.dart';
+import 'package:neostore/widgets/social_media_footer.dart';
 
-import 'package:neostore/view/widgets/app_rounded_text_field.dart';
-import 'package:neostore/view/widgets/social_media_footer.dart';
-import 'package:neostore/viewmodel/signup_bloc/sign_up_bloc.dart';
 
 enum Gender { male, female }
 

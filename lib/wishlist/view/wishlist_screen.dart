@@ -4,9 +4,10 @@ import 'package:neostore/core/routes/routes.dart';
 import 'package:neostore/utils/app_local_storage.dart';
 import 'package:neostore/utils/constant_styles.dart';
 import 'package:neostore/utils/responsive_size_helper.dart';
-import 'package:neostore/view/widgets/app_custom_circular_progress_indicator.dart';
-import 'package:neostore/view/widgets/app_wishlist_card.dart';
-import 'package:neostore/viewmodel/wishlist_bloc/wishlist_bloc.dart';
+import 'package:neostore/widgets/app_custom_circular_progress_indicator.dart';
+import 'package:neostore/widgets/app_wishlist_card.dart';
+import 'package:neostore/wishlist/viewmodel/wishlist_bloc/wishlist_bloc.dart';
+
 
 class WishlistScreen extends StatefulWidget {
   const WishlistScreen({super.key});

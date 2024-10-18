@@ -1,8 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:neostore/model/offer_model/offer_model.dart';
+import 'package:neostore/offer/model/offer_model/offer_model.dart';
 import 'package:neostore/utils/responsive_size_helper.dart';
-import 'package:neostore/view/widgets/app_rounded_offer_card.dart';
+import 'package:neostore/widgets/app_rounded_offer_card.dart';
+
 
 class AppCarouselCard extends StatefulWidget {
   final List<OfferModel> offers;
