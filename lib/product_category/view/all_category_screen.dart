@@ -184,31 +184,31 @@ class _AllCategoryScreenState extends State<AllCategoryScreen> {
                       ));
                     } else if (state is SubcategoryParticularState &&
                         !state.isLoading) {
-                      return SizedBox(
-                          height: 150,
-                          child: GridView.builder(
-                            itemCount: state.subcategories.length,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount:  SizeConfig.isMobile()?crossAxisCount:4,
-                                    childAspectRatio: 1.5),
-                            itemBuilder: (context, index) {
-                              final subcategory = state.subcategories[index];
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, AppRoutes.productByCategory,
-                                      arguments: {
-                                        'subCategoryId': subcategory.id
-                                      });
-                                },
-                                child: CategoryCard(
-                                  image: subcategory.image,
-                                  name: subcategory.name,
-                                ),
-                              );
-                            },
-                          ));
+                      return Expanded(
+                        child: GridView.builder(
+                          itemCount: state.subcategories.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount:  SizeConfig.isMobile()?crossAxisCount:4,
+                                  childAspectRatio: 1.5),
+                          itemBuilder: (context, index) {
+                            final subcategory = state.subcategories[index];
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, AppRoutes.productByCategory,
+                                    arguments: {
+                                      'subCategoryId': subcategory.id
+                                    });
+                              },
+                              child: CategoryCard(
+                                image: subcategory.image,
+                                name: subcategory.name,
+                              ),
+                            );
+                          },
+                        ),
+                      );
                     } else if (state is SubcategoryEmptyState) {
                       return const Center(
                         child: Text('Currently there is no subcategory'),
