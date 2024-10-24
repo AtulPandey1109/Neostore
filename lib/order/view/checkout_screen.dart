@@ -2,11 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:neostore/address/viewmodel/address_bloc/address_bloc.dart';
 import 'package:neostore/cart/model/cart_product_model/cart_product.dart';
 import 'package:neostore/cart/viewmodel/cart_bloc/cart_bloc.dart';
 import 'package:neostore/core/routes/routes.dart';
 import 'package:neostore/order/model/order_model/order_summary_model.dart';
+import 'package:neostore/order/viewmodel/google_map_cubit.dart';
 import 'package:neostore/order/viewmodel/order_bloc/order_bloc.dart';
 
 import 'package:neostore/utils/app_local_storage.dart';
@@ -16,7 +18,6 @@ import 'package:neostore/utils/responsive_size_helper.dart';
 import 'package:neostore/widgets/app_custom_circular_progress_indicator.dart';
 import 'package:neostore/widgets/app_rounded_button.dart';
 import 'package:neostore/widgets/cart_tile.dart';
-
 
 class CheckoutScreen extends StatefulWidget {
   final List<CartProduct> products;
@@ -30,11 +31,25 @@ class CheckoutScreen extends StatefulWidget {
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
   final ValueNotifier<Address> selectedAddress = ValueNotifier(Address());
+
+  late GoogleMapController? mapController;
+
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
+
   @override
   void initState() {
     super.initState();
     BlocProvider.of<OrderBloc>(context).add(OrderInitialEvent());
     BlocProvider.of<AddressBloc>(context).add(AddressInitialEvent());
+    BlocProvider.of<GoogleMapCubit>(context).initialEvent();
+  }
+
+  @override
+  void dispose() {
+    mapController?.dispose();
+    super.dispose();
   }
 
   @override
@@ -53,15 +68,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         child: SafeArea(
           child: Center(
             child: SizedBox(
-              width: SizeConfig.isMobile()?SizeConfig.screenWidth:SizeConfig.screenWidth*0.7,
+              width: SizeConfig.isMobile()
+                  ? SizeConfig.screenWidth
+                  : SizeConfig.screenWidth * 0.7,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
                     height: SizeConfig.isMobile()
                         ? Platform.isIOS
                             ? SizeConfig.screenHeight * 0.7
                             : SizeConfig.screenHeight * 0.75
-                        : SizeConfig.screenHeight,
+                        : SizeConfig.screenHeight * 0.8,
                     child: CustomScrollView(
                       slivers: [
                         SliverToBoxAdapter(
@@ -71,7 +89,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: kPaddingSide),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     const Text('Deliver to:'),
                                     TextButton(
@@ -95,20 +114,94 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   ],
                                 ),
                               ),
+                                      BlocBuilder<GoogleMapCubit, MapState>(
+                                          builder: (context, state) {
+                                            if(state is MapInitialState){
+                                              return SizedBox(
+                                                  height: 200,
+                                                  child:GoogleMap(
+                                                onMapCreated: _onMapCreated,
+                                                scrollGesturesEnabled: true,
+                                                initialCameraPosition: const CameraPosition(
+                                                  target: LatLng(19.432278,  72.774300),
+                                                  zoom: 11.0,
+                                                ),
+                                                markers: {
+                                                  const Marker(
+                                                    markerId: MarkerId(
+                                                        'Delivery address'),
+                                                    position: LatLng(19.432278, 72.774300),
+                                                  ),
+                                                },
+                                              ));
+                                            } else if(state is MapSuccessState){
+                                              final mapMarker = state.coordinates;
+                                              if(mapController != null){
+                                              mapController?.animateCamera(CameraUpdate.newLatLng(mapMarker));
+                                              }
+                                              return SizedBox(
+                                                height: 200,
+                                                child: GoogleMap(
+                                                  onMapCreated: _onMapCreated,
+                                                  initialCameraPosition: CameraPosition(
+                                                    target: mapMarker,
+                                                    zoom: 11,
+                                                  ),
+                                                  markers: {
+                                                    Marker(
+                                                      markerId: const MarkerId(
+                                                          'Delivery address'),
+                                                      position: mapMarker,
+                                                    ),
+                                                  },
+                                                ),
+                                              );
+                                            } else {
+                                              return  SizedBox(
+                                                  height: 200,
+                                                  child:Stack(
+                                                    children: [
+                                                      GoogleMap(
+                                                        onMapCreated: _onMapCreated,
+                                                        scrollGesturesEnabled: true,
+                                                        initialCameraPosition: const CameraPosition(
+                                                          target: LatLng(19.432278,  72.774300),
+                                                          zoom: 11.0,
+                                                        ),
+                                                        markers: {
+                                                          const Marker(
+                                                            markerId: MarkerId(
+                                                                'Delivery address'),
+                                                            position: LatLng(19.432278, 72.774300),
+                                                          ),
+                                                        },
+                                                      ),
+                                                      const Positioned(top: 10,child: ColoredBox(color:Colors.white,child: Padding(
+                                                        padding: EdgeInsets.all(8.0),
+                                                        child: Text('Failed to load please select valid Address or retry later.',),
+                                                      )))
+                                                    ]
+                                                  ));
+                                            }
+
+                                  }),
                               ValueListenableBuilder(
                                 builder: (context, value, child) {
                                   return BlocBuilder<AddressBloc, AddressState>(
                                     builder: (context, state) {
                                       if (state is AddressInitialState) {
                                         return ListView.builder(
-                                          physics: const ClampingScrollPhysics(),
+                                          physics:
+                                              const ClampingScrollPhysics(),
                                           shrinkWrap: true,
                                           itemCount: state.address.length,
                                           itemBuilder: (context, index) {
-                                            final address = state.address[index];
+                                            final address =
+                                                state.address[index];
                                             return RadioListTile(
-                                              selected:
-                                                  value == selectedAddress.value,
+                                              fillColor: const WidgetStatePropertyAll(Colors.orange),
+                                              selected: value ==
+                                                  selectedAddress.value,
                                               title: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
@@ -138,6 +231,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                               groupValue: selectedAddress.value,
                                               onChanged: (value) {
                                                 selectedAddress.value = address;
+                                                BlocProvider.of<GoogleMapCubit>(context)
+                                                    .changeAddress(selectedAddress.value);
                                               },
                                             );
                                           },
@@ -166,12 +261,17 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                       child: AppCustomCircularProgressIndicator(
                                       color: Colors.orange,
                                     ))
-                                  : SliverList.builder(
-                                      itemCount: state.cartProducts.length,
-                                      itemBuilder: (context, int index) {
-                                        final product = state.cartProducts[index];
-                                        return CartTile(cartProduct: product);
-                                      });
+                                  : SliverToBoxAdapter(
+                                      child: ListView.builder(
+                                          itemCount: state.cartProducts.length,
+                                          shrinkWrap: true,
+                                          itemBuilder: (context, int index) {
+                                            final product =
+                                                state.cartProducts[index];
+                                            return CartTile(
+                                                cartProduct: product);
+                                          }),
+                                    );
                             } else {
                               return const SliverToBoxAdapter(
                                   child: AppCustomCircularProgressIndicator());
@@ -192,8 +292,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Padding(
-                            padding:
-                                EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 8.0, horizontal: 16),
                             child: Text(
                               'Total',
                               style: TextStyle(
@@ -206,10 +306,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             child: BlocBuilder<CartBloc, CartState>(
                               builder: (context, state) {
                                 if (state is CartInitialState) {
-                                  double total = calculateTotal(state.cartProducts);
+                                  double total =
+                                      calculateTotal(state.cartProducts);
                                   return state.isLoading
                                       ? const SizedBox.shrink()
-                                      : Text('Rs. ${(total).toStringAsFixed(2)}',
+                                      : Text(
+                                          '₹. ${(total).toStringAsFixed(2)}',
                                           style: const TextStyle(
                                               color: Colors.orange,
                                               fontSize: 16,
@@ -236,8 +338,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   label: !state.isLoading
                                       ? const Text('Confirm Order')
                                       : const AppCustomCircularProgressIndicator(),
-                                  width: MediaQuery.sizeOf(context).width
-                                      );
+                                  width: MediaQuery.sizeOf(context).width);
                             } else if (state is OrderEmptyState) {
                               return AppRoundedElevatedButton(
                                   onPressed: () {
@@ -266,7 +367,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             if (state is OrderSuccessState) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                      content: Text('Order placed successfully')));
+                                      content:
+                                          Text('Order placed successfully')));
                               Navigator.pushNamedAndRemoveUntil(
                                 context,
                                 AppRoutes.myOrdersScreen,
@@ -277,8 +379,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               state.errorType == 'Invalid Address'
                                   ? ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                          content:
-                                              Text('Please select valid address')))
+                                          content: Text(
+                                              'Please select valid address')))
                                   : null;
                             }
                           },

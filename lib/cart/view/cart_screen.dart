@@ -66,7 +66,7 @@ class _CartScreenState extends State<CartScreen> {
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                   vertical: 8.0, horizontal: 16),
-                              child: Text('Rs. ${(total).toStringAsFixed(2)}',
+                              child: Text('₹. ${(total).toStringAsFixed(2)}',
                                   style: const TextStyle(
                                       color: Colors.orange,
                                       fontSize: 16,

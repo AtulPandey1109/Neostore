@@ -52,6 +52,7 @@ class _MainScreenState extends State<MainScreen> {
                   if(searchVisible.value){
                    return IconButton(onPressed: (){
                       searchVisible.value=false;
+                      BlocProvider.of<SearchBloc>(context).add(SearchResetEvent());
                     }, icon: const Icon(Icons.arrow_back));
                   } else{
                     return IconButton(
@@ -70,16 +71,16 @@ class _MainScreenState extends State<MainScreen> {
               children: [
                TextButton(onPressed: (){
                  BlocProvider.of<TabBloc>(context).add(TabChangedEvent(0));
-               }, child: const Text('Home')),
+               }, child: const Text('Home',style: TextStyle(fontSize: 18),)),
                TextButton(onPressed: (){
                  BlocProvider.of<TabBloc>(context).add(TabChangedEvent(1));
-               }, child: const Text('Offers')),
+               }, child: const Text('Offers',style: TextStyle(fontSize: 18))),
                TextButton(onPressed: (){
                  BlocProvider.of<TabBloc>(context).add(TabChangedEvent(2));
-               }, child: const Text('Cart')),
+               }, child: const Text('Cart',style: TextStyle(fontSize: 18))),
                TextButton(onPressed: (){
                  BlocProvider.of<TabBloc>(context).add(TabChangedEvent(3));
-               }, child: const Text('Notifications')),
+               }, child: const Text('Notifications',style: TextStyle(fontSize: 18))),
               ],
             ),
             Padding(
@@ -143,7 +144,20 @@ class _MainScreenState extends State<MainScreen> {
                                 },
                                 child: ListTile(
                                   tileColor: Colors.black,
-                                  title: Text(product?.name??''),
+                                  title: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      SizedBox(
+                                        width: 50,height:50,
+                                        child: Image.network(product?.image??'',fit: BoxFit.cover,errorBuilder: (context, error, stackTrace) {
+                                          return Image.asset('assets/images/loading_image.webp');
+                                        },),
+                                      ),
+                                      SizedBox(
+                                          width: SizeConfig.screenWidth*0.75,
+                                          child: Text(product?.name??'',)),
+                                    ],
+                                  ),
                                 ),
                               );
                             },

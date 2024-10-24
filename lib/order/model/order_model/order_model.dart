@@ -6,10 +6,10 @@ class OrderModel {
   String? id;
   String? user;
   int? createdOn;
-  int? tax;
-  int? discount;
-  int? subTotal;
-  int? total;
+  double? tax;
+  double? discount;
+  double? subTotal;
+  double? total;
   String? status;
   String? address;
   int? v;
@@ -33,10 +33,10 @@ class OrderModel {
     id: json["_id"],
     user: json["user"],
     createdOn: json["createdOn"],
-    tax: json["tax"],
-    discount: json["discount"],
-    subTotal: json["subTotal"],
-    total: json["total"],
+    tax: json["tax"].toDouble(),
+    discount: json["discount"].toDouble(),
+    subTotal: json["subTotal"].toDouble(),
+    total: json["total"].toDouble(),
     status: json["status"],
     address: json["address"],
     v: json["__v"],

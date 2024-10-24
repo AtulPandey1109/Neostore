@@ -16,6 +16,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final String url = '${AppConstants.baseurl}/search/products';
   SearchBloc() : super(SearchInitialState(products: const [])) {
     on<SearchInitialEvent>(_onSearchInitialEvent);
+    on<SearchResetEvent>(_onSearchResetEvent);
   }
 
   FutureOr<void> _onSearchInitialEvent(
@@ -45,5 +46,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     }catch (e) {
       emit(SearchEmptyState());
     }
+  }
+
+  FutureOr<void> _onSearchResetEvent(SearchResetEvent event, Emitter<SearchState> emit) {
+    emit(SearchInitialState(products: const []));
   }
 }

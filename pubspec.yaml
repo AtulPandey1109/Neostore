@@ -52,6 +52,9 @@ dependencies:
   pdf:
   path_provider:
   open_file:
+  google_maps_flutter:
+  geocoding:
+  flutter_config:
 dev_dependencies:
   flutter_test:
     sdk: flutter

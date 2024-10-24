@@ -2,12 +2,16 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
 
     <application
         android:label="neostore"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
-
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/Google_Maps_API_Android" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

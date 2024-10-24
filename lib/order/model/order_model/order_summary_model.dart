@@ -6,10 +6,10 @@ class OrderSummaryModel {
   String? id;
   User? user;
   int? createdOn;
-  int? tax;
-  int? discount;
-  int? subTotal;
-  int? total;
+  double? tax;
+  double? discount;
+  double? subTotal;
+  double? total;
   String? status;
   Address? address;
   int? v;
@@ -33,10 +33,10 @@ class OrderSummaryModel {
     id: json["_id"],
     user: json["user"] == null ? null : User.fromJson(json["user"]),
     createdOn: json["createdOn"],
-    tax: json["tax"],
-    discount: json["discount"],
-    subTotal: json["subTotal"],
-    total: json["total"],
+    tax: json["tax"].toDouble(),
+    discount: json["discount"].toDouble(),
+    subTotal: json["subTotal"].toDouble(),
+    total: json["total"].toDouble(),
     status: json["status"],
     address: json["address"] == null ? null : Address.fromJson(json["address"]),
     v: json["__v"],

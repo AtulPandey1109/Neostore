@@ -6,15 +6,12 @@ class AppCustomOverlayProgressIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned.fill(
+    return const Positioned.fill(
         child:  Opacity(
           opacity: 0.5,
-          child: Container(
-            color: Colors.black12,
-            child: const Center(
-              child: AppCustomCircularProgressIndicator(
-                color: Colors.orange,
-              ),
+          child: Center(
+            child: AppCustomCircularProgressIndicator(
+              color: Colors.orange,
             ),
           ),
         ));

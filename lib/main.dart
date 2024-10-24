@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:neostore/order/viewmodel/google_map_cubit.dart';
 import 'package:neostore/product/viewmodel/product_bloc/all_products_cubit.dart';
 import 'package:neostore/product/viewmodel/product_bloc/product_bloc.dart';
 import 'package:neostore/product/viewmodel/product_bloc/product_by_category_cubit.dart';
@@ -60,7 +61,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => AllProductCubit()),
         BlocProvider(create: (context) => AddressBloc()),
         BlocProvider(create: (context) => ParticularOrderCubit()),
-
+        BlocProvider(create: (context) => GoogleMapCubit(),)
       ],
       child: MaterialApp(
         theme: ThemeData(

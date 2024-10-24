@@ -27,6 +27,7 @@ class _AppCarouselCardState extends State<AppCarouselCard> {
     return Column(
       children: [
         CarouselSlider(
+
           items: widget.offers
               .map((offer) {
                 return AppRoundedOfferCard(
@@ -36,19 +37,21 @@ class _AppCarouselCardState extends State<AppCarouselCard> {
               .toList(),
           carouselController: _controller,
           options: CarouselOptions(
+            enlargeCenterPage: true,
             autoPlay: true,
             initialPage: 0,
             onPageChanged: (index, reason) {
               _current.value = index;
             },
+
             height: SizeConfig.isMobile()?150:SizeConfig.screenHeight*0.5,
-            enableInfiniteScroll: false,
+            enableInfiniteScroll: true,
             reverse: false,
-            autoPlayInterval: const Duration(seconds: 3),
+            autoPlayInterval: const Duration(seconds: 2),
             autoPlayAnimationDuration: const Duration(milliseconds: 800),
-            autoPlayCurve: Curves.fastOutSlowIn,
+            autoPlayCurve: Curves.fastEaseInToSlowEaseOut,
             scrollDirection: Axis.horizontal,
-            padEnds: false,
+            padEnds: true,
           ),
         ),
         ValueListenableBuilder(

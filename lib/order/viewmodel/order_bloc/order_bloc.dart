@@ -42,7 +42,6 @@ class OrderBloc extends Bloc<OrderEvent,OrderState>{
         emit(OrderFailureState());
       }
     }catch (e) {
-
       emit(OrderFailureState());
     }
   }
@@ -72,6 +71,7 @@ class OrderBloc extends Bloc<OrderEvent,OrderState>{
         emit(OrderFailureState());
       }
     }catch(e) {
+
       emit(OrderFailureState());
     }
   }

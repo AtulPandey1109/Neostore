@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:neostore/utils/responsive_size_helper.dart';
 
@@ -10,12 +12,14 @@ class AppRoundedTextField extends StatelessWidget {
   final String? labelText;
   final bool obscureText;
   final Function(String) ?onChange;
+  final Function(String) ? validator;
   const AppRoundedTextField({
     super.key,
     required this.controller,
     this.icon,
     this.labelText,
     this.obscureText =false,
+    this.validator,
 this.onTap,
     this.onChange,
     this.onTapOutside
@@ -33,6 +37,10 @@ this.onTap,
         maxLines: 1,
         obscureText: obscureText,
         controller: controller,
+        validator:(value){
+          return validator?.call(value??'');
+        },
+        autovalidateMode: AutovalidateMode.onUnfocus,
         onTap: onTap,
         onChanged: onChange,
         onTapOutside:onTapOutside?? (event) {

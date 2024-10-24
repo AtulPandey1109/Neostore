@@ -86,7 +86,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                                 style: TextStyle(
                                     color: getStatusColor(order.status ?? '')),
                               ),
-                              Text('Subtotal: ${order.subTotal}'),
+                              Text('Subtotal: ₹. ${order.subTotal}'),
                               Text('Ordered on: ${DateFormat('dd-MM-yyyy').format(DateTime.fromMillisecondsSinceEpoch(order.createdOn??0))}',style: kHeader4TextStyle.copyWith(fontWeight: FontWeight.w700),)
                             ],
                           ),

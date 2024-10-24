@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:neostore/authentication/login/viewmodel/login_bloc/login_bloc.dart';
 import 'package:neostore/core/routes/routes.dart';
+import 'package:neostore/utils/app_text_field_validator.dart';
 import 'package:neostore/utils/constant_styles.dart';
 import 'package:neostore/utils/responsive_size_helper.dart';
 import 'package:neostore/widgets/app_custom_circular_progress_indicator.dart';
@@ -57,6 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           controller: _emailController,
                           icon: Icons.person_outline,
                           labelText: 'Your email',
+                          validator: AppTextFieldValidator.validateEmail,
                         ),
                         const SizedBox(
                           height: 20,

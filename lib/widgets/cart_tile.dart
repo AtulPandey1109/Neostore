@@ -27,15 +27,15 @@ class CartTile extends StatelessWidget {
                       child: Image.network(
                         cartProduct.product?.image ?? '',
                         fit: BoxFit.contain,
-                        height: 50,
-                        width: 100,
+                        height: SizeConfig.isMobile()?50:100,
+                        width: SizeConfig.isMobile()?100:150,
                         errorBuilder: (context, error, stackTrace) =>
                             Image.asset('assets/images/loading_image.webp'),
                       )),
                   Flexible(
                     flex: 9,
                     child: Padding(
-                      padding: const EdgeInsets.all(4.0),
+                      padding: const EdgeInsets.only(left: 8.0,top: 4.0,bottom: 4.0),
                       child: Column(
                         children: [
                           Align(
@@ -54,7 +54,7 @@ class CartTile extends StatelessWidget {
                                 padding: const EdgeInsets.only(
                                     left: 0.0, right: 6, top: 6, bottom: 6),
                                 child: Text(
-                                  'Rs. ${cartProduct.product?.price ?? 0}',
+                                  '₹. ${cartProduct.product?.price ?? 0}',
                                   style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600),

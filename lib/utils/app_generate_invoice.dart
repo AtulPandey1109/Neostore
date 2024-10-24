@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:neostore/order/model/order_model/order_summary_model.dart';
 import 'package:path_provider/path_provider.dart';
@@ -143,7 +143,7 @@ Future<void> generatePdf({required OrderSummaryModel order}) async{
                           'Total Price: ',
                         ),
                         Text(
-                          '${order.total} ',
+                          'Rs. ${order.total} ',
                         ),
                       ],
                     ),
@@ -156,10 +156,12 @@ Future<void> generatePdf({required OrderSummaryModel order}) async{
       ),
     );
   },));
+ if(kIsWeb){
 
+ } else{
   final root = await getApplicationDocumentsDirectory();
   final file = File('${root.path}/invoice${DateTime.now()}.pdf');
   await file.writeAsBytes(await pdf.save());
-  print(file);
   await OpenFile.open(file.path);
+ }
 }
