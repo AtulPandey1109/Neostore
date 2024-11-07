@@ -122,6 +122,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                   child:GoogleMap(
                                                 onMapCreated: _onMapCreated,
                                                 scrollGesturesEnabled: true,
+                                                    myLocationButtonEnabled: true,
+                                                    myLocationEnabled: true,
                                                 initialCameraPosition: const CameraPosition(
                                                   target: LatLng(19.432278,  72.774300),
                                                   zoom: 11.0,
@@ -147,6 +149,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                     target: mapMarker,
                                                     zoom: 11,
                                                   ),
+                                                  myLocationButtonEnabled: true,
+                                                  myLocationEnabled: true,
                                                   markers: {
                                                     Marker(
                                                       markerId: const MarkerId(
@@ -164,6 +168,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                       GoogleMap(
                                                         onMapCreated: _onMapCreated,
                                                         scrollGesturesEnabled: true,
+                                                        myLocationButtonEnabled: true,
+                                                        myLocationEnabled: true,
                                                         initialCameraPosition: const CameraPosition(
                                                           target: LatLng(19.432278,  72.774300),
                                                           zoom: 11.0,
@@ -353,7 +359,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                       ? MediaQuery.sizeOf(context).width
                                       : MediaQuery.sizeOf(context).width * .3);
                             } else {
-                              return const SizedBox.shrink();
+                              return AppRoundedElevatedButton(
+                                  onPressed: () {
+                                    BlocProvider.of<OrderBloc>(context).add(
+                                        OrderPlacedEvent(widget.cartId,
+                                            selectedAddress.value.id ?? ''));
+                                  },
+                                  label: const Text('Confirm Order'),
+
+                                  width: MediaQuery.sizeOf(context).width);
                             }
                           },
                           listener: (BuildContext context, Object? state) {
